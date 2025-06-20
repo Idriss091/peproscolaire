@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
+import axios from 'axios'
+import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 
 // Configuration de base de l'API
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'

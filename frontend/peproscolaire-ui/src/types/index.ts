@@ -217,6 +217,28 @@ export interface SubjectAverage {
   class_rank?: number
 }
 
+export interface Bulletin {
+  id: number
+  student: number
+  grading_period: number
+  general_average: number
+  class_average: number
+  rank: number
+  appreciations: BulletinAppreciation[]
+  teacher_comments?: string
+  head_teacher_comment?: string
+  generated_at: string
+  is_published: boolean
+}
+
+export interface BulletinAppreciation {
+  id: number
+  subject: number
+  average: number
+  appreciation: string
+  teacher: number
+}
+
 // Homework types
 export interface Homework {
   id: number

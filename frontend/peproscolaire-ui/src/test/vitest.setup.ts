@@ -1,7 +1,7 @@
 /**
  * Configuration globale pour les tests Vitest
  */
-import { beforeAll, afterAll, afterEach } from 'vitest'
+import { beforeAll, afterAll, afterEach, vi } from 'vitest'
 import { config } from '@vue/test-utils'
 
 // Configuration globale des composants de test
@@ -15,6 +15,43 @@ config.global.stubs = {
     template: '<div><slot /></div>'
   }
 }
+
+// Mock global de l'API client
+vi.mock('@/api/apiClient', () => ({
+  apiClient: {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    patch: vi.fn(),
+    delete: vi.fn(),
+    interceptors: {
+      request: { use: vi.fn() },
+      response: { use: vi.fn() }
+    }
+  }
+}))
+
+// Mock du client API
+vi.mock('@/api/client', () => ({
+  api: {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    patch: vi.fn(),
+    delete: vi.fn()
+  },
+  apiClient: {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    patch: vi.fn(),
+    delete: vi.fn(),
+    interceptors: {
+      request: { use: vi.fn() },
+      response: { use: vi.fn() }
+    }
+  }
+}))
 
 // Configuration des mocks globaux
 beforeAll(() => {
