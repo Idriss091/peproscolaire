@@ -1,0 +1,92 @@
+groups:
+  - name: peproscolaire.rules
+    rules:
+      # Alerte si un service est down
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Service {{ $labels.job }} on instance {{ $labels.instance }} is down for more than 1 minute"
+
+      # Alerte si l'utilisation CPU est élevée
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 80% for more than 5 minutes on {{ $labels.instance }}"
+
+      # Alerte si l'utilisation mémoire est élevée
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 85% for more than 5 minutes on {{ $labels.instance }}"
+
+      # Alerte si l'espace disque est faible
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes / node_filesystem_size_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk space usage is above 85% on {{ $labels.instance }}"
+
+      # Alerte si le backend Django répond lentement
+      - alert: SlowAPIResponse
+        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow API response time"
+          description: "95th percentile API response time is above 2 seconds"
+
+      # Alerte si le taux d'erreur HTTP est élevé
+      - alert: HighHTTPErrorRate
+        expr: rate(django_http_responses_total{status=~"5.."}[5m]) / rate(django_http_responses_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High HTTP error rate"
+          description: "HTTP error rate is above 5% for more than 5 minutes"
+
+      # Alerte si la base de données est lente
+      - alert: SlowDatabaseQueries
+        expr: histogram_quantile(0.95, rate(django_db_execute_time_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow database queries"
+          description: "95th percentile database query time is above 1 second"
+
+      # Alerte si Celery a trop de tâches en attente
+      - alert: CeleryQueueBacklog
+        expr: celery_queue_size > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Celery queue backlog"
+          description: "More than 100 tasks are waiting in Celery queue"
+
+      # Alerte si Redis est en cours d'éviction
+      - alert: RedisMemoryEviction
+        expr: redis_evicted_keys_total > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis memory eviction"
+          description: "Redis is evicting keys due to memory pressure"

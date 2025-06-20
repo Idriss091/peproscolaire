@@ -1,0 +1,73 @@
+# Environnements virtuels Python
+venv/
+env/
+backend/venv/
+backend_env/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*.so
+
+# Logs
+*.log
+
+# Base de données locale (si SQLite utilisée)
+*.sqlite3
+db.sqlite3
+
+# Clés ou secrets
+.env
+*.env
+
+# Fichiers d’IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js / frontend
+node_modules/
+dist/
+*.lock
+
+# fichiers système
+.DS_Store
+Thumbs.db
+
+# Docker (optionnel selon ton usage)
+*.pid
+*.seed
+
+# Tests ou rapports
+.coverage
+htmlcov/
+coverage.xml
+
+# Build Python
+build/
+develop-eggs/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# JetBrains (PyCharm, WebStorm…)
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# fichiers de cache
+*.cache
+*.tgz
+*.bak
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/

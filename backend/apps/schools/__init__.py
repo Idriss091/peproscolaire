@@ -1,0 +1,1 @@
+# Package schools - Gestion des établissements et classes

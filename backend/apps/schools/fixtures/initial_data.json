@@ -1,0 +1,10 @@
+{
+    "model": "schools.level",
+    "pk": "1",
+    "fields": {
+        "name": "Sixième",
+        "short_name": "6e",
+        "order": 1,
+        "school_type": "college"
+    }
+}

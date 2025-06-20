@@ -1,0 +1,57 @@
+MIT License
+
+Copyright (c) 2024 PeproScolaire - Walid
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Notice d'utilisation dans le contexte éducatif
+
+Ce projet, PeproScolaire, est développé avec pour objectif principal 
+d'améliorer la gestion quotidienne des établissements scolaires et 
+d'introduire des innovations pédagogiques basées sur l'intelligence 
+artificielle.
+
+### Utilisation recommandée
+
+- **Établissements scolaires** : Libre utilisation pour la gestion 
+  administrative et pédagogique
+- **Développeurs éducatifs** : Contributions et améliorations encouragées
+- **Recherche académique** : Utilisation libre pour la recherche en 
+  technologies éducatives
+- **Formation** : Utilisation libre comme support d'apprentissage du 
+  développement web
+
+### Reconnaissance
+
+Si vous utilisez ce projet dans un contexte professionnel ou académique,
+nous vous serions reconnaissants de citer le projet et ses contributeurs.
+
+### Contact
+
+Pour toute question concernant l'utilisation ou la licence :
+- GitHub Issues : [Créer une issue](https://github.com/walid/peproscolaire/issues)
+- Email professionnel : [À définir]
+
+### Contribution
+
+Les contributions sont les bienvenues ! Ce projet suit les standards 
+de contribution open source. Consultez le fichier CONTRIBUTING.md 
+pour plus d'informations.

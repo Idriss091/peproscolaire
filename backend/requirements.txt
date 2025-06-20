@@ -1,0 +1,61 @@
+# Core Django
+Django==5.0.1
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+django-environ==0.11.2
+
+# Base de données
+psycopg2-binary==2.9.9
+
+# Redis et cache
+redis==5.0.1
+django-redis==5.4.0
+
+# Authentification et sécurité
+djangorestframework-simplejwt==5.3.1
+django-allauth==0.61.1
+cryptography==42.0.2
+
+# Utilitaires
+Pillow==10.2.0
+python-dateutil==2.8.2
+pytz==2024.1
+
+# Tests
+pytest==8.0.0
+pytest-django==4.8.0
+factory-boy==3.3.0
+faker==22.6.0
+
+# Serveur de production
+gunicorn==21.2.0
+
+# Outils de développement
+django-extensions==3.2.3
+django-debug-toolbar==4.2.0
+ipython==8.20.0
+
+# Documentation API
+drf-yasg==1.21.7
+
+# Validation et sérialisation
+django-filter==23.5
+
+# Pour la génération de PDF (bulletins)
+reportlab==4.0.7
+WeasyPrint==60.2
+
+# Pour les calculs statistiques
+numpy==1.26.3
+scipy==1.12.0
+scikit-learn==1.5.1
+pandas==2.2.2
+
+# WebSocket support
+channels==4.0.0
+channels-redis==4.2.0
+daphne==4.1.2
+
+# AI/ML pour détection des risques
+tensorflow==2.16.1
+joblib==1.4.2

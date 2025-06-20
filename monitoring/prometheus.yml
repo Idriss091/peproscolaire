@@ -1,0 +1,62 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Configuration pour Prometheus lui-même
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Monitoring du backend Django
+  - job_name: 'pepro-backend'
+    static_configs:
+      - targets: ['backend:8000']
+    metrics_path: '/api/v1/metrics/'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # Monitoring de la base de données PostgreSQL
+  - job_name: 'pepro-postgres'
+    static_configs:
+      - targets: ['database:5432']
+    scrape_interval: 30s
+
+  # Monitoring de Redis
+  - job_name: 'pepro-redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 30s
+
+  # Monitoring de Nginx
+  - job_name: 'pepro-nginx'
+    static_configs:
+      - targets: ['nginx_proxy:80']
+    scrape_interval: 30s
+
+  # Monitoring des workers Celery
+  - job_name: 'pepro-celery'
+    static_configs:
+      - targets: ['celery_worker:5555'] # Flower monitoring
+    scrape_interval: 30s
+
+  # Monitoring système avec node_exporter (si déployé)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 30s
+
+# Configuration des alertes (optionnel)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Règles d'alerte basiques
+rule_files:
+  - "alert_rules.yml"

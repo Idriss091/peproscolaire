@@ -1,0 +1,1 @@
+# Package messaging - Système de messagerie interne

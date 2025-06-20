@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Document bientôt expiré - PeproScolaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #e74c3c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+        }
+        .document-info {
+            background-color: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Document bientôt expiré</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour {{ guardian.get_full_name }},</p>
+            
+            <p>Un document du dossier de {{ student.get_full_name }} arrive bientôt à expiration :</p>
+            
+            <div class="document-info">
+                <strong>Document :</strong> {{ document.title }}<br>
+                <strong>Type :</strong> {{ document.get_document_type_display }}<br>
+                <strong>Date d'expiration :</strong> {{ document.expiry_date|date:"d/m/Y" }}<br>
+                <strong>Jours restants :</strong> {{ days_remaining }}
+            </div>
+            
+            <p>Nous vous invitons à renouveler ce document dès que possible.</p>
+            
+            <p style="text-align: center;">
+                <a href="{{ site_url }}/student-records/{{ student_record.id }}/documents" class="button">
+                    Accéder au dossier
+                </a>
+            </p>
+            
+            <p>Cordialement,<br>L'équipe PeproScolaire</p>
+        </div>
+    </div>
+</body>
+</html>

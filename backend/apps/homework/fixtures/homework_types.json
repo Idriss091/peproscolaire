@@ -1,0 +1,68 @@
+[
+    {
+        "model": "homework.homeworktype",
+        "pk": "1",
+        "fields": {
+            "name": "Exercices",
+            "short_name": "EX",
+            "icon": "edit_note",
+            "default_duration_days": 7,
+            "color": "#3498db"
+        }
+    },
+    {
+        "model": "homework.homeworktype",
+        "pk": "2",
+        "fields": {
+            "name": "Devoir maison",
+            "short_name": "DM",
+            "icon": "home_work",
+            "default_duration_days": 14,
+            "color": "#e74c3c"
+        }
+    },
+    {
+        "model": "homework.homeworktype",
+        "pk": "3",
+        "fields": {
+            "name": "Exposé",
+            "short_name": "EXP",
+            "icon": "co_present",
+            "default_duration_days": 21,
+            "color": "#f39c12"
+        }
+    },
+    {
+        "model": "homework.homeworktype",
+        "pk": "4",
+        "fields": {
+            "name": "Recherche",
+            "short_name": "RCH",
+            "icon": "search",
+            "default_duration_days": 14,
+            "color": "#27ae60"
+        }
+    },
+    {
+        "model": "homework.homeworktype",
+        "pk": "5",
+        "fields": {
+            "name": "Révisions",
+            "short_name": "REV",
+            "icon": "menu_book",
+            "default_duration_days": 7,
+            "color": "#9b59b6"
+        }
+    },
+    {
+        "model": "homework.homeworktype",
+        "pk": "6",
+        "fields": {
+            "name": "Projet",
+            "short_name": "PRJ",
+            "icon": "rocket_launch",
+            "default_duration_days": 30,
+            "color": "#34495e"
+        }
+    }
+]
