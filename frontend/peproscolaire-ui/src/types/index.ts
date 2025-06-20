@@ -366,6 +366,22 @@ export interface Alert {
   resolution_notes?: string
 }
 
+export interface AlertConfiguration {
+  id: number
+  alert_type: string
+  name: string
+  description?: string
+  severity_threshold: number
+  is_enabled: boolean
+  notification_channels: string[]
+  escalation_rules?: {
+    time_minutes: number
+    escalate_to: string[]
+  }[]
+  created_at: string
+  updated_at: string
+}
+
 // Common types
 export interface PaginatedResponse<T> {
   count: number
@@ -388,6 +404,10 @@ export interface ApiResponse<T = any> {
 // Alias pour compatibilité
 export type APIResponse<T = any> = ApiResponse<T>
 
+// Import et export des types chatbot
+export type { ChatbotConversation as Conversation } from './chatbot'
+export type { ChatbotMessage, ChatbotResponse, QuickReply } from './chatbot'
+
 // Attendance types
 export interface AttendanceAlert {
   id: number
@@ -396,6 +416,41 @@ export interface AttendanceAlert {
   message: string
   created_at: string
   is_resolved: boolean
+}
+
+export interface AttendanceSummary {
+  total_days: number
+  present_days: number
+  absent_days: number
+  late_days: number
+  excused_days: number
+  attendance_rate: number
+  punctuality_rate: number
+  recent_absences: Attendance[]
+  absence_trends: {
+    weekly: number[]
+    monthly: number[]
+  }
+}
+
+export interface AttendanceStatistics {
+  period: string
+  class_average: number
+  student_rank?: number
+  comparison_data: {
+    better_than_percent: number
+    attendance_percentile: number
+  }
+}
+
+export interface AttendanceReport {
+  period: string
+  summary: AttendanceSummary
+  statistics: AttendanceStatistics
+  charts_data: {
+    daily_attendance: Array<{ date: string; status: string }>
+    weekly_trends: Array<{ week: string; rate: number }>
+  }
 }
 
 export interface StudentBehavior {
@@ -440,4 +495,53 @@ export interface TenantTheme {
   secondaryColor: string
   logoUrl?: string
   schoolName: string
+}
+
+// Additional attendance types
+export interface MonthlyReport {
+  month: string
+  year: number
+  total_students: number
+  attendance_summary: AttendanceSummary
+  class_reports: Array<{
+    class_id: number
+    class_name: string
+    attendance_rate: number
+    absent_students: number
+  }>
+  generated_at: string
+}
+
+export interface AttendanceDashboard {
+  today_summary: {
+    total_students: number
+    present_count: number
+    absent_count: number
+    late_count: number
+    attendance_rate: number
+  }
+  recent_alerts: AttendanceAlert[]
+  weekly_trends: Array<{
+    date: string
+    attendance_rate: number
+  }>
+  top_absent_classes: Array<{
+    class_name: string
+    absent_count: number
+  }>
+}
+
+export interface TodayAbsences {
+  date: string
+  total_absences: number
+  excused_absences: number
+  unexcused_absences: number
+  students: Array<{
+    id: number
+    first_name: string
+    last_name: string
+    class_name: string
+    absence_type: string
+    reason?: string
+  }>
 }

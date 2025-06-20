@@ -8,8 +8,14 @@ import type {
   Sanction,
   StudentBehavior,
   AttendanceAlert,
+  AttendanceSummary,
+  AttendanceStatistics,
+  AttendanceReport,
   ApiResponse,
-  PaginatedResponse
+  PaginatedResponse,
+  MonthlyReport,
+  AttendanceDashboard,
+  TodayAbsences
 } from '@/types'
 
 export const attendanceApi = {
@@ -51,7 +57,7 @@ export const attendanceApi = {
       params: { student_id: studentId, ...params } 
     })).data,
   
-  getStudentAttendanceSummary: async (studentId: number, period?: string): Promise<Record<string, any>> =>
+  getStudentAttendanceSummary: async (studentId: number, period?: string): Promise<AttendanceSummary> =>
     (await apiClient.get('/attendances/student_summary/', { 
       params: { student_id: studentId, period } 
     })).data,
@@ -141,30 +147,30 @@ export const attendanceApi = {
     (await apiClient.post(`/alerts/${id}/resolve/`, { resolution })).data,
 
   // Statistiques et rapports
-  getAttendanceStatistics: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+  getAttendanceStatistics: async (params?: Record<string, string | number>): Promise<AttendanceStatistics> =>
     (await apiClient.get('/statistics/', { params })).data,
   
-  getClassAttendanceReport: async (classId: number, period?: string): Promise<Record<string, any>> =>
+  getClassAttendanceReport: async (classId: number, period?: string): Promise<AttendanceReport> =>
     (await apiClient.get('/statistics/class_report/', { 
       params: { class_id: classId, period } 
     })).data,
   
-  getStudentAttendanceReport: async (studentId: number, period?: string): Promise<Record<string, any>> =>
+  getStudentAttendanceReport: async (studentId: number, period?: string): Promise<AttendanceReport> =>
     (await apiClient.get('/statistics/student_report/', { 
       params: { student_id: studentId, period } 
     })).data,
   
-  getAbsenteeismTrends: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+  getAbsenteeismTrends: async (params?: Record<string, string | number>): Promise<AttendanceStatistics[]> =>
     (await apiClient.get('/statistics/absenteeism_trends/', { params })).data,
   
-  getAttendanceComparison: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+  getAttendanceComparison: async (params?: Record<string, string | number>): Promise<AttendanceStatistics> =>
     (await apiClient.get('/statistics/comparison/', { params })).data,
 
   // Actions automatiques
   triggerAttendanceCheck: async (): Promise<ApiResponse> =>
     (await apiClient.post('/check_alerts/')).data,
   
-  generateMonthlyReport: async (month: string, year: number): Promise<Record<string, any>> =>
+  generateMonthlyReport: async (month: string, year: number): Promise<MonthlyReport> =>
     (await apiClient.post('/generate_monthly_report/', { month, year })).data,
   
   autoJustifyMedicalAbsences: async (): Promise<ApiResponse> =>
@@ -208,10 +214,10 @@ export const attendanceApi = {
     (await apiClient.post(`/behaviors/${behaviorId}/send_alert/`)).data,
 
   // Dashboard data
-  getAttendanceDashboard: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+  getAttendanceDashboard: async (params?: Record<string, string | number>): Promise<AttendanceDashboard> =>
     (await apiClient.get('/dashboard/', { params })).data,
   
-  getTodayAbsences: async (): Promise<Record<string, any>> =>
+  getTodayAbsences: async (): Promise<TodayAbsences> =>
     (await apiClient.get('/today_absences/')).data,
   
   getPendingApprovals: async (): Promise<AbsencePeriod[]> =>
