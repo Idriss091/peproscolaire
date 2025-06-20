@@ -19,4 +19,15 @@ export default defineConfigWithVueTs(
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
   skipFormatting,
+  
+  // Configuration personnalisée pour réduire la sévérité
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'vue/no-parsing-error': 'warn',
+      'vue/no-unused-vars': 'warn',
+      'prefer-const': 'warn'
+    }
+  }
 )

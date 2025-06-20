@@ -59,3 +59,7 @@ daphne==4.1.2
 # AI/ML pour détection des risques
 tensorflow==2.16.1
 joblib==1.4.2
+
+# Tâches asynchrones
+celery==5.3.4
+redis==5.0.1
