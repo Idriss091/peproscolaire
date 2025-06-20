@@ -291,6 +291,42 @@ export interface ApiError {
   [field: string]: any
 }
 
+export interface ApiResponse<T = any> {
+  data: T
+  message?: string
+  status: number
+}
+
+// Attendance types
+export interface AttendanceAlert {
+  id: number
+  student: number
+  alert_type: string
+  message: string
+  created_at: string
+  is_resolved: boolean
+}
+
+export interface StudentBehavior {
+  id: number
+  student: number
+  behavior_type: string
+  description: string
+  severity: 'low' | 'medium' | 'high'
+  date: string
+  teacher: number
+}
+
+export interface Sanction {
+  id: number
+  student: number
+  sanction_type: string
+  description: string
+  start_date: string
+  end_date?: string
+  is_active: boolean
+}
+
 // Tenant types
 export interface Tenant {
   id: number

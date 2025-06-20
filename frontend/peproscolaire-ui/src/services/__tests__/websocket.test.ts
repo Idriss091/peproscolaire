@@ -216,7 +216,7 @@ describe('WebSocket Service', () => {
 
     it('should handle notification messages', () => {
       const ws = (global.WebSocket as any).mock.instances[0]
-      const { toast } = require('vue-sonner')
+      // const { toast } = require('vue-sonner')
 
       const notificationData = {
         type: 'notification',
@@ -238,7 +238,7 @@ describe('WebSocket Service', () => {
 
     it('should handle alert created messages', () => {
       const ws = (global.WebSocket as any).mock.instances[0]
-      const { toast } = require('vue-sonner')
+      // const { toast } = require('vue-sonner')
 
       const alertData = {
         type: 'alert_created',

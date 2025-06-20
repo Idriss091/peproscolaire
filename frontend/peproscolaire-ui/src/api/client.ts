@@ -81,5 +81,6 @@ export const api = {
   delete: <T = any>(url: string, config?: any) => apiClient.delete<T>(url, config),
 }
 
-// Export default client
+// Export both named and default
+export const client = apiClient
 export default apiClient
