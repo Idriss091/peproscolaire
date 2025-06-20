@@ -4,13 +4,23 @@ Configuration Django pour les tests
 
 from .settings import *
 
-# Base de données en mémoire pour les tests
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+# Base de données pour les tests
+import os
+import dj_database_url
+
+# Utiliser PostgreSQL si DATABASE_URL est défini (CI), sinon SQLite
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
 
 # Désactiver les migrations pour les tests
 class DisableMigrations:

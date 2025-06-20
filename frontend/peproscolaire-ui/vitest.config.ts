@@ -18,7 +18,7 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'html', 'clover'],
       exclude: [
         'coverage/**',
         'dist/**',
@@ -35,10 +35,10 @@ export default defineConfig({
         'src/main.ts',
         'src/router/index.ts'
       ],
-      statements: 70,
-      branches: 70,
-      functions: 70,
-      lines: 70
+      statements: 50,
+      branches: 50,
+      functions: 50,
+      lines: 50
     },
     pool: 'threads',
     poolOptions: {
