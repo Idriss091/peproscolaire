@@ -1,4 +1,4 @@
-import { api } from './client'
+import { apiClient } from './apiClient'
 
 // Types pour les modules IA
 export interface AppreciationOptions {
@@ -25,17 +25,17 @@ export interface AppreciationResult {
 }
 
 export interface GenerateAppreciationRequest {
-  student_id: string
-  subject_id: string
-  period_id: string
+  student_id: number
+  subject_id: number
+  period_id: number
   options?: AppreciationOptions
 }
 
 export interface GenerateMultipleAppreciationsRequest {
-  class_id?: string
-  student_ids?: string[]
-  subject_id: string
-  period_id: string
+  class_id?: number
+  student_ids?: number[]
+  subject_id: number
+  period_id: number
   options?: AppreciationOptions
 }
 
@@ -117,26 +117,45 @@ export interface DashboardMetrics {
 // Service API pour les modules IA
 export const aiModulesAPI = {
   // Génération d'appréciations
-  async generateAppreciation(request: GenerateAppreciationRequest) {
-    const response = await api.post<{
+  async generateAppreciation(request: GenerateAppreciationRequest): Promise<{
+    success: boolean
+    appreciation: AppreciationResult
+    student: { id: number; name: string }
+    subject: { id: number; name: string }
+    period: { id: number; name: string }
+    average: number | null
+  }> {
+    const response = await apiClient.post<{
       success: boolean
       appreciation: AppreciationResult
-      student: { id: string; name: string }
-      subject: { id: string; name: string }
-      period: { id: string; name: string }
+      student: { id: number; name: string }
+      subject: { id: number; name: string }
+      period: { id: number; name: string }
       average: number | null
     }>('/ai-analytics/ai/appreciation/generate/', request)
     return response.data
   },
 
-  async generateMultipleAppreciations(request: GenerateMultipleAppreciationsRequest) {
-    const response = await api.post<{
+  async generateMultipleAppreciations(request: GenerateMultipleAppreciationsRequest): Promise<{
+    success: boolean
+    total_students: number
+    successful_generations: number
+    failed_generations: number
+    results: Array<{
+      student_id: number
+      appreciation: AppreciationResult | null
+      status: 'success' | 'error'
+      error?: string
+    }>
+    options_used: AppreciationOptions
+  }> {
+    const response = await apiClient.post<{
       success: boolean
       total_students: number
       successful_generations: number
       failed_generations: number
       results: Array<{
-        student_id: string
+        student_id: number
         appreciation: AppreciationResult | null
         status: 'success' | 'error'
         error?: string
@@ -147,9 +166,16 @@ export const aiModulesAPI = {
   },
 
   // Analyse de risque et prédictions
-  async predictStudentRisk(student_id: string) {
-    const response = await api.post<{
-      student: { id: string; name: string }
+  async predictStudentRisk(student_id: number): Promise<{
+    student: { id: number; name: string }
+    prediction: RiskPrediction
+    data_collected: {
+      analysis_date: string
+      features_count: number
+    }
+  }> {
+    const response = await apiClient.post<{
+      student: { id: number; name: string }
       prediction: RiskPrediction
       data_collected: {
         analysis_date: string
@@ -160,19 +186,23 @@ export const aiModulesAPI = {
   },
 
   // Status et métriques des modèles IA
-  async getModelStatus() {
-    const response = await api.get<AIModelStatusResponse>('/ai-analytics/ai/model/status/')
+  async getModelStatus(): Promise<AIModelStatusResponse> {
+    const response = await apiClient.get<AIModelStatusResponse>('/ai-analytics/ai/model/status/')
     return response.data
   },
 
-  async getDashboardMetrics() {
-    const response = await api.get<DashboardMetrics>('/ai-analytics/ai/dashboard/metrics/')
+  async getDashboardMetrics(): Promise<DashboardMetrics> {
+    const response = await apiClient.get<DashboardMetrics>('/ai-analytics/ai/dashboard/metrics/')
     return response.data
   },
 
   // Entraînement des modèles (admin only)
-  async trainModel(model_type: 'dropout_risk' | 'performance_prediction', force_retrain = false) {
-    const response = await api.post<{
+  async trainModel(model_type: 'dropout_risk' | 'performance_prediction', force_retrain = false): Promise<{
+    message: string
+    task_id: string
+    force_retrain: boolean
+  }> {
+    const response = await apiClient.post<{
       message: string
       task_id: string
       force_retrain: boolean
@@ -189,41 +219,88 @@ export const aiModulesAPI = {
     is_monitored?: boolean
     min_risk_score?: number
     max_risk_score?: number
-    student?: string
-    academic_year?: string
-    assigned_to?: string
+    student?: number
+    academic_year?: number
+    assigned_to?: number
     search?: string
     page?: number
     page_size?: number
-  }) {
-    const response = await api.get('/ai-analytics/risk-profiles/', { params })
+  }): Promise<{
+    count: number
+    next: string | null
+    previous: string | null
+    results: Array<{
+      id: number
+      student: { id: number; name: string }
+      risk_level: string
+      risk_score: number
+      is_monitored: boolean
+      assigned_to: { id: number; name: string } | null
+      created_at: string
+      updated_at: string
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/risk-profiles/', { params })
     return response.data
   },
 
-  async getRiskProfile(id: string) {
-    const response = await api.get(`/ai-analytics/risk-profiles/${id}/`)
+  async getRiskProfile(id: number): Promise<{
+    id: number
+    student: { id: number; name: string }
+    risk_level: string
+    risk_score: number
+    is_monitored: boolean
+    assigned_to: { id: number; name: string } | null
+    prediction: RiskPrediction
+    created_at: string
+    updated_at: string
+  }> {
+    const response = await apiClient.get(`/ai-analytics/risk-profiles/${id}/`)
     return response.data
   },
 
-  async analyzeRiskProfile(id: string) {
-    const response = await api.post(`/ai-analytics/risk-profiles/${id}/analyze/`)
+  async analyzeRiskProfile(id: number): Promise<{
+    success: boolean
+    message: string
+    updated_prediction: RiskPrediction
+  }> {
+    const response = await apiClient.post(`/ai-analytics/risk-profiles/${id}/analyze/`)
     return response.data
   },
 
-  async startMonitoring(id: string, assigned_to?: string) {
-    const response = await api.post(`/ai-analytics/risk-profiles/${id}/start_monitoring/`, {
+  async startMonitoring(id: number, assigned_to?: number): Promise<{
+    success: boolean
+    message: string
+  }> {
+    const response = await apiClient.post(`/ai-analytics/risk-profiles/${id}/start_monitoring/`, {
       assigned_to
     })
     return response.data
   },
 
-  async getRiskProfileHistory(id: string) {
-    const response = await api.get(`/ai-analytics/risk-profiles/${id}/history/`)
+  async getRiskProfileHistory(id: number): Promise<{
+    history: Array<{
+      id: number
+      risk_score: number
+      risk_level: string
+      analysis_date: string
+      changes: string[]
+    }>
+  }> {
+    const response = await apiClient.get(`/ai-analytics/risk-profiles/${id}/history/`)
     return response.data
   },
 
-  async getRiskProfileRecommendations(id: string) {
-    const response = await api.get(`/ai-analytics/risk-profiles/${id}/recommendations/`)
+  async getRiskProfileRecommendations(id: number): Promise<{
+    recommendations: Array<{
+      priority: string
+      action: string
+      details: string
+      category: string
+      urgency_level: number
+    }>
+  }> {
+    const response = await apiClient.get(`/ai-analytics/risk-profiles/${id}/recommendations/`)
     return response.data
   },
 
@@ -231,50 +308,116 @@ export const aiModulesAPI = {
   async getAlerts(params?: {
     is_acknowledged?: boolean
     priority?: string
-    risk_profile__student?: string
+    risk_profile__student?: number
     page?: number
     page_size?: number
-  }) {
-    const response = await api.get('/ai-analytics/alerts/', { params })
+  }): Promise<{
+    count: number
+    next: string | null
+    previous: string | null
+    results: Array<{
+      id: number
+      risk_profile: { id: number; student: { id: number; name: string } }
+      priority: string
+      message: string
+      is_acknowledged: boolean
+      is_read: boolean
+      created_at: string
+      acknowledged_at: string | null
+      actions_taken: string | null
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/alerts/', { params })
     return response.data
   },
 
-  async acknowledgeAlert(id: string, actions_taken?: string) {
-    const response = await api.post(`/ai-analytics/alerts/${id}/acknowledge/`, {
+  async acknowledgeAlert(id: number, actions_taken?: string): Promise<{
+    success: boolean
+    message: string
+  }> {
+    const response = await apiClient.post(`/ai-analytics/alerts/${id}/acknowledge/`, {
       actions_taken
     })
     return response.data
   },
 
-  async markAlertAsRead(id: string) {
-    const response = await api.post(`/ai-analytics/alerts/${id}/mark_read/`)
+  async markAlertAsRead(id: number): Promise<{
+    success: boolean
+    message: string
+  }> {
+    const response = await apiClient.post(`/ai-analytics/alerts/${id}/mark_read/`)
     return response.data
   },
 
-  async getAlertsDashboard() {
-    const response = await api.get('/ai-analytics/alerts/dashboard/')
+  async getAlertsDashboard(): Promise<{
+    total_alerts: number
+    unread_alerts: number
+    high_priority_alerts: number
+    recent_alerts: Array<{
+      id: number
+      priority: string
+      message: string
+      created_at: string
+      student_name: string
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/alerts/dashboard/')
     return response.data
   },
 
   // Plans d'intervention
   async getInterventionPlans(params?: {
     status?: string
-    coordinator?: string
-    risk_profile__student?: string
+    coordinator?: number
+    risk_profile__student?: number
     page?: number
     page_size?: number
-  }) {
-    const response = await api.get('/ai-analytics/intervention-plans/', { params })
+  }): Promise<{
+    count: number
+    next: string | null
+    previous: string | null
+    results: Array<{
+      id: number
+      risk_profile: { id: number; student: { id: number; name: string } }
+      title: string
+      description: string
+      status: string
+      coordinator: { id: number; name: string }
+      start_date: string
+      end_date: string
+      created_at: string
+      updated_at: string
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/intervention-plans/', { params })
     return response.data
   },
 
-  async getInterventionPlan(id: string) {
-    const response = await api.get(`/ai-analytics/intervention-plans/${id}/`)
+  async getInterventionPlan(id: number): Promise<{
+    id: number
+    risk_profile: { id: number; student: { id: number; name: string } }
+    title: string
+    description: string
+    status: string
+    coordinator: { id: number; name: string }
+    start_date: string
+    end_date: string
+    objectives: string[]
+    planned_actions: string[]
+    resources_needed: string | null
+    success_criteria: string | null
+    outcomes: string | null
+    effectiveness_score: number | null
+    evaluation_frequency: 'weekly' | 'biweekly' | 'monthly' | null
+    created_at: string
+    updated_at: string
+  }> {
+    const response = await apiClient.get(`/ai-analytics/intervention-plans/${id}/`)
     return response.data
   },
 
   async createInterventionPlan(data: {
-    risk_profile: string
+    risk_profile: number
     title: string
     description: string
     start_date: string
@@ -284,12 +427,24 @@ export const aiModulesAPI = {
     resources_needed?: string
     success_criteria?: string
     evaluation_frequency?: 'weekly' | 'biweekly' | 'monthly'
-  }) {
-    const response = await api.post('/ai-analytics/intervention-plans/', data)
+  }): Promise<{
+    id: number
+    risk_profile: { id: number; student: { id: number; name: string } }
+    title: string
+    description: string
+    status: string
+    coordinator: { id: number; name: string }
+    start_date: string
+    end_date: string
+    objectives: string[]
+    planned_actions: string[]
+    created_at: string
+  }> {
+    const response = await apiClient.post('/ai-analytics/intervention-plans/', data)
     return response.data
   },
 
-  async updateInterventionPlan(id: string, data: Partial<{
+  async updateInterventionPlan(id: number, data: Partial<{
     title: string
     description: string
     status: string
@@ -300,85 +455,255 @@ export const aiModulesAPI = {
     success_criteria: string
     outcomes: string
     effectiveness_score: number
-  }>) {
-    const response = await api.patch(`/ai-analytics/intervention-plans/${id}/`, data)
+  }>): Promise<{
+    id: number
+    title: string
+    description: string
+    status: string
+    end_date: string
+    objectives: string[]
+    planned_actions: string[]
+    resources_needed: string | null
+    success_criteria: string | null
+    outcomes: string | null
+    effectiveness_score: number | null
+    updated_at: string
+  }> {
+    const response = await apiClient.patch(`/ai-analytics/intervention-plans/${id}/`, data)
     return response.data
   },
 
-  async addActionToInterventionPlan(planId: string, data: {
+  async addActionToInterventionPlan(planId: number, data: {
     action_type: string
     title: string
     description: string
-    responsible?: string
+    responsible?: number
     scheduled_date: string
     scheduled_time?: string
     duration_minutes?: number
-  }) {
-    const response = await api.post(`/ai-analytics/intervention-plans/${planId}/add_action/`, data)
+  }): Promise<{
+    id: number
+    intervention_plan: number
+    action_type: string
+    title: string
+    description: string
+    responsible: { id: number; name: string } | null
+    scheduled_date: string
+    scheduled_time: string | null
+    duration_minutes: number | null
+    is_completed: boolean
+    created_at: string
+  }> {
+    const response = await apiClient.post(`/ai-analytics/intervention-plans/${planId}/add_action/`, data)
     return response.data
   },
 
-  async evaluateInterventionEffectiveness(id: string, data: {
+  async evaluateInterventionEffectiveness(id: number, data: {
     outcomes: string
     effectiveness_score: number
-  }) {
-    const response = await api.post(`/ai-analytics/intervention-plans/${id}/evaluate_effectiveness/`, data)
+  }): Promise<{
+    success: boolean
+    message: string
+    updated_plan: {
+      id: number
+      outcomes: string
+      effectiveness_score: number
+      status: string
+    }
+  }> {
+    const response = await apiClient.post(`/ai-analytics/intervention-plans/${id}/evaluate_effectiveness/`, data)
     return response.data
   },
 
-  async getMyInterventions() {
-    const response = await api.get('/ai-analytics/intervention-plans/my_interventions/')
+  async getMyInterventions(): Promise<{
+    active_interventions: Array<{
+      id: number
+      title: string
+      student_name: string
+      status: string
+      start_date: string
+      end_date: string
+      next_action: {
+        id: number
+        title: string
+        scheduled_date: string
+      } | null
+    }>
+    pending_actions: Array<{
+      id: number
+      title: string
+      intervention_plan: { id: number; title: string; student_name: string }
+      scheduled_date: string
+      action_type: string
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/intervention-plans/my_interventions/')
     return response.data
   },
 
   // Actions d'intervention
   async getInterventionActions(params?: {
-    intervention_plan?: string
-    responsible?: string
+    intervention_plan?: number
+    responsible?: number
     completed?: boolean
     action_type?: string
     page?: number
     page_size?: number
-  }) {
-    const response = await api.get('/ai-analytics/intervention-actions/', { params })
+  }): Promise<{
+    count: number
+    next: string | null
+    previous: string | null
+    results: Array<{
+      id: number
+      intervention_plan: { id: number; title: string; student_name: string }
+      action_type: string
+      title: string
+      description: string
+      responsible: { id: number; name: string } | null
+      scheduled_date: string
+      scheduled_time: string | null
+      is_completed: boolean
+      completed_at: string | null
+      notes: string | null
+      impact_assessment: 'very_positive' | 'positive' | 'neutral' | 'negative' | 'very_negative' | null
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/intervention-actions/', { params })
     return response.data
   },
 
-  async completeInterventionAction(id: string, data: {
+  async completeInterventionAction(id: number, data: {
     notes?: string
     impact_assessment?: 'very_positive' | 'positive' | 'neutral' | 'negative' | 'very_negative'
-  }) {
-    const response = await api.post(`/ai-analytics/intervention-actions/${id}/complete/`, data)
+  }): Promise<{
+    success: boolean
+    message: string
+    action: {
+      id: number
+      is_completed: boolean
+      completed_at: string
+      notes: string | null
+      impact_assessment: 'very_positive' | 'positive' | 'neutral' | 'negative' | 'very_negative' | null
+    }
+  }> {
+    const response = await apiClient.post(`/ai-analytics/intervention-actions/${id}/complete/`, data)
     return response.data
   },
 
-  async getInterventionActionsCalendar(start_date?: string, end_date?: string) {
-    const params: any = {}
+  async getInterventionActionsCalendar(start_date?: string, end_date?: string): Promise<{
+    actions: Array<{
+      id: number
+      title: string
+      description: string
+      scheduled_date: string
+      scheduled_time: string | null
+      duration_minutes: number | null
+      action_type: string
+      intervention_plan: { id: number; title: string; student_name: string }
+      responsible: { id: number; name: string } | null
+      is_completed: boolean
+    }>
+  }> {
+    const params: { start_date?: string; end_date?: string } = {}
     if (start_date) params.start_date = start_date
     if (end_date) params.end_date = end_date
     
-    const response = await api.get('/ai-analytics/intervention-actions/calendar/', { params })
+    const response = await apiClient.get('/ai-analytics/intervention-actions/calendar/', { params })
     return response.data
   },
 
   // Dashboard et statistiques
-  async getRiskDashboard() {
-    const response = await api.get('/ai-analytics/dashboard/')
+  async getRiskDashboard(): Promise<{
+    total_students: number
+    high_risk_students: number
+    monitored_students: number
+    active_interventions: number
+    recent_alerts: number
+    risk_distribution: {
+      very_low: number
+      low: number
+      moderate: number
+      high: number
+      critical: number
+    }
+    recent_activity: Array<{
+      type: string
+      message: string
+      timestamp: string
+      student_name: string
+    }>
+  }> {
+    const response = await apiClient.get('/ai-analytics/dashboard/')
     return response.data
   },
 
-  async getStudentRiskHistory(student_id: string) {
-    const response = await api.get(`/ai-analytics/students/${student_id}/history/`)
+  async getStudentRiskHistory(student_id: number): Promise<{
+    student: { id: number; name: string }
+    history: Array<{
+      date: string
+      risk_score: number
+      risk_level: string
+      main_factors: string[]
+      notes: string | null
+    }>
+    trends: {
+      risk_trend: 'improving' | 'stable' | 'worsening'
+      score_change: number
+      period_analysis: string
+    }
+  }> {
+    const response = await apiClient.get(`/ai-analytics/students/${student_id}/history/`)
     return response.data
   },
 
-  async getClassRiskReport(class_id: string) {
-    const response = await api.get(`/ai-analytics/classes/${class_id}/report/`)
+  async getClassRiskReport(class_id: number): Promise<{
+    class_info: { id: number; name: string; level: string }
+    total_students: number
+    risk_distribution: {
+      very_low: number
+      low: number
+      moderate: number
+      high: number
+      critical: number
+    }
+    average_risk_score: number
+    high_risk_students: Array<{
+      id: number
+      name: string
+      risk_score: number
+      risk_level: string
+      main_factors: string[]
+    }>
+    class_trends: {
+      risk_evolution: 'improving' | 'stable' | 'worsening'
+      period_comparison: string
+    }
+  }> {
+    const response = await apiClient.get(`/ai-analytics/classes/${class_id}/report/`)
     return response.data
   },
 
-  async getRiskStatistics(period_days = 30) {
-    const response = await api.get('/ai-analytics/statistics/', {
+  async getRiskStatistics(period_days = 30): Promise<{
+    period_days: number
+    total_analyses: number
+    new_high_risk: number
+    risk_level_changes: {
+      improvements: number
+      deteriorations: number
+    }
+    model_performance: {
+      accuracy: number
+      precision: number
+      recall: number
+      f1_score: number
+    }
+    intervention_effectiveness: {
+      total_interventions: number
+      successful_interventions: number
+      average_effectiveness_score: number
+    }
+  }> {
+    const response = await apiClient.get('/ai-analytics/statistics/', {
       params: { period_days }
     })
     return response.data
@@ -386,16 +711,27 @@ export const aiModulesAPI = {
 
   // Analyse déclenchement
   async triggerRiskAnalysis(data: {
-    student_id?: string
-    class_id?: string
+    student_id?: number
+    class_id?: number
     force_update?: boolean
-  }) {
-    const response = await api.post('/ai-analytics/analysis/trigger/', data)
+  }): Promise<{
+    success: boolean
+    message: string
+    task_id?: string
+    analysis_count: number
+  }> {
+    const response = await apiClient.post('/ai-analytics/analysis/trigger/', data)
     return response.data
   },
 
-  async triggerBulkAnalysis(type: 'daily' | 'patterns') {
-    const response = await api.post('/ai-analytics/analysis/bulk/', { type })
+  async triggerBulkAnalysis(type: 'daily' | 'patterns'): Promise<{
+    success: boolean
+    message: string
+    task_id: string
+    analysis_type: 'daily' | 'patterns'
+    estimated_duration: string
+  }> {
+    const response = await apiClient.post('/ai-analytics/analysis/bulk/', { type })
     return response.data
   }
 }

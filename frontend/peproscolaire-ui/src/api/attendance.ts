@@ -1,7 +1,7 @@
 /**
  * API client pour le module attendance (vie scolaire)
  */
-import { client } from './client'
+import { apiClient } from './apiClient'
 import type { 
   Attendance,
   AbsencePeriod,
@@ -14,211 +14,211 @@ import type {
 
 export const attendanceApi = {
   // Présences/Absences
-  getAttendances: (params?: Record<string, any>): Promise<PaginatedResponse<Attendance>> =>
-    client.get('/attendances/', { params }),
+  getAttendances: async (params?: Record<string, string | number>): Promise<PaginatedResponse<Attendance>> =>
+    (await apiClient.get('/attendances/', { params })).data,
   
-  getAttendance: (id: string): Promise<Attendance> =>
-    client.get(`/attendances/${id}/`),
+  getAttendance: async (id: number): Promise<Attendance> =>
+    (await apiClient.get(`/attendances/${id}/`)).data,
   
-  createAttendance: (data: Partial<Attendance>): Promise<Attendance> =>
-    client.post('/attendances/', data),
+  createAttendance: async (data: Partial<Attendance>): Promise<Attendance> =>
+    (await apiClient.post('/attendances/', data)).data,
   
-  updateAttendance: (id: string, data: Partial<Attendance>): Promise<Attendance> =>
-    client.put(`/attendances/${id}/`, data),
+  updateAttendance: async (id: number, data: Partial<Attendance>): Promise<Attendance> =>
+    (await apiClient.put(`/attendances/${id}/`, data)).data,
   
-  deleteAttendance: (id: string): Promise<void> =>
-    client.delete(`/attendances/${id}/`),
+  deleteAttendance: async (id: number): Promise<void> =>
+    (await apiClient.delete(`/attendances/${id}/`)).data,
 
   // Appel en classe
-  getClassAttendance: (classId: string, date: string): Promise<Attendance[]> =>
-    client.get('/attendances/by_class/', { 
+  getClassAttendance: async (classId: number, date: string): Promise<Attendance[]> =>
+    (await apiClient.get('/attendances/by_class/', { 
       params: { class_id: classId, date } 
-    }),
+    })).data,
   
-  markClassAttendance: (classId: string, date: string, attendances: Partial<Attendance>[]): Promise<Attendance[]> =>
-    client.post('/attendances/mark_class/', { 
+  markClassAttendance: async (classId: number, date: string, attendances: Partial<Attendance>[]): Promise<Attendance[]> =>
+    (await apiClient.post('/attendances/mark_class/', { 
       class_id: classId, 
       date, 
       attendances 
-    }),
+    })).data,
   
-  bulkMarkAttendance: (attendances: Partial<Attendance>[]): Promise<Attendance[]> =>
-    client.post('/attendances/bulk_mark/', { attendances }),
+  bulkMarkAttendance: async (attendances: Partial<Attendance>[]): Promise<Attendance[]> =>
+    (await apiClient.post('/attendances/bulk_mark/', { attendances })).data,
 
   // Présences par élève
-  getStudentAttendance: (studentId: string, params?: Record<string, any>): Promise<Attendance[]> =>
-    client.get('/attendances/by_student/', { 
+  getStudentAttendance: async (studentId: number, params?: Record<string, string | number>): Promise<Attendance[]> =>
+    (await apiClient.get('/attendances/by_student/', { 
       params: { student_id: studentId, ...params } 
-    }),
+    })).data,
   
-  getStudentAttendanceSummary: (studentId: string, period?: string): Promise<any> =>
-    client.get('/attendances/student_summary/', { 
+  getStudentAttendanceSummary: async (studentId: number, period?: string): Promise<Record<string, any>> =>
+    (await apiClient.get('/attendances/student_summary/', { 
       params: { student_id: studentId, period } 
-    }),
+    })).data,
 
   // Périodes d'absence
-  getAbsencePeriods: (params?: Record<string, any>): Promise<PaginatedResponse<AbsencePeriod>> =>
-    client.get('/absence-periods/', { params }),
+  getAbsencePeriods: async (params?: Record<string, string | number>): Promise<PaginatedResponse<AbsencePeriod>> =>
+    (await apiClient.get('/absence-periods/', { params })).data,
   
-  getAbsencePeriod: (id: string): Promise<AbsencePeriod> =>
-    client.get(`/absence-periods/${id}/`),
+  getAbsencePeriod: async (id: number): Promise<AbsencePeriod> =>
+    (await apiClient.get(`/absence-periods/${id}/`)).data,
   
-  createAbsencePeriod: (data: Partial<AbsencePeriod>): Promise<AbsencePeriod> =>
-    client.post('/absence-periods/', data),
+  createAbsencePeriod: async (data: Partial<AbsencePeriod>): Promise<AbsencePeriod> =>
+    (await apiClient.post('/absence-periods/', data)).data,
   
-  updateAbsencePeriod: (id: string, data: Partial<AbsencePeriod>): Promise<AbsencePeriod> =>
-    client.put(`/absence-periods/${id}/`, data),
+  updateAbsencePeriod: async (id: number, data: Partial<AbsencePeriod>): Promise<AbsencePeriod> =>
+    (await apiClient.put(`/absence-periods/${id}/`, data)).data,
   
-  deleteAbsencePeriod: (id: string): Promise<void> =>
-    client.delete(`/absence-periods/${id}/`),
+  deleteAbsencePeriod: async (id: number): Promise<void> =>
+    (await apiClient.delete(`/absence-periods/${id}/`)).data,
   
-  approveAbsencePeriod: (id: string): Promise<AbsencePeriod> =>
-    client.post(`/absence-periods/${id}/approve/`),
+  approveAbsencePeriod: async (id: number): Promise<AbsencePeriod> =>
+    (await apiClient.post(`/absence-periods/${id}/approve/`)).data,
   
-  rejectAbsencePeriod: (id: string, reason?: string): Promise<AbsencePeriod> =>
-    client.post(`/absence-periods/${id}/reject/`, { reason }),
+  rejectAbsencePeriod: async (id: number, reason?: string): Promise<AbsencePeriod> =>
+    (await apiClient.post(`/absence-periods/${id}/reject/`, { reason })).data,
 
   // Sanctions
-  getSanctions: (params?: Record<string, any>): Promise<PaginatedResponse<Sanction>> =>
-    client.get('/sanctions/', { params }),
+  getSanctions: async (params?: Record<string, string | number>): Promise<PaginatedResponse<Sanction>> =>
+    (await apiClient.get('/sanctions/', { params })).data,
   
-  getSanction: (id: string): Promise<Sanction> =>
-    client.get(`/sanctions/${id}/`),
+  getSanction: async (id: number): Promise<Sanction> =>
+    (await apiClient.get(`/sanctions/${id}/`)).data,
   
-  createSanction: (data: Partial<Sanction>): Promise<Sanction> =>
-    client.post('/sanctions/', data),
+  createSanction: async (data: Partial<Sanction>): Promise<Sanction> =>
+    (await apiClient.post('/sanctions/', data)).data,
   
-  updateSanction: (id: string, data: Partial<Sanction>): Promise<Sanction> =>
-    client.put(`/sanctions/${id}/`, data),
+  updateSanction: async (id: number, data: Partial<Sanction>): Promise<Sanction> =>
+    (await apiClient.put(`/sanctions/${id}/`, data)).data,
   
-  deleteSanction: (id: string): Promise<void> =>
-    client.delete(`/sanctions/${id}/`),
+  deleteSanction: async (id: number): Promise<void> =>
+    (await apiClient.delete(`/sanctions/${id}/`)).data,
   
-  completeSanction: (id: string): Promise<Sanction> =>
-    client.post(`/sanctions/${id}/complete/`),
+  completeSanction: async (id: number): Promise<Sanction> =>
+    (await apiClient.post(`/sanctions/${id}/complete/`)).data,
 
   // Comportement des élèves
-  getStudentBehaviors: (params?: Record<string, any>): Promise<PaginatedResponse<StudentBehavior>> =>
-    client.get('/behaviors/', { params }),
+  getStudentBehaviors: async (params?: Record<string, string | number>): Promise<PaginatedResponse<StudentBehavior>> =>
+    (await apiClient.get('/behaviors/', { params })).data,
   
-  getStudentBehavior: (id: string): Promise<StudentBehavior> =>
-    client.get(`/behaviors/${id}/`),
+  getStudentBehavior: async (id: number): Promise<StudentBehavior> =>
+    (await apiClient.get(`/behaviors/${id}/`)).data,
   
-  createStudentBehavior: (data: Partial<StudentBehavior>): Promise<StudentBehavior> =>
-    client.post('/behaviors/', data),
+  createStudentBehavior: async (data: Partial<StudentBehavior>): Promise<StudentBehavior> =>
+    (await apiClient.post('/behaviors/', data)).data,
   
-  updateStudentBehavior: (id: string, data: Partial<StudentBehavior>): Promise<StudentBehavior> =>
-    client.put(`/behaviors/${id}/`, data),
+  updateStudentBehavior: async (id: number, data: Partial<StudentBehavior>): Promise<StudentBehavior> =>
+    (await apiClient.put(`/behaviors/${id}/`, data)).data,
   
-  deleteStudentBehavior: (id: string): Promise<void> =>
-    client.delete(`/behaviors/${id}/`),
+  deleteStudentBehavior: async (id: number): Promise<void> =>
+    (await apiClient.delete(`/behaviors/${id}/`)).data,
   
-  getStudentBehaviorHistory: (studentId: string, params?: Record<string, any>): Promise<StudentBehavior[]> =>
-    client.get('/behaviors/by_student/', { 
+  getStudentBehaviorHistory: async (studentId: number, params?: Record<string, string | number>): Promise<StudentBehavior[]> =>
+    (await apiClient.get('/behaviors/by_student/', { 
       params: { student_id: studentId, ...params } 
-    }),
+    })).data,
 
   // Alertes d'assiduité
-  getAttendanceAlerts: (params?: Record<string, any>): Promise<PaginatedResponse<AttendanceAlert>> =>
-    client.get('/alerts/', { params }),
+  getAttendanceAlerts: async (params?: Record<string, string | number>): Promise<PaginatedResponse<AttendanceAlert>> =>
+    (await apiClient.get('/alerts/', { params })).data,
   
-  getAttendanceAlert: (id: string): Promise<AttendanceAlert> =>
-    client.get(`/alerts/${id}/`),
+  getAttendanceAlert: async (id: number): Promise<AttendanceAlert> =>
+    (await apiClient.get(`/alerts/${id}/`)).data,
   
-  createAttendanceAlert: (data: Partial<AttendanceAlert>): Promise<AttendanceAlert> =>
-    client.post('/alerts/', data),
+  createAttendanceAlert: async (data: Partial<AttendanceAlert>): Promise<AttendanceAlert> =>
+    (await apiClient.post('/alerts/', data)).data,
   
-  updateAttendanceAlert: (id: string, data: Partial<AttendanceAlert>): Promise<AttendanceAlert> =>
-    client.put(`/alerts/${id}/`, data),
+  updateAttendanceAlert: async (id: number, data: Partial<AttendanceAlert>): Promise<AttendanceAlert> =>
+    (await apiClient.put(`/alerts/${id}/`, data)).data,
   
-  deleteAttendanceAlert: (id: string): Promise<void> =>
-    client.delete(`/alerts/${id}/`),
+  deleteAttendanceAlert: async (id: number): Promise<void> =>
+    (await apiClient.delete(`/alerts/${id}/`)).data,
   
-  acknowledgeAlert: (id: string): Promise<AttendanceAlert> =>
-    client.post(`/alerts/${id}/acknowledge/`),
+  acknowledgeAlert: async (id: number): Promise<AttendanceAlert> =>
+    (await apiClient.post(`/alerts/${id}/acknowledge/`)).data,
   
-  resolveAlert: (id: string, resolution?: string): Promise<AttendanceAlert> =>
-    client.post(`/alerts/${id}/resolve/`, { resolution }),
+  resolveAlert: async (id: number, resolution?: string): Promise<AttendanceAlert> =>
+    (await apiClient.post(`/alerts/${id}/resolve/`, { resolution })).data,
 
   // Statistiques et rapports
-  getAttendanceStatistics: (params?: Record<string, any>): Promise<any> =>
-    client.get('/statistics/', { params }),
+  getAttendanceStatistics: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+    (await apiClient.get('/statistics/', { params })).data,
   
-  getClassAttendanceReport: (classId: string, period?: string): Promise<any> =>
-    client.get('/statistics/class_report/', { 
+  getClassAttendanceReport: async (classId: number, period?: string): Promise<Record<string, any>> =>
+    (await apiClient.get('/statistics/class_report/', { 
       params: { class_id: classId, period } 
-    }),
+    })).data,
   
-  getStudentAttendanceReport: (studentId: string, period?: string): Promise<any> =>
-    client.get('/statistics/student_report/', { 
+  getStudentAttendanceReport: async (studentId: number, period?: string): Promise<Record<string, any>> =>
+    (await apiClient.get('/statistics/student_report/', { 
       params: { student_id: studentId, period } 
-    }),
+    })).data,
   
-  getAbsenteeismTrends: (params?: Record<string, any>): Promise<any> =>
-    client.get('/statistics/absenteeism_trends/', { params }),
+  getAbsenteeismTrends: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+    (await apiClient.get('/statistics/absenteeism_trends/', { params })).data,
   
-  getAttendanceComparison: (params?: Record<string, any>): Promise<any> =>
-    client.get('/statistics/comparison/', { params }),
+  getAttendanceComparison: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+    (await apiClient.get('/statistics/comparison/', { params })).data,
 
   // Actions automatiques
-  triggerAttendanceCheck: (): Promise<ApiResponse> =>
-    client.post('/check_alerts/'),
+  triggerAttendanceCheck: async (): Promise<ApiResponse> =>
+    (await apiClient.post('/check_alerts/')).data,
   
-  generateMonthlyReport: (month: string, year: number): Promise<any> =>
-    client.post('/generate_monthly_report/', { month, year }),
+  generateMonthlyReport: async (month: string, year: number): Promise<Record<string, any>> =>
+    (await apiClient.post('/generate_monthly_report/', { month, year })).data,
   
-  autoJustifyMedicalAbsences: (): Promise<ApiResponse> =>
-    client.post('/auto_justify_medical/'),
+  autoJustifyMedicalAbsences: async (): Promise<ApiResponse> =>
+    (await apiClient.post('/auto_justify_medical/')).data,
 
   // Import/Export
-  exportAttendanceReport: (params?: Record<string, any>): Promise<Blob> =>
-    client.get('/export/', { 
+  exportAttendanceReport: async (params?: Record<string, string | number>): Promise<Blob> =>
+    (await apiClient.get('/export/', { 
       params, 
       responseType: 'blob' 
-    }),
+    })).data,
   
-  importAttendanceData: (file: File): Promise<ApiResponse> => {
+  importAttendanceData: async (file: File): Promise<ApiResponse> => {
     const formData = new FormData()
     formData.append('file', file)
-    return client.post('/import/', formData, {
+    return (await apiClient.post('/import/', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
-    })
+    })).data
   },
 
   // Justificatifs
-  uploadJustification: (absenceId: string, file: File): Promise<ApiResponse> => {
+  uploadJustification: async (absenceId: number, file: File): Promise<ApiResponse> => {
     const formData = new FormData()
     formData.append('file', file)
-    return client.post(`/absence-periods/${absenceId}/upload_justification/`, formData, {
+    return (await apiClient.post(`/absence-periods/${absenceId}/upload_justification/`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
-    })
+    })).data
   },
   
-  downloadJustification: (absenceId: string): Promise<Blob> =>
-    client.get(`/absence-periods/${absenceId}/justification/`, { responseType: 'blob' }),
+  downloadJustification: async (absenceId: number): Promise<Blob> =>
+    (await apiClient.get(`/absence-periods/${absenceId}/justification/`, { responseType: 'blob' })).data,
 
   // Notifications
-  sendAbsenceNotification: (studentId: string, message?: string): Promise<ApiResponse> =>
-    client.post('/send_absence_notification/', { 
+  sendAbsenceNotification: async (studentId: number, message?: string): Promise<ApiResponse> =>
+    (await apiClient.post('/send_absence_notification/', { 
       student_id: studentId, 
       message 
-    }),
+    })).data,
   
-  sendBehaviorAlert: (behaviorId: string): Promise<ApiResponse> =>
-    client.post(`/behaviors/${behaviorId}/send_alert/`),
+  sendBehaviorAlert: async (behaviorId: number): Promise<ApiResponse> =>
+    (await apiClient.post(`/behaviors/${behaviorId}/send_alert/`)).data,
 
   // Dashboard data
-  getAttendanceDashboard: (params?: Record<string, any>): Promise<any> =>
-    client.get('/dashboard/', { params }),
+  getAttendanceDashboard: async (params?: Record<string, string | number>): Promise<Record<string, any>> =>
+    (await apiClient.get('/dashboard/', { params })).data,
   
-  getTodayAbsences: (): Promise<any> =>
-    client.get('/today_absences/'),
+  getTodayAbsences: async (): Promise<Record<string, any>> =>
+    (await apiClient.get('/today_absences/')).data,
   
-  getPendingApprovals: (): Promise<AbsencePeriod[]> =>
-    client.get('/pending_approvals/'),
+  getPendingApprovals: async (): Promise<AbsencePeriod[]> =>
+    (await apiClient.get('/pending_approvals/')).data,
   
-  getRecentAlerts: (limit?: number): Promise<AttendanceAlert[]> =>
-    client.get('/recent_alerts/', { 
+  getRecentAlerts: async (limit?: number): Promise<AttendanceAlert[]> =>
+    (await apiClient.get('/recent_alerts/', { 
       params: limit ? { limit } : undefined 
-    })
+    })).data
 }

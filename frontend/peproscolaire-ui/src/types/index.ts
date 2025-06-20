@@ -184,6 +184,39 @@ export interface Evaluation {
   visible_to_parents: boolean
 }
 
+export interface Competence {
+  id: number
+  name: string
+  code: string
+  subject: number
+  level: string
+  description?: string
+  skills: string[]
+}
+
+export interface CompetenceGrade {
+  id: number
+  student: number
+  competence: number
+  evaluation: number
+  mastery_level: 'not_acquired' | 'in_progress' | 'acquired' | 'expert'
+  comment?: string
+  graded_by: number
+  graded_at: string
+}
+
+export interface SubjectAverage {
+  id: number
+  student: number
+  subject: number
+  grading_period: number
+  average: number
+  coefficient_total: number
+  grade_count: number
+  class_average?: number
+  class_rank?: number
+}
+
 // Homework types
 export interface Homework {
   id: number

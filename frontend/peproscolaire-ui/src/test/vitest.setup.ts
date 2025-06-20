@@ -2,7 +2,6 @@
  * Configuration globale pour les tests Vitest
  */
 import { beforeAll, afterAll, afterEach } from 'vitest'
-import { cleanup } from '@vue/test-utils'
 import { config } from '@vue/test-utils'
 
 // Configuration globale des composants de test
@@ -70,7 +69,8 @@ beforeAll(() => {
 
 // Nettoyage après chaque test
 afterEach(() => {
-  cleanup()
+  // Le nettoyage est géré automatiquement par Vue Test Utils
+  document.body.innerHTML = ''
 })
 
 // Nettoyage global
