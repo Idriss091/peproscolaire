@@ -22,15 +22,17 @@ else:
         }
     }
 
-# Désactiver les migrations pour les tests
-class DisableMigrations:
-    def __contains__(self, item):
-        return True
-    
-    def __getitem__(self, item):
-        return None
+# Désactiver les migrations pour les tests locaux uniquement
+# En CI, nous voulons tester avec une vraie base de données
+if not os.environ.get('CI') and not DATABASE_URL:
+    class DisableMigrations:
+        def __contains__(self, item):
+            return True
+        
+        def __getitem__(self, item):
+            return None
 
-MIGRATION_MODULES = DisableMigrations()
+    MIGRATION_MODULES = DisableMigrations()
 
 # Configuration spécifique aux tests
 DEBUG = False

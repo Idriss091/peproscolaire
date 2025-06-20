@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { WebSocketService } from '../websocket'
+import { webSocketService, useWebSocket } from '../websocket'
 
 // Mock dependencies
 vi.mock('@/stores/auth', () => ({
@@ -87,15 +87,15 @@ class MockWebSocket {
 global.WebSocket = MockWebSocket as any
 
 describe('WebSocket Service', () => {
-  let wsService: WebSocketService
+  let wsService: typeof webSocketService
   let mockWS: MockWebSocket
 
   beforeEach(() => {
     vi.clearAllMocks()
     vi.useFakeTimers()
     
-    // Create a new instance for each test
-    wsService = new (WebSocketService as any)()
+    // Use the singleton instance
+    wsService = webSocketService
     
     // Clear any existing status
     wsService.status.connected = false

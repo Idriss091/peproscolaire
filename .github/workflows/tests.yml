@@ -57,6 +57,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install coverage pytest-cov
+        pip install psycopg2-binary
     
     - name: Set up environment variables
       run: |
@@ -65,6 +66,7 @@ jobs:
         echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/peproscolaire_test" >> backend/.env
         echo "REDIS_URL=redis://localhost:6379/0" >> backend/.env
         echo "SECRET_KEY=test-secret-key-for-ci" >> backend/.env
+        echo "CI=true" >> backend/.env
     
     - name: Run migrations
       run: |
@@ -209,6 +211,7 @@ jobs:
         echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/peproscolaire_test" >> backend/.env
         echo "REDIS_URL=redis://localhost:6379/0" >> backend/.env
         echo "SECRET_KEY=test-secret-key-for-ci" >> backend/.env
+        echo "CI=true" >> backend/.env
     
     - name: Run migrations
       run: |

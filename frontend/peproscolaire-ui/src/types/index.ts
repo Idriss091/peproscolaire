@@ -265,6 +265,39 @@ export interface HomeworkAttachment {
   uploaded_at: string
 }
 
+export interface HomeworkType {
+  id: number
+  name: string
+  code: string
+  description?: string
+  color?: string
+  is_graded: boolean
+  estimated_duration?: number
+}
+
+export interface HomeworkSubmission {
+  id: number
+  homework: number
+  student: number
+  submitted_at: string
+  content?: string
+  files: HomeworkSubmissionFile[]
+  status: 'draft' | 'submitted' | 'late' | 'graded'
+  grade?: number
+  teacher_feedback?: string
+  graded_at?: string
+  graded_by?: number
+}
+
+export interface HomeworkSubmissionFile {
+  id: number
+  submission: number
+  file: string
+  file_name: string
+  file_size: number
+  uploaded_at: string
+}
+
 // Messaging types
 export interface Message {
   id: number
@@ -351,6 +384,9 @@ export interface ApiResponse<T = any> {
   message?: string
   status: number
 }
+
+// Alias pour compatibilité
+export type APIResponse<T = any> = ApiResponse<T>
 
 // Attendance types
 export interface AttendanceAlert {
