@@ -1,7 +1,5 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
 
 // Create axios instance
 export const apiClient: AxiosInstance = axios.create({
@@ -15,11 +13,12 @@ export const apiClient: AxiosInstance = axios.create({
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const authStore = useAuthStore()
+    // Get token from localStorage directly
+    const token = localStorage.getItem('token')
     
     // Add auth token if available
-    if (authStore.token) {
-      config.headers.Authorization = `Bearer ${authStore.token}`
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
     
     // Add tenant header based on subdomain
@@ -40,31 +39,14 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const authStore = useAuthStore()
-    const router = useRouter()
-    
     if (error.response?.status === 401) {
-      // Try to refresh token
-      const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
+      // Clear tokens and redirect to login
+      localStorage.removeItem('token')
+      localStorage.removeItem('refreshToken')
       
-      if (!originalRequest._retry) {
-        originalRequest._retry = true
-        
-        try {
-          const newToken = await authStore.refreshAccessToken()
-          if (newToken && originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${newToken}`
-            return apiClient(originalRequest)
-          }
-        } catch (refreshError) {
-          // Refresh failed, logout
-          await authStore.logout()
-          router.push('/login')
-        }
-      } else {
-        // No refresh token or already retried, logout
-        await authStore.logout()
-        router.push('/login')
+      // Redirect to login page
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
       }
     }
     

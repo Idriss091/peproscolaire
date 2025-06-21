@@ -50,7 +50,7 @@
           <select
             v-model="filters.priority"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Toutes les priorités</option>
             <option value="urgent">Urgente</option>
@@ -63,7 +63,7 @@
           <select
             v-model="filters.is_acknowledged"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Tous les statuts</option>
             <option value="false">Non traitées</option>
@@ -74,7 +74,7 @@
           <select
             v-model="filters.date_range"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Toutes les dates</option>
             <option value="today">Aujourd'hui</option>
@@ -137,7 +137,7 @@
               v-for="alert in alerts"
               :key="alert.id"
               :alert="alert"
-              :class="{ 'ring-2 ring-primary-500': highlightedAlert === alert.id }"
+              :class="{ 'ring-2 ring-blue-500': highlightedAlert === alert.id }"
               @acknowledge="handleAcknowledge"
               @mark-read="handleMarkRead"
               @view-student="viewStudent"

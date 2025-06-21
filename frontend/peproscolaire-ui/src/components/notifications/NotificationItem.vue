@@ -59,7 +59,7 @@
         
         <!-- Link indicator -->
         <div v-if="notification.link" class="mt-2">
-          <span class="inline-flex items-center text-xs text-primary-600">
+          <span class="inline-flex items-center text-xs text-blue-600">
             <ArrowTopRightOnSquareIcon class="h-3 w-3 mr-1" />
             Cliquer pour ouvrir
           </span>

@@ -302,7 +302,7 @@ defineExpose({
 }
 
 .dropdown-trigger {
-  @apply inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer;
+  @apply inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer;
 }
 
 .dropdown-trigger-sm {
@@ -318,15 +318,15 @@ defineExpose({
 }
 
 .dropdown-trigger-default {
-  @apply bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-50;
+  @apply bg-white border border-gray-300 text-gray-700 hover:bg-gray-50;
 }
 
 .dropdown-trigger-ghost {
-  @apply bg-transparent text-neutral-700 hover:bg-neutral-100;
+  @apply bg-transparent text-gray-700 hover:bg-gray-100;
 }
 
 .dropdown-trigger-outline {
-  @apply bg-transparent border-2 border-neutral-300 text-neutral-700 hover:border-neutral-400;
+  @apply bg-transparent border-2 border-gray-300 text-gray-700 hover:border-gray-400;
 }
 
 .dropdown-trigger-disabled {
@@ -334,11 +334,11 @@ defineExpose({
 }
 
 .dropdown-trigger-open {
-  @apply ring-2 ring-primary-500 ring-offset-2;
+  @apply ring-2 ring-blue-500 ring-offset-2;
 }
 
 .dropdown-menu {
-  @apply bg-white rounded-lg border border-neutral-200 py-1 overflow-auto;
+  @apply bg-white rounded-lg border border-gray-200 py-1 overflow-auto;
   box-shadow: var(--shadow-xl);
 }
 
@@ -355,7 +355,7 @@ defineExpose({
 }
 
 .dropdown-header {
-  @apply px-3 py-2 border-b border-neutral-200 bg-neutral-50;
+  @apply px-3 py-2 border-b border-gray-200 bg-gray-50;
 }
 
 .dropdown-items {
@@ -363,23 +363,23 @@ defineExpose({
 }
 
 .dropdown-footer {
-  @apply px-3 py-2 border-t border-neutral-200 bg-neutral-50;
+  @apply px-3 py-2 border-t border-gray-200 bg-gray-50;
 }
 
 /* Menu item styles (for slotted content) */
 :deep(.dropdown-item) {
-  @apply block w-full px-3 py-2 text-left text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 focus:bg-neutral-100 focus:text-neutral-900 focus:outline-none transition-colors duration-150 cursor-pointer;
+  @apply block w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none transition-colors duration-150 cursor-pointer;
 }
 
 :deep(.dropdown-item[disabled]) {
-  @apply opacity-50 cursor-not-allowed hover:bg-transparent hover:text-neutral-700;
+  @apply opacity-50 cursor-not-allowed hover:bg-transparent hover:text-gray-700;
 }
 
 :deep(.dropdown-item-danger) {
-  @apply text-danger-700 hover:bg-danger-50 hover:text-danger-900 focus:bg-danger-50 focus:text-danger-900;
+  @apply text-red-700 hover:bg-red-50 hover:text-red-900 focus:bg-red-50 focus:text-red-900;
 }
 
 :deep(.dropdown-divider) {
-  @apply border-t border-neutral-200 my-1;
+  @apply border-t border-gray-200 my-1;
 }
 </style>

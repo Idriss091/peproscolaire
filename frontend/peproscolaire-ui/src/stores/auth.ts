@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
       // Get user info
       await fetchCurrentUser()
       
-      return { success: true }
+      return { success: true, userType: user.value?.user_type }
     } catch (err: any) {
       error.value = err.response?.data?.detail || 'Erreur de connexion'
       return { success: false, error: error.value }
@@ -47,8 +47,6 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    const router = useRouter()
-    
     try {
       await authApi.logout()
     } catch (err) {
@@ -60,9 +58,12 @@ export const useAuthStore = defineStore('auth', () => {
       refreshToken.value = null
       localStorage.removeItem('token')
       localStorage.removeItem('refreshToken')
+      localStorage.removeItem('currentUser')
       
-      // Redirect to login
-      router.push('/login')
+      // Redirect to login using window.location to avoid inject() error
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
+      }
     }
   }
 

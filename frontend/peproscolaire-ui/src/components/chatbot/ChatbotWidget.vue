@@ -472,7 +472,7 @@ onMounted(() => {
 }
 
 .chatbot-fab-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500;
+  @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-blue-500;
 }
 
 .chatbot-fab-ai {
@@ -484,12 +484,12 @@ onMounted(() => {
 }
 
 .notification-badge {
-  @apply absolute -top-1 -right-1 bg-danger-500 text-white text-xs font-bold rounded-full min-w-[1.25rem] h-5 flex items-center justify-center px-1;
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full min-w-[1.25rem] h-5 flex items-center justify-center px-1;
 }
 
 /* Chat Container */
 .chat-container {
-  @apply w-96 h-[32rem] bg-white rounded-2xl shadow-2xl border border-neutral-200 flex flex-col overflow-hidden pointer-events-auto;
+  @apply w-96 h-[32rem] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden pointer-events-auto;
   max-height: calc(100vh - 2rem);
 }
 
@@ -552,11 +552,11 @@ onMounted(() => {
 }
 
 .messages-container::-webkit-scrollbar-track {
-  @apply bg-neutral-100;
+  @apply bg-gray-100;
 }
 
 .messages-container::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 rounded-full;
+  @apply bg-gray-300 rounded-full;
 }
 
 /* Welcome Screen */
@@ -573,11 +573,11 @@ onMounted(() => {
 }
 
 .welcome-title {
-  @apply text-xl font-bold text-neutral-900;
+  @apply text-xl font-bold text-gray-900;
 }
 
 .welcome-message {
-  @apply text-neutral-600 leading-relaxed;
+  @apply text-gray-600 leading-relaxed;
 }
 
 .suggestions-grid {
@@ -585,7 +585,7 @@ onMounted(() => {
 }
 
 .suggestion-card {
-  @apply flex items-start gap-3 p-3 rounded-lg border border-neutral-200 hover:border-ai-300 hover:bg-ai-50 transition-all duration-200 text-left focus:outline-none focus:ring-2 focus:ring-ai-500;
+  @apply flex items-start gap-3 p-3 rounded-lg border border-gray-200 hover:border-ai-300 hover:bg-ai-50 transition-all duration-200 text-left focus:outline-none focus:ring-2 focus:ring-ai-500;
 }
 
 .suggestion-icon {
@@ -597,11 +597,11 @@ onMounted(() => {
 }
 
 .suggestion-title {
-  @apply font-semibold text-neutral-900 text-sm;
+  @apply font-semibold text-gray-900 text-sm;
 }
 
 .suggestion-description {
-  @apply text-neutral-600 text-xs mt-1;
+  @apply text-gray-600 text-xs mt-1;
 }
 
 /* Typing Indicator */
@@ -614,11 +614,11 @@ onMounted(() => {
 }
 
 .typing-dots {
-  @apply flex items-center gap-1 bg-neutral-100 rounded-2xl px-3 py-2;
+  @apply flex items-center gap-1 bg-gray-100 rounded-2xl px-3 py-2;
 }
 
 .typing-dot {
-  @apply w-2 h-2 bg-neutral-400 rounded-full;
+  @apply w-2 h-2 bg-gray-400 rounded-full;
   animation: typing-bounce 1.4s infinite ease-in-out;
 }
 
@@ -632,16 +632,16 @@ onMounted(() => {
 
 /* Quick Replies */
 .quick-replies {
-  @apply p-4 border-t border-neutral-200 bg-neutral-50;
+  @apply p-4 border-t border-gray-200 bg-gray-50;
 }
 
 .quick-reply-btn {
-  @apply inline-block bg-white border border-neutral-300 text-neutral-700 px-3 py-1.5 rounded-full text-sm hover:bg-neutral-100 hover:border-neutral-400 transition-colors mr-2 mb-2 focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply inline-block bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-full text-sm hover:bg-gray-100 hover:border-gray-400 transition-colors mr-2 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 /* Input Area */
 .input-area {
-  @apply p-4 border-t border-neutral-200 bg-white;
+  @apply p-4 border-t border-gray-200 bg-white;
 }
 
 .message-form {
@@ -653,7 +653,7 @@ onMounted(() => {
 }
 
 .message-input {
-  @apply flex-1 px-3 py-2 border border-neutral-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-ai-500 focus:border-transparent transition-all duration-200 max-h-32;
+  @apply flex-1 px-3 py-2 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-ai-500 focus:border-transparent transition-all duration-200 max-h-32;
   line-height: 1.5;
 }
 
@@ -662,7 +662,7 @@ onMounted(() => {
 }
 
 .input-action-btn {
-  @apply w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .send-btn {
@@ -674,7 +674,7 @@ onMounted(() => {
 }
 
 .send-btn-disabled {
-  @apply bg-neutral-200 text-neutral-400 cursor-not-allowed;
+  @apply bg-gray-200 text-gray-400 cursor-not-allowed;
 }
 
 /* Animations */

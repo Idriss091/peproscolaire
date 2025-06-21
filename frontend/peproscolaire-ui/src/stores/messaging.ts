@@ -55,6 +55,7 @@ export const useMessagingStore = defineStore('messaging', () => {
   // Getters
   const unreadCount = computed(() => 
     messages.value.filter(m => {
+      if (!m.recipients) return false
       const recipient = m.recipients.find(r => r.recipient === currentUserId.value)
       return recipient && !recipient.is_read
     }).length
@@ -62,6 +63,7 @@ export const useMessagingStore = defineStore('messaging', () => {
 
   const starredMessages = computed(() =>
     messages.value.filter(m => {
+      if (!m.recipients) return false
       const recipient = m.recipients.find(r => r.recipient === currentUserId.value)
       return recipient && recipient.is_starred
     })
@@ -81,7 +83,7 @@ export const useMessagingStore = defineStore('messaging', () => {
         grouped.draft.push(message)
       } else if (message.sender === currentUserId.value) {
         grouped.sent.push(message)
-      } else {
+      } else if (message.recipients) {
         const recipient = message.recipients.find(r => r.recipient === currentUserId.value)
         if (recipient) {
           grouped[recipient.folder].push(message)
@@ -119,12 +121,12 @@ export const useMessagingStore = defineStore('messaging', () => {
       if (filters.hasAttachments !== undefined) params.append('has_attachments', filters.hasAttachments.toString())
       if (filters.limit) params.append('limit', filters.limit.toString())
 
-      const response = await apiClient.get<PaginatedResponse<Message>>(
+      const response = await apiClient.get<{ results: any[] }>(
         `/messaging/messages/?${params.toString()}`
       )
       
       messages.value = response.data.results
-      totalCount.value = response.data.count
+      totalCount.value = response.data.results?.length || 0
     } catch (err) {
       error.value = 'Erreur lors du chargement des messages'
       console.error('Failed to fetch messages:', err)

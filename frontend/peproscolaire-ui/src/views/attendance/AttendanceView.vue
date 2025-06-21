@@ -38,7 +38,7 @@
           </div>
           <div class="ml-4">
             <p class="text-sm font-medium text-gray-500">Présents aujourd'hui</p>
-            <p class="text-2xl font-semibold text-gray-900">{{ todayStats.present }}</p>
+            <p class="text-2xl font-semibold text-gray-900">{{ todayStats?.present || 0 }}</p>
           </div>
         </div>
       </BaseCard>
@@ -50,7 +50,7 @@
           </div>
           <div class="ml-4">
             <p class="text-sm font-medium text-gray-500">Absents aujourd'hui</p>
-            <p class="text-2xl font-semibold text-gray-900">{{ todayStats.absent }}</p>
+            <p class="text-2xl font-semibold text-gray-900">{{ todayStats?.absent || 0 }}</p>
           </div>
         </div>
       </BaseCard>
@@ -62,7 +62,7 @@
           </div>
           <div class="ml-4">
             <p class="text-sm font-medium text-gray-500">Retards aujourd'hui</p>
-            <p class="text-2xl font-semibold text-gray-900">{{ todayStats.late }}</p>
+            <p class="text-2xl font-semibold text-gray-900">{{ todayStats?.late || 0 }}</p>
           </div>
         </div>
       </BaseCard>
@@ -74,7 +74,7 @@
           </div>
           <div class="ml-4">
             <p class="text-sm font-medium text-gray-500">Alertes actives</p>
-            <p class="text-2xl font-semibold text-gray-900">{{ activeAlerts }}</p>
+            <p class="text-2xl font-semibold text-gray-900">{{ activeAlerts || 0 }}</p>
           </div>
         </div>
       </BaseCard>

@@ -249,9 +249,19 @@ const handleLogin = async () => {
 
 // Get redirect path based on user type
 const getRedirectPath = (userType: UserType | null): string => {
-  // Tous les utilisateurs utilisent le même dashboard
-  // Le contenu sera adapté selon le type d'utilisateur
-  return '/dashboard'
+  switch (userType) {
+    case 'student':
+      return '/student/dashboard'
+    case 'parent':
+      return '/parent/dashboard'
+    case 'teacher':
+      return '/teacher/dashboard'
+    case 'admin':
+    case 'superadmin':
+      return '/admin/dashboard'
+    default:
+      return '/dashboard'
+  }
 }
 </script>
 

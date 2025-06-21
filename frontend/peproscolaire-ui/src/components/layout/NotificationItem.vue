@@ -232,7 +232,7 @@ const getActionClasses = (type: string) => {
 
 <style scoped>
 .notification-item {
-  @apply relative flex items-start gap-3 p-4 hover:bg-neutral-50 transition-colors border-l-4 border-transparent cursor-pointer group;
+  @apply relative flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors border-l-4 border-transparent cursor-pointer group;
 }
 
 .notification-unread {
@@ -260,7 +260,7 @@ const getActionClasses = (type: string) => {
 }
 
 .icon-success {
-  @apply bg-success-100 text-success-600;
+  @apply bg-green-100 text-green-600;
 }
 
 .icon-warning {
@@ -268,11 +268,11 @@ const getActionClasses = (type: string) => {
 }
 
 .icon-error {
-  @apply bg-danger-100 text-danger-600;
+  @apply bg-red-100 text-red-600;
 }
 
 .icon-message {
-  @apply bg-primary-100 text-primary-600;
+  @apply bg-primary-100 text-blue-600;
 }
 
 .icon-grade {
@@ -284,11 +284,11 @@ const getActionClasses = (type: string) => {
 }
 
 .icon-document {
-  @apply bg-neutral-100 text-neutral-600;
+  @apply bg-gray-100 text-gray-600;
 }
 
 .icon-user {
-  @apply bg-neutral-100 text-neutral-600;
+  @apply bg-gray-100 text-gray-600;
 }
 
 .icon-high-priority {
@@ -304,7 +304,7 @@ const getActionClasses = (type: string) => {
 }
 
 .notification-title {
-  @apply font-semibold text-neutral-900 text-sm leading-tight;
+  @apply font-semibold text-gray-900 text-sm leading-tight;
 }
 
 .notification-unread .notification-title {
@@ -312,19 +312,19 @@ const getActionClasses = (type: string) => {
 }
 
 .notification-time {
-  @apply text-xs text-neutral-500 flex-shrink-0;
+  @apply text-xs text-gray-500 flex-shrink-0;
 }
 
 .notification-message {
-  @apply text-sm text-neutral-700 leading-relaxed;
+  @apply text-sm text-gray-700 leading-relaxed;
 }
 
 .notification-meta {
-  @apply flex items-center gap-2 text-xs text-neutral-500;
+  @apply flex items-center gap-2 text-xs text-gray-500;
 }
 
 .meta-category {
-  @apply px-2 py-1 bg-neutral-100 rounded-full font-medium;
+  @apply px-2 py-1 bg-gray-100 rounded-full font-medium;
 }
 
 .meta-sender {
@@ -340,15 +340,15 @@ const getActionClasses = (type: string) => {
 }
 
 .btn-primary {
-  @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-blue-500;
 }
 
 .btn-secondary {
-  @apply bg-neutral-200 text-neutral-700 hover:bg-neutral-300 focus:ring-neutral-500;
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-neutral-500;
 }
 
 .btn-success {
-  @apply bg-success-600 text-white hover:bg-success-700 focus:ring-success-500;
+  @apply bg-green-600 text-white hover:bg-green-700 focus:ring-success-500;
 }
 
 .btn-warning {
@@ -356,15 +356,15 @@ const getActionClasses = (type: string) => {
 }
 
 .btn-danger {
-  @apply bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500;
+  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-danger-500;
 }
 
 .priority-badge {
-  @apply w-6 h-6 rounded-full bg-danger-100 text-danger-600 flex items-center justify-center flex-shrink-0;
+  @apply w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0;
 }
 
 .notification-menu-btn {
-  @apply w-8 h-8 rounded-lg bg-transparent hover:bg-neutral-200 flex items-center justify-center text-neutral-400 hover:text-neutral-600 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-8 h-8 rounded-lg bg-transparent hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 /* États de lecture */

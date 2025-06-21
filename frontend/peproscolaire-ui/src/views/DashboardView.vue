@@ -45,7 +45,7 @@
               ✓ Faire l'appel
             </router-link>
             <router-link
-              to="/messaging"
+              :to="getMessagingRoute()"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
             >
               💬 Voir les messages
@@ -95,8 +95,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useHomeworkStore } from '@/stores/homework'
+import { useGradesStore } from '@/stores/grades'
+import { useTimetableStore } from '@/stores/timetable'
+import { useMessagingStore } from '@/stores/messaging'
 import StatCard from '@/components/common/StatCard.vue'
 import {
   AcademicCapIcon,
@@ -106,8 +110,26 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const authStore = useAuthStore()
+const homeworkStore = useHomeworkStore()
+const gradesStore = useGradesStore()
+const timetableStore = useTimetableStore()
+const messagingStore = useMessagingStore()
 
-// Quick stats based on user type
+// Charger les données au montage
+onMounted(async () => {
+  try {
+    await Promise.all([
+      homeworkStore.fetchHomework(),
+      gradesStore.fetchGrades(),
+      timetableStore.fetchTodaySchedule(),
+      messagingStore.fetchMessages({ folder: 'inbox' })
+    ])
+  } catch (error) {
+    console.warn('Erreur lors du chargement des données:', error)
+  }
+})
+
+// Quick stats based on user type with real data
 const quickStats = computed(() => {
   const userType = authStore.userType
   
@@ -116,26 +138,25 @@ const quickStats = computed(() => {
       return [
         {
           name: 'Cours aujourd\'hui',
-          value: '5',
+          value: timetableStore.todaySchedule?.length?.toString() || '0',
           icon: ClockIcon,
           color: 'blue'
         },
         {
-          name: 'Devoirs à corriger',
-          value: '12',
+          name: 'Devoirs donnés',
+          value: homeworkStore.homeworks?.length?.toString() || '0',
           icon: BookOpenIcon,
-          color: 'orange',
-          change: 3
+          color: 'orange'
         },
         {
-          name: 'Appels en attente',
-          value: '2',
+          name: 'Notes données',
+          value: gradesStore.grades?.length?.toString() || '0',
           icon: UserGroupIcon,
           color: 'red'
         },
         {
           name: 'Messages non lus',
-          value: '7',
+          value: messagingStore.unreadCount?.toString() || '0',
           icon: AcademicCapIcon,
           color: 'green'
         }
@@ -145,28 +166,27 @@ const quickStats = computed(() => {
       return [
         {
           name: 'Cours aujourd\'hui',
-          value: '6',
+          value: timetableStore.todaySchedule?.length?.toString() || '0',
           icon: ClockIcon,
           color: 'blue'
         },
         {
           name: 'Devoirs à rendre',
-          value: '4',
+          value: homeworkStore.upcomingHomework?.length?.toString() || '0',
           icon: BookOpenIcon,
           color: 'orange'
         },
         {
-          name: 'Moyenne générale',
-          value: '14.2',
-          icon: AcademicCapIcon,
-          color: 'green',
-          change: 0.3
+          name: 'Notes récentes',
+          value: gradesStore.grades?.length?.toString() || '0',
+          icon: UserGroupIcon,
+          color: 'green'
         },
         {
           name: 'Messages non lus',
-          value: '2',
-          icon: UserGroupIcon,
-          color: 'purple'
+          value: messagingStore.unreadCount?.toString() || '0',
+          icon: AcademicCapIcon,
+          color: 'blue'
         }
       ]
     
@@ -174,68 +194,87 @@ const quickStats = computed(() => {
       return [
         {
           name: 'Enfants suivis',
-          value: '2',
+          value: '1',
           icon: UserGroupIcon,
           color: 'blue'
         },
         {
-          name: 'Cours cette semaine',
-          value: '24',
-          icon: ClockIcon,
-          color: 'green'
-        },
-        {
-          name: 'Nouvelles notes',
-          value: '5',
-          icon: AcademicCapIcon,
+          name: 'Devoirs à rendre',
+          value: homeworkStore.upcomingHomework?.length?.toString() || '0',
+          icon: BookOpenIcon,
           color: 'orange'
         },
         {
-          name: 'Messages importants',
-          value: '1',
-          icon: BookOpenIcon,
-          color: 'red'
+          name: 'Notes récentes',
+          value: gradesStore.grades?.length?.toString() || '0',
+          icon: UserGroupIcon,
+          color: 'green'
+        },
+        {
+          name: 'Messages non lus',
+          value: messagingStore.unreadCount?.toString() || '0',
+          icon: AcademicCapIcon,
+          color: 'blue'
         }
       ]
     
     case 'admin':
       return [
         {
-          name: 'Élèves totaux',
-          value: '1,247',
+          name: 'Utilisateurs actifs',
+          value: '150',
           icon: UserGroupIcon,
           color: 'blue'
         },
         {
-          name: 'Professeurs actifs',
-          value: '68',
-          icon: AcademicCapIcon,
+          name: 'Cours programmés',
+          value: timetableStore.schedules?.length?.toString() || '0',
+          icon: ClockIcon,
           color: 'green'
         },
         {
-          name: 'Classes',
-          value: '42',
+          name: 'Devoirs total',
+          value: homeworkStore.homeworks?.length?.toString() || '0',
           icon: BookOpenIcon,
-          color: 'purple'
+          color: 'orange'
         },
         {
-          name: 'Incidents signalés',
-          value: '3',
-          icon: ClockIcon,
+          name: 'Messages système',
+          value: messagingStore.messages?.length?.toString() || '0',
+          icon: AcademicCapIcon,
           color: 'red'
         }
       ]
     
     default:
-      return []
+      return [
+        {
+          name: 'Tableau de bord',
+          value: '0',
+          icon: ClockIcon,
+          color: 'blue'
+        }
+      ]
   }
 })
 
-// Lifecycle
-onMounted(() => {
-  // Fetch dashboard data based on user type
-  console.log('Dashboard mounted for user type:', authStore.userType)
-})
+// Fonction pour obtenir la route de messagerie selon le type d'utilisateur
+const getMessagingRoute = () => {
+  const userType = authStore.userType
+  
+  switch (userType) {
+    case 'student':
+      return '/student/messages'
+    case 'teacher':
+      return '/teacher/messages'
+    case 'parent':
+      return '/parent/messages'
+    case 'admin':
+      return '/messaging'
+    default:
+      return '/messaging'
+  }
+}
 </script>
 
 <style scoped>

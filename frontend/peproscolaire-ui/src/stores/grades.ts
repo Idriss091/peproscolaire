@@ -74,6 +74,22 @@ export const useGradesStore = defineStore('grades', () => {
     return evaluations.value.filter(evaluation => evaluation.is_published)
   })
 
+  const overallStats = computed(() => {
+    const total = grades.value.length
+    const validGrades = grades.value.filter(grade => grade.value != null && grade.value !== undefined)
+    const sum = validGrades.reduce((acc, grade) => acc + (grade.value || 0), 0)
+    const average = validGrades.length > 0 ? (sum / validGrades.length).toFixed(1) : '0.0'
+    const excellent = validGrades.filter(grade => (grade.value || 0) >= 16).length
+    const struggling = validGrades.filter(grade => (grade.value || 0) < 10).length
+
+    return {
+      total,
+      average,
+      excellent,
+      struggling
+    }
+  })
+
   // Actions - Types d'évaluation
   const fetchEvaluationTypes = async (params?: FilterOptions) => {
     loading.value.evaluationTypes = true
@@ -255,11 +271,11 @@ export const useGradesStore = defineStore('grades', () => {
 
     try {
       const response = await gradesApi.getGrades(params)
-      grades.value = response.results
+      grades.value = response.results || []
       pagination.value.grades = {
-        count: response.count,
-        next: response.next,
-        previous: response.previous
+        count: response.results?.length || 0,
+        next: null,
+        previous: null
       }
     } catch (error: any) {
       errors.value.grades = error.message || 'Erreur lors du chargement des notes'
@@ -496,6 +512,50 @@ export const useGradesStore = defineStore('grades', () => {
     }
   }
 
+  // Actions - Export et autres
+  const exportGrades = async (options: { format: string; includeStats: boolean }) => {
+    try {
+      // Implementation placeholder - would call API to export grades
+      const params = new URLSearchParams()
+      params.append('format', options.format)
+      if (options.includeStats) {
+        params.append('include_stats', 'true')
+      }
+      
+      // Mock export for now
+      console.log('Exporting grades with options:', options)
+      
+      // In real implementation, this would call the API and download file
+      // const response = await gradesApi.exportGrades(options)
+      // return response
+    } catch (error: any) {
+      errors.value.export = error.message || 'Erreur lors de l\'export'
+      throw error
+    }
+  }
+
+  const fetchSubjects = async () => {
+    // Placeholder for fetching subjects - would normally be in a separate store
+    try {
+      // Mock implementation
+      return []
+    } catch (error: any) {
+      errors.value.subjects = error.message || 'Erreur lors du chargement des matières'
+      throw error
+    }
+  }
+
+  const fetchClasses = async () => {
+    // Placeholder for fetching classes - would normally be in a separate store
+    try {
+      // Mock implementation
+      return []
+    } catch (error: any) {
+      errors.value.classes = error.message || 'Erreur lors du chargement des classes'
+      throw error
+    }
+  }
+
   // Actions utilitaires
   const clearErrors = () => {
     errors.value = {}
@@ -543,6 +603,7 @@ export const useGradesStore = defineStore('grades', () => {
     getStudentAverages,
     getActiveEvaluationTypes,
     getPublishedEvaluations,
+    overallStats,
 
     // Actions - Types d'évaluation
     fetchEvaluationTypes,
@@ -577,6 +638,11 @@ export const useGradesStore = defineStore('grades', () => {
     fetchGradeStatistics,
     fetchClassPerformance,
     fetchStudentProgress,
+
+    // Actions - Export et autres
+    exportGrades,
+    fetchSubjects,
+    fetchClasses,
 
     // Actions utilitaires
     clearErrors,

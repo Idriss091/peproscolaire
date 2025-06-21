@@ -280,8 +280,7 @@
 
     <!-- Modal de détail -->
     <BaseModal
-      v-if="selectedGrade"
-      :is-open="!!selectedGrade"
+      :model-value="!!selectedGrade"
       title="Détail de la note"
       @close="selectedGrade = null"
     >
@@ -342,8 +341,7 @@
 
     <!-- Modal de modification -->
     <BaseModal
-      v-if="editingGrade"
-      :is-open="!!editingGrade"
+      :model-value="!!editingGrade"
       title="Modifier la note"
       @close="editingGrade = null"
     >
@@ -356,7 +354,7 @@
 
     <!-- Modal de saisie groupée -->
     <BaseModal
-      :is-open="showBulkGradeModal"
+      v-model="showBulkGradeModal"
       title="Saisie groupée de notes"
       @close="showBulkGradeModal = false"
       size="lg"

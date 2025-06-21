@@ -81,11 +81,11 @@ const badgeClasses = computed(() => [
 
 <style scoped>
 .nav-link {
-  @apply relative flex items-center w-full px-3 py-2 text-sm font-medium text-neutral-600 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 group;
+  @apply relative flex items-center w-full px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 group;
 }
 
 .nav-link-active {
-  @apply bg-primary-50 text-primary-700 hover:bg-primary-100 hover:text-primary-800;
+  @apply bg-primary-50 text-blue-700 hover:bg-primary-100 hover:text-blue-800;
 }
 
 .nav-link-ai.nav-link-active {
@@ -121,7 +121,7 @@ const badgeClasses = computed(() => [
 }
 
 .nav-badge-primary {
-  @apply bg-primary-100 text-primary-800;
+  @apply bg-primary-100 text-blue-800;
 }
 
 .nav-badge-ai {
@@ -130,7 +130,7 @@ const badgeClasses = computed(() => [
 
 /* Tooltip pour mode collapsed */
 .nav-tooltip {
-  @apply absolute left-full ml-2 px-2 py-1 bg-neutral-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50;
+  @apply absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50;
 }
 
 .tooltip-badge {

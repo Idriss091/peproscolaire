@@ -2,7 +2,7 @@
 export type UserType = 'student' | 'parent' | 'teacher' | 'admin' | 'superadmin'
 
 export interface User {
-  id: number
+  id: string
   username: string
   email: string
   first_name: string
@@ -12,6 +12,7 @@ export interface User {
   date_joined: string
   last_login: string | null
   profile?: UserProfile
+  profile_picture?: string | null
   school?: School
 }
 

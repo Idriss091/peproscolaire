@@ -4,7 +4,7 @@ Vues API pour la gestion des notes et évaluations
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
-from django.db.models import Avg, Count, Q, Prefetch
+from django.db.models import Avg, Count, Q, Prefetch, Min, Max
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_filters import rest_framework as filters
@@ -128,9 +128,6 @@ class EvaluationViewSet(viewsets.ModelViewSet):
         user = self.request.user
         queryset = Evaluation.objects.select_related(
             'evaluation_type', 'subject', 'class_group', 'teacher'
-        ).annotate(
-            average_score=Avg('grades__score', filter=Q(grades__is_absent=False)),
-            graded_count=Count('grades', filter=Q(grades__score__isnull=False))
         )
         
         if user.user_type == 'teacher':
@@ -242,8 +239,8 @@ class EvaluationViewSet(viewsets.ModelViewSet):
         stats = grades.aggregate(
             average=Avg('score'),
             count=Count('id'),
-            min_score=models.Min('score'),
-            max_score=models.Max('score')
+            min_score=Min('score'),
+            max_score=Max('score')
         )
         
         # Distribution détaillée
@@ -312,6 +309,66 @@ class EvaluationViewSet(viewsets.ModelViewSet):
         response['Content-Disposition'] = f'attachment; filename="notes_{evaluation.title}.csv"'
         
         return response
+
+
+class GradeFilter(filters.FilterSet):
+    """Filtres pour les notes"""
+    start_date = filters.DateFilter(field_name='evaluation__date', lookup_expr='gte')
+    end_date = filters.DateFilter(field_name='evaluation__date', lookup_expr='lte')
+    
+    class Meta:
+        model = Grade
+        fields = [
+            'evaluation', 'student', 'evaluation__subject',
+            'evaluation__class_group', 'evaluation__grading_period',
+            'is_absent', 'is_excused'
+        ]
+
+
+class GradeViewSet(viewsets.ModelViewSet):
+    """ViewSet pour les notes individuelles"""
+    serializer_class = GradeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = GradeFilter
+    
+    def get_queryset(self):
+        """Filtrer selon le type d'utilisateur"""
+        user = self.request.user
+        queryset = Grade.objects.select_related(
+            'evaluation', 'student', 'evaluation__subject', 
+            'evaluation__class_group', 'graded_by'
+        )
+        
+        if user.user_type == 'student':
+            # Un élève ne voit que ses notes des évaluations publiées
+            return queryset.filter(
+                student=user,
+                evaluation__grades_published=True
+            )
+        elif user.user_type == 'parent':
+            # TODO: Filtrer par enfants
+            return queryset.none()
+        elif user.user_type == 'teacher':
+            # Un prof voit les notes des évaluations qu'il a créées
+            return queryset.filter(evaluation__teacher=user)
+        
+        # Admin voit tout
+        return queryset
+    
+    def perform_create(self, serializer):
+        """Enregistrer qui a créé la note"""
+        serializer.save(
+            graded_by=self.request.user,
+            graded_at=timezone.now()
+        )
+    
+    def perform_update(self, serializer):
+        """Enregistrer qui a modifié la note"""
+        serializer.save(
+            modified_by=self.request.user,
+            modified_at=timezone.now()
+        )
 
 
 class SubjectAverageViewSet(viewsets.ModelViewSet):

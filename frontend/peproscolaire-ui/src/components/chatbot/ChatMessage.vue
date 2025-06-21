@@ -15,7 +15,7 @@
 
         <!-- Actions système -->
         <div v-else-if="message.message_type === 'action'" class="message-action">
-          <div class="flex items-center gap-2 text-neutral-600">
+          <div class="flex items-center gap-2 text-gray-600">
             <InformationCircleIcon class="h-4 w-4" />
             <span class="text-sm italic">{{ message.content }}</span>
           </div>
@@ -24,7 +24,7 @@
         <!-- Pièce jointe -->
         <div v-else-if="message.message_type === 'attachment'" class="message-attachment">
           <div class="attachment-preview">
-            <DocumentIcon class="h-8 w-8 text-neutral-500" />
+            <DocumentIcon class="h-8 w-8 text-gray-500" />
             <div class="attachment-info">
               <p class="attachment-name">{{ getAttachmentName() }}</p>
               <p class="attachment-size">{{ getAttachmentSize() }}</p>
@@ -34,7 +34,7 @@
 
         <!-- Métadonnées du message -->
         <div v-if="showMetadata" class="message-metadata">
-          <div class="flex items-center gap-2 text-xs text-neutral-500">
+          <div class="flex items-center gap-2 text-xs text-gray-500">
             <span>{{ formatTime(message.timestamp) }}</span>
             
             <!-- Intention détectée -->
@@ -61,7 +61,7 @@
 
       <!-- Avatar utilisateur -->
       <div v-if="isUser" class="message-avatar user-avatar">
-        <UserIcon class="h-4 w-4 text-neutral-600" />
+        <UserIcon class="h-4 w-4 text-gray-600" />
       </div>
     </div>
 
@@ -77,7 +77,7 @@
       
       <button
         @click="likeMessage"
-        :class="{ 'text-success-600': isLiked }"
+        :class="{ 'text-green-600': isLiked }"
         class="message-action-btn"
         title="Utile"
       >
@@ -86,7 +86,7 @@
       
       <button
         @click="dislikeMessage"
-        :class="{ 'text-danger-600': isDisliked }"
+        :class="{ 'text-red-600': isDisliked }"
         class="message-action-btn"
         title="Pas utile"
       >
@@ -162,9 +162,9 @@ const bubbleClasses = computed(() => [
 
 const confidenceClasses = computed(() => {
   const score = props.message.confidence_score || 0
-  if (score >= 0.8) return 'text-success-600'
+  if (score >= 0.8) return 'text-green-600'
   if (score >= 0.6) return 'text-warning-600'
-  return 'text-danger-600'
+  return 'text-red-600'
 })
 
 const formattedContent = computed(() => {
@@ -188,7 +188,7 @@ const formattedContent = computed(() => {
   // Formatage markdown simple
   content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
   content = content.replace(/\*(.*?)\*/g, '<em>$1</em>')
-  content = content.replace(/`(.*?)`/g, '<code class="bg-neutral-100 px-1 py-0.5 rounded text-sm">$1</code>')
+  content = content.replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>')
 
   return content
 })
@@ -270,7 +270,7 @@ const reportMessage = () => {
 }
 
 .user-avatar {
-  @apply bg-neutral-100;
+  @apply bg-gray-100;
 }
 
 .message-bubble {
@@ -283,11 +283,11 @@ const reportMessage = () => {
 }
 
 .bubble-bot {
-  @apply bg-neutral-100 text-neutral-900;
+  @apply bg-gray-100 text-gray-900;
 }
 
 .bubble-system {
-  @apply bg-neutral-50 border border-neutral-200 text-neutral-600 italic;
+  @apply bg-gray-50 border border-gray-200 text-gray-600 italic;
 }
 
 .message-text {
@@ -303,7 +303,7 @@ const reportMessage = () => {
 }
 
 .message-text :deep(code) {
-  @apply bg-neutral-200 text-neutral-800;
+  @apply bg-gray-200 text-gray-800;
 }
 
 .bubble-user .message-text :deep(code) {
@@ -319,7 +319,7 @@ const reportMessage = () => {
 }
 
 .attachment-preview {
-  @apply flex items-center gap-3 p-3 bg-white rounded-lg border border-neutral-200;
+  @apply flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200;
 }
 
 .attachment-info {
@@ -327,15 +327,15 @@ const reportMessage = () => {
 }
 
 .attachment-name {
-  @apply font-medium text-neutral-900 truncate;
+  @apply font-medium text-gray-900 truncate;
 }
 
 .attachment-size {
-  @apply text-sm text-neutral-500;
+  @apply text-sm text-gray-500;
 }
 
 .message-metadata {
-  @apply mt-1 pt-1 border-t border-neutral-200;
+  @apply mt-1 pt-1 border-t border-gray-200;
 }
 
 .bubble-user .message-metadata {
@@ -351,11 +351,11 @@ const reportMessage = () => {
 }
 
 .response-time {
-  @apply text-neutral-400;
+  @apply text-gray-400;
 }
 
 .message-actions {
-  @apply absolute -bottom-6 left-8 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-lg border border-neutral-200 px-2 py-1;
+  @apply absolute -bottom-6 left-8 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-lg border border-gray-200 px-2 py-1;
 }
 
 .message-user + .message-actions {
@@ -363,7 +363,7 @@ const reportMessage = () => {
 }
 
 .message-action-btn {
-  @apply w-6 h-6 rounded flex items-center justify-center text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 transition-colors focus:outline-none focus:ring-2 focus:ring-ai-500;
+  @apply w-6 h-6 rounded flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-ai-500;
 }
 
 /* Animations */

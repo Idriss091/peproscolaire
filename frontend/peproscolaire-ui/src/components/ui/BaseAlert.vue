@@ -140,50 +140,50 @@ const iconComponent = computed(() => {
 
 const iconClasses = computed(() => {
   const classes = {
-    success: 'text-success-600',
+    success: 'text-green-600',
     warning: 'text-warning-600',
-    danger: 'text-danger-600',
+    danger: 'text-red-600',
     info: 'text-info-600',
     ai: 'text-ai-600',
-    neutral: 'text-neutral-600'
+    neutral: 'text-gray-600'
   }
-  return classes[props.variant] || 'text-neutral-600'
+  return classes[props.variant] || 'text-gray-600'
 })
 
 const titleClasses = computed(() => {
   const classes = {
-    success: 'text-success-800',
+    success: 'text-green-800',
     warning: 'text-warning-800',
-    danger: 'text-danger-800',
+    danger: 'text-red-800',
     info: 'text-info-800',
     ai: 'text-ai-800',
-    neutral: 'text-neutral-800'
+    neutral: 'text-gray-800'
   }
-  return `font-semibold ${classes[props.variant] || 'text-neutral-800'}`
+  return `font-semibold ${classes[props.variant] || 'text-gray-800'}`
 })
 
 const messageClasses = computed(() => {
   const classes = {
-    success: 'text-success-700',
+    success: 'text-green-700',
     warning: 'text-warning-700',
-    danger: 'text-danger-700',
+    danger: 'text-red-700',
     info: 'text-info-700',
     ai: 'text-ai-700',
-    neutral: 'text-neutral-700'
+    neutral: 'text-gray-700'
   }
-  return `text-sm ${classes[props.variant] || 'text-neutral-700'}`
+  return `text-sm ${classes[props.variant] || 'text-gray-700'}`
 })
 
 const closeButtonClasses = computed(() => {
   const classes = {
-    success: 'text-success-600 hover:text-success-800',
+    success: 'text-green-600 hover:text-green-800',
     warning: 'text-warning-600 hover:text-warning-800',
-    danger: 'text-danger-600 hover:text-danger-800',
+    danger: 'text-red-600 hover:text-red-800',
     info: 'text-info-600 hover:text-info-800',
     ai: 'text-ai-600 hover:text-ai-800',
-    neutral: 'text-neutral-600 hover:text-neutral-800'
+    neutral: 'text-gray-600 hover:text-gray-800'
   }
-  return `focus-ring rounded-md p-1 transition-colors ${classes[props.variant] || 'text-neutral-600 hover:text-neutral-800'}`
+  return `focus-ring rounded-md p-1 transition-colors ${classes[props.variant] || 'text-gray-600 hover:text-gray-800'}`
 })
 
 // Methods
@@ -217,7 +217,7 @@ const dismiss = () => {
 
 /* Variantes */
 .alert-success {
-  @apply bg-success-50 border-success-200;
+  @apply bg-green-50 border-success-200;
 }
 
 .alert-warning {
@@ -225,7 +225,7 @@ const dismiss = () => {
 }
 
 .alert-danger {
-  @apply bg-danger-50 border-danger-200;
+  @apply bg-red-50 border-danger-200;
 }
 
 .alert-info {
@@ -237,7 +237,7 @@ const dismiss = () => {
 }
 
 .alert-neutral {
-  @apply bg-neutral-50 border-neutral-200;
+  @apply bg-gray-50 border-gray-200;
 }
 
 .alert-title {

@@ -1,154 +1,62 @@
 # 🚀 Guide d'Installation Complet - PeproScolaire
 
-Ce guide vous accompagne pas à pas pour installer et tester **PeproScolaire**, le système de gestion scolaire intelligent avec modules IA.
+Ce guide vous accompagne pas à pas pour installer et configurer **PeproScolaire**, la solution moderne de gestion scolaire avec interface Vue.js et backend Django.
 
-## 📋 Prérequis
+## 📋 Prérequis Système
 
-### Méthode 1 : Installation avec Docker (Recommandée ⭐)
-- **Docker** : Version 20.0+ ([Installation Docker](https://docs.docker.com/get-docker/))
-- **Docker Compose** : Version 2.0+ (inclus avec Docker Desktop)
-- **Git** : Pour cloner le repository
-- **4 GB RAM minimum** pour faire tourner tous les services
-
-### Méthode 2 : Installation manuelle (Développement)
+### Installation Recommandée (Développement)
 - **Python** : Version 3.11+
 - **Node.js** : Version 18+ avec npm
-- **PostgreSQL** : Version 14+
-- **Redis** : Version 6+ (optionnel mais recommandé)
+- **Git** : Pour cloner le repository
+- **4 GB RAM minimum** pour un fonctionnement optimal
+- **10 GB d'espace disque** pour les dépendances
 
-## 🐳 Installation avec Docker (Méthode rapide)
+### Système d'Exploitation Supportés
+- **Linux** : Ubuntu 20.04+, Debian 11+, CentOS 8+
+- **macOS** : macOS 11+ (Big Sur)
+- **Windows** : Windows 10+ avec WSL2 recommandé
 
-### Étape 1 : Cloner le projet
+## 💻 Installation Pas à Pas
 
-```bash
-# Cloner le repository
-git clone https://github.com/your-username/peproscolaire.git
-cd peproscolaire
-```
-
-### Étape 2 : Configuration de l'environnement
-
-```bash
-# Copier le fichier d'environnement
-cp .env.example .env
-
-# Modifier si nécessaire (optionnel pour la démo)
-nano .env
-```
-
-Contenu du fichier `.env` par défaut :
-```env
-# Base de données
-DATABASE_URL=postgresql://pepro_user:pepro_password@db:5432/peproscolaire
-
-# Django
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Redis
-REDIS_URL=redis://redis:6379/0
-
-# IA et APIs externes
-OPENAI_API_KEY=your-openai-key-here
-HUGGINGFACE_API_KEY=your-hf-key-here
-```
-
-### Étape 3 : Lancement des services
-
-```bash
-# Construire et lancer tous les services
-docker-compose up --build -d
-
-# Vérifier que tous les services sont démarrés
-docker-compose ps
-```
-
-Vous devriez voir :
-```
-NAME                COMMAND             STATUS
-pepro_frontend      npm run dev         Up
-pepro_backend       python manage.py    Up  
-pepro_db            postgres           Up
-pepro_redis         redis-server       Up
-pepro_nginx         nginx              Up
-```
-
-### Étape 4 : Initialisation de la base de données
-
-```bash
-# Créer les tables de la base de données
-docker-compose exec backend python manage.py migrate
-
-# Créer un superutilisateur admin
-docker-compose exec backend python manage.py createsuperuser
-
-# Charger les données de démonstration
-docker-compose exec backend python manage.py loaddata demo_data.json
-
-# Entraîner les modèles IA avec les données de demo
-docker-compose exec backend python manage.py train_ai_models
-```
-
-### Étape 5 : Accéder à l'application
-
-L'application est maintenant disponible sur :
-
-- **🏠 Application principale** : http://localhost:3000
-- **🔧 Interface d'administration** : http://localhost:3000/admin
-- **📚 API Documentation** : http://localhost:3000/api/docs
-- **📊 Métriques (optionnel)** : http://localhost:3000/metrics
-
-## 💻 Installation manuelle (Développement)
-
-### Étape 1 : Préparer l'environnement
+### Étape 1 : Cloner le Projet
 
 ```bash
 # Cloner le repository
 git clone https://github.com/your-username/peproscolaire.git
 cd peproscolaire
-
-# Créer la base de données PostgreSQL
-sudo -u postgres createuser pepro_user
-sudo -u postgres createdb peproscolaire -O pepro_user
-sudo -u postgres psql -c "ALTER USER pepro_user WITH PASSWORD 'pepro_password';"
 ```
 
-### Étape 2 : Configuration du Backend Django
+### Étape 2 : Configuration Backend Django
 
 ```bash
 cd backend
 
 # Créer un environnement virtuel Python
 python3.11 -m venv venv
+
+# Activer l'environnement virtuel
 source venv/bin/activate  # Linux/Mac
 # ou venv\Scripts\activate  # Windows
+
+# Mettre à jour pip
+pip install --upgrade pip
 
 # Installer les dépendances Python
 pip install -r requirements.txt
 
-# Configuration de l'environnement
-cp .env.example .env
-# Modifier .env avec vos paramètres locaux
+# Configurer la base de données
+DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py migrate
 
-# Initialiser la base de données
-python manage.py migrate
-python manage.py collectstatic --noinput
-
-# Créer un superutilisateur
-python manage.py createsuperuser
-
-# Charger les données de démonstration
-python manage.py loaddata demo_data.json
-
-# Entraîner les modèles IA
-python manage.py train_ai_models
+# Créer des données de test (optionnel)
+python create_sample_grades.py
 
 # Lancer le serveur Django
-python manage.py runserver 0.0.0.0:8000
+DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py runserver
 ```
 
-### Étape 3 : Configuration du Frontend Vue.js
+✅ Le backend sera accessible sur **http://127.0.0.1:8000/**
+
+### Étape 3 : Configuration Frontend Vue.js
 
 ```bash
 # Ouvrir un nouveau terminal
@@ -157,186 +65,318 @@ cd frontend/peproscolaire-ui
 # Installer les dépendances Node.js
 npm install
 
-# Copier la configuration
-cp .env.example .env.local
+# Créer le fichier de configuration
+cat > .env.local << EOF
+VITE_API_URL=http://127.0.0.1:8000/api/v1
+VITE_USE_MOCK_API=false
+EOF
 
-# Modifier si nécessaire
-nano .env.local
-```
-
-Contenu de `.env.local` :
-```env
-VITE_API_BASE_URL=http://localhost:8000/api
-VITE_WS_BASE_URL=ws://localhost:8000/ws
-VITE_APP_NAME=PeproScolaire
-```
-
-```bash
 # Lancer le serveur de développement
 npm run dev
 ```
 
-### Étape 4 : Services optionnels
+✅ Le frontend sera accessible sur **http://localhost:5173/**
 
-#### Redis (pour les performances)
+### Étape 4 : Vérification de l'Installation
+
+#### Test Backend
 ```bash
-# Ubuntu/Debian
-sudo apt install redis-server
-sudo systemctl start redis-server
+# Test API REST
+curl http://127.0.0.1:8000/api/v1/auth/
+# Réponse attendue : {"detail": "Authentication credentials were not provided."}
 
-# macOS avec Homebrew
-brew install redis
-brew services start redis
-
-# Windows avec Chocolatey
-choco install redis-64
+# Test Admin Interface
+curl http://127.0.0.1:8000/admin/
+# Doit retourner une page HTML d'administration
 ```
 
-#### Celery (pour les tâches asynchrones)
+#### Test Frontend
 ```bash
-# Dans le dossier backend, nouveau terminal
-source venv/bin/activate
-celery -A config worker --loglevel=info
+# Vérifier le build
+cd frontend/peproscolaire-ui
+npm run build
 
-# Worker pour les tâches IA (nouveau terminal)
-celery -A config worker --loglevel=info --queue=ai_tasks
+# Vérifier les tests
+npm run test
 ```
 
-## 🎮 Premiers pas après l'installation
-
-### 1. Connexion à l'interface d'administration
-
-1. Aller sur http://localhost:3000/admin
-2. Se connecter avec le superutilisateur créé
-3. Explorer les modèles de données
-4. Vérifier que les données de démo sont bien chargées
-
-### 2. Test des comptes de démonstration
-
-| Rôle | Email | Mot de passe | Utilisation |
-|------|-------|--------------|-------------|
-| **Administrateur** | `admin@college-demo.fr` | `demo123` | Gestion complète de l'établissement |
-| **Professeur Principal** | `prof.martin@college-demo.fr` | `demo123` | Notes, emplois du temps, appréciations IA |
-| **Professeur** | `prof.durand@college-demo.fr` | `demo123` | Matière spécifique, évaluations |
-| **Élève** | `eleve.dupont@college-demo.fr` | `demo123` | Consultation notes, devoirs, chatbot |
-| **Parent** | `parent.dupont@college-demo.fr` | `demo123` | Suivi scolarité enfant |
-
-### 3. Explorer les modules IA
-
-#### Module de détection de décrochage
-1. Se connecter en tant que **Professeur** ou **Admin**
-2. Aller dans **Menu IA** → **Détection de risque**
-3. Explorer le dashboard avec les métriques ML
-4. Consulter la liste des élèves à risque
-5. Ouvrir un plan d'intervention
-
-#### Générateur d'appréciations IA
-1. Aller dans **Menu IA** → **Appréciations IA**
-2. Sélectionner une classe (ex: 3ème A)
-3. Choisir le type d'appréciation (Bulletin, Progrès, etc.)
-4. Configurer les paramètres de génération
-5. Prévisualiser et valider
-
-#### Chatbot pédagogique
-1. Se connecter en tant qu'**Élève**
-2. Cliquer sur l'icône de chat en bas à droite
-3. Tester les suggestions rapides
-4. Poser des questions sur les notes ou devoirs
-
-### 4. Tester l'interface moderne
-
-- **Navigation responsive** : Tester sur mobile/tablette
-- **Recherche globale** : Utiliser `Ctrl/Cmd + K`
-- **Notifications** : Cliquer sur l'icône cloche
-- **Actions rapides** : Bouton `+` en haut à droite
-- **Thème sombre** : Menu utilisateur → Basculer le thème
-
-## 🔧 Personnalisation et configuration
-
-### Configuration des modules IA
+### Étape 5 : Créer un Superutilisateur (Optionnel)
 
 ```bash
-# Modifier les paramètres IA dans le backend
 cd backend
-nano apps/ai_modules/settings.py
+source venv/bin/activate
+DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py createsuperuser
 ```
 
-### Ajout de données personnalisées
+## 🎮 Premiers Pas avec l'Application
+
+### 👤 Comptes de Démonstration Pré-configurés
+
+Le système inclut des comptes de test dans `demo.db` :
+
+| **Rôle** | **Username** | **Email** | **Mot de passe** | **Accès** |
+|-----------|--------------|-----------|-------------------|-----------|
+| **Élève** | `eleve1` | `pierre.durand@test.com` | `password123` | `/student/*` |
+| **Enseignant** | `prof.math` | `jean.martin@test.com` | `password123` | `/teacher/*` |
+| **Parent** | `parent` | `parent@test.com` | `password123` | `/parent/*` |
+| **Admin** | `admin` | `admin@test.com` | `password123` | `/admin/*` |
+
+### 🎯 Parcours de Test Recommandé
+
+1. **Accéder à l'application** → http://localhost:5173/
+2. **Page de connexion** → Utiliser un compte de test
+3. **Explorer le dashboard** personnalisé par rôle
+4. **Tester les modules** :
+   - 📊 **Tableau de bord** : Statistiques et actions rapides
+   - 📝 **Devoirs** : Consultation/création selon le rôle
+   - ⏰ **Emploi du temps** : Vue hebdomadaire
+   - 📈 **Notes** : Système d'évaluation
+   - 💬 **Messagerie** : Communication interne
+   - 👥 **Vie scolaire** : Présences/absences
+
+### 🌐 Structure des Routes
+
+- **Élèves** : `/student/dashboard`, `/student/homework`, `/student/grades`
+- **Enseignants** : `/teacher/dashboard`, `/teacher/homework`, `/teacher/grades`
+- **Parents** : `/parent/dashboard`, `/parent/children`, `/parent/grades`
+- **Administrateurs** : `/admin/dashboard`, `/admin/users`, `/admin/statistics`
+
+## ⚙️ Configuration Avancée
+
+### Variables d'Environnement Backend
+
+Créer `backend/.env` :
+```bash
+DJANGO_SETTINGS_MODULE=config.settings_minimal
+DEBUG=True
+SECRET_KEY=django-insecure-demo-key-for-development-only
+ALLOWED_HOSTS=127.0.0.1,localhost
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+```
+
+### Variables d'Environnement Frontend
+
+Fichier `frontend/peproscolaire-ui/.env.local` :
+```bash
+# URL de l'API backend
+VITE_API_URL=http://127.0.0.1:8000/api/v1
+
+# Mode de fonctionnement
+VITE_USE_MOCK_API=false  # false = API Django, true = données mockées
+
+# Configuration optionnelle
+VITE_APP_TITLE=PeproScolaire
+VITE_APP_VERSION=1.0.0
+```
+
+### Modes de Fonctionnement
+
+#### Mode API Real (Recommandé)
+```bash
+VITE_USE_MOCK_API=false
+```
+- Communication avec l'API Django
+- Données persistantes en base
+- Test complet frontend/backend
+
+#### Mode Mock (Développement Frontend)
+```bash
+VITE_USE_MOCK_API=true
+```
+- Données simulées côté frontend
+- Pas besoin du backend Django
+- Idéal pour développement UI pur
+
+## 🔧 Commandes Utiles
+
+### Backend Django
+```bash
+cd backend
+source venv/bin/activate
+
+# Gestion de la base de données
+python manage.py makemigrations      # Créer nouvelles migrations
+python manage.py migrate             # Appliquer migrations
+python manage.py showmigrations      # Voir statut migrations
+
+# Gestion des utilisateurs
+python manage.py createsuperuser     # Créer superutilisateur
+python manage.py shell               # Shell Django interactif
+
+# Gestion des données
+python create_sample_grades.py       # Créer données de test
+python manage.py dumpdata > backup.json  # Sauvegarde
+python manage.py loaddata backup.json    # Restauration
+
+# Tests et validation
+python manage.py test                 # Lancer tests Django
+python manage.py check               # Vérifier configuration
+```
+
+### Frontend Vue.js
+```bash
+cd frontend/peproscolaire-ui
+
+# Développement
+npm run dev                    # Serveur développement
+npm run dev -- --host         # Accessible depuis réseau local
+
+# Tests et qualité
+npm run test                   # Tests unitaires Vitest
+npm run test:coverage          # Coverage des tests
+npm run lint                   # Linting ESLint
+npm run type-check             # Vérification TypeScript
+
+# Build et déploiement
+npm run build                  # Build pour production
+npm run preview                # Prévisualiser le build
+npm run build-analyze          # Analyser la taille du bundle
+```
+
+## 🐛 Résolution des Problèmes Courants
+
+### ❌ Backend Django ne démarre pas
+
+**Erreur** : `ModuleNotFoundError` ou `ImproperlyConfigured`
 
 ```bash
-# Utiliser l'interface admin Django
-# Ou créer des fixtures personnalisées
-python manage.py dumpdata auth.User > my_users.json
-python manage.py loaddata my_users.json
+# Vérifier l'environnement virtuel
+cd backend
+source venv/bin/activate
+which python  # Doit pointer vers venv/bin/python
+
+# Réinstaller les dépendances
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Vérifier la configuration Django
+python manage.py check
 ```
 
-### Configuration de l'établissement
+### ❌ Frontend Vue.js ne démarre pas
 
-1. Interface admin → **Schools** → **Establishments**
-2. Modifier les informations de l'établissement
-3. Ajouter logo, couleurs, configuration
+**Erreur** : `ENOENT` ou `Module not found`
 
-## 🐛 Résolution des problèmes courants
-
-### Problème : Les services Docker ne démarrent pas
 ```bash
-# Vérifier les logs
-docker-compose logs
+# Nettoyer le cache Node.js
+cd frontend/peproscolaire-ui
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
 
-# Relancer les services
-docker-compose down
-docker-compose up --build
+# Vérifier la version Node.js
+node --version  # Doit être 18+
+npm --version   # Doit être 8+
 ```
 
-### Problème : Erreur de base de données
+### ❌ Erreur 404 sur l'API
+
+**Erreur** : Frontend ne peut pas contacter le backend
+
 ```bash
-# Réinitialiser la base de données
-docker-compose exec backend python manage.py flush
-docker-compose exec backend python manage.py migrate
-docker-compose exec backend python manage.py loaddata demo_data.json
+# Vérifier que le backend fonctionne
+curl http://127.0.0.1:8000/api/v1/
+# Doit retourner du JSON
+
+# Vérifier la configuration frontend
+cat frontend/peproscolaire-ui/.env.local
+# VITE_API_URL doit pointer vers le bon port
+
+# Vérifier CORS
+grep CORS_ALLOWED_ORIGINS backend/config/settings_minimal.py
 ```
 
-### Problème : Les modules IA ne fonctionnent pas
+### ❌ Erreur de connexion utilisateur
+
+**Erreur** : Identifiants invalides
+
 ```bash
-# Vérifier les clés API dans .env
-# Réentraîner les modèles
-docker-compose exec backend python manage.py train_ai_models
+# Lister les utilisateurs existants
+cd backend
+source venv/bin/activate
+python manage.py shell
+>>> from apps.authentication.models import User
+>>> for u in User.objects.all(): print(f"{u.username} - {u.email}")
 
-# Vérifier les logs Celery
-docker-compose logs worker
+# Créer un nouvel utilisateur de test
+python create_sample_grades.py
 ```
 
-### Problème : Interface frontend inaccessible
+### ❌ Erreur de permissions CORS
+
+**Erreur** : `Access-Control-Allow-Origin` en console browser
+
 ```bash
-# Vérifier que le serveur Node.js fonctionne
-docker-compose logs frontend
-
-# Reconstruire les assets
-docker-compose exec frontend npm run build
+# Vérifier la configuration CORS dans backend/config/settings_minimal.py
+# Doit contenir :
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 ```
 
-## 🚀 Mise en production
+## 🧪 Tests et Validation
 
-Pour déployer PeproScolaire en production :
+### Tests Backend
+```bash
+cd backend
+source venv/bin/activate
+DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py test
+```
 
-1. **Modifier les variables d'environnement** (DEBUG=False, clés sécurisées)
-2. **Configurer un nom de domaine** et certificats SSL
-3. **Utiliser une base de données externe** (RDS, etc.)
-4. **Configurer le stockage de fichiers** (S3, etc.)
-5. **Mettre en place la surveillance** (logs, métriques)
+### Tests Frontend
+```bash
+cd frontend/peproscolaire-ui
+npm run test              # Tests unitaires
+npm run test:coverage     # Rapport de couverture
+npm run lint              # Vérification syntaxe
+npm run type-check        # Vérification types TypeScript
+```
 
-Consultez le [Guide de déploiement production](DEPLOYMENT.md) pour plus de détails.
+### Validation Manuelle
+1. **Authentification** : Tester connexion/déconnexion
+2. **Navigation** : Vérifier toutes les routes
+3. **API** : Tester CRUD sur chaque module
+4. **Responsive** : Tester sur mobile/desktop
+5. **Performance** : Vérifier temps de chargement
 
-## 📞 Support et communauté
+## 🚀 Mise en Production
+
+Pour déployer PeproScolaire en production, consultez :
+
+1. **[Guide de déploiement](DEPLOYMENT.md)** - Configuration serveur
+2. **[Guide Docker](DOCKER.md)** - Conteneurisation
+3. **[Guide sécurité](SECURITY.md)** - Bonnes pratiques
+
+### Points Clés Production
+- Utiliser PostgreSQL au lieu de SQLite
+- Configurer HTTPS avec certificats SSL
+- Utiliser Nginx + Gunicorn
+- Mettre en place la surveillance (logs, métriques)
+- Configurer les sauvegardes automatiques
+
+## 📚 Ressources Supplémentaires
+
+- **[README principal](README.md)** - Vue d'ensemble du projet
+- **[Guide de démonstration](DEMO-GUIDE.md)** - Présentation fonctionnalités
+- **[Tests et déploiement](TESTING.md)** - Procédures de test
+- **[Résolution des problèmes](RESOLUTION-PROBLEMES.md)** - FAQ complète
+
+## 📞 Support et Communauté
 
 - **Issues GitHub** : Signaler des bugs ou demander des fonctionnalités
 - **Documentation** : Wiki complet avec exemples
-- **Communauté** : Discord/Slack pour les discussions
+- **Discussions** : Forum de la communauté
 
 ---
 
 **Félicitations ! 🎉** 
 
-Vous avez maintenant PeproScolaire fonctionnel avec tous les modules IA. 
+Vous avez maintenant PeproScolaire entièrement fonctionnel avec :
+- ✅ Backend Django 5.0 opérationnel
+- ✅ Frontend Vue.js 3 moderne et réactif
+- ✅ Authentification JWT multi-rôles
+- ✅ Interface responsive et intuitive
+- ✅ Données de démonstration prêtes à l'emploi
 
-Explorez les fonctionnalités, testez les différents rôles utilisateur et découvrez comment l'IA peut transformer la gestion scolaire !
+**Prochaines étapes** : Explorez les différents rôles utilisateur, testez les modules, et découvrez l'interface moderne de gestion scolaire !

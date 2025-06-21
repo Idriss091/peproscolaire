@@ -241,6 +241,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { 
   PlusIcon,
   DocumentArrowDownIcon,
@@ -262,6 +263,9 @@ import type { Schedule } from '@/types'
 const authStore = useAuthStore()
 const timetableStore = useTimetableStore()
 
+// Utiliser storeToRefs pour la réactivité
+const { schedules, timeSlots: storeTimeSlots } = storeToRefs(timetableStore)
+
 // État local
 const currentWeek = ref('')
 const viewMode = ref('teacher')
@@ -269,6 +273,7 @@ const selectedEntity = ref('')
 const entities = ref<any[]>([])
 const selectedCourse = ref<Schedule | null>(null)
 const showCreateModal = ref(false)
+const isLoading = ref(false)
 
 // Jours de la semaine
 const weekDays = [
@@ -280,30 +285,36 @@ const weekDays = [
 ]
 
 // Computed
-const loading = computed(() => timetableStore.loading.schedules || timetableStore.loading.timeSlots)
-const schedule = computed(() => timetableStore.filteredSchedules)
-const timeSlots = computed(() => timetableStore.timeSlots)
+const loading = computed(() => isLoading.value)
+const schedule = computed(() => schedules.value || [])
+const timeSlots = computed(() => storeTimeSlots.value || [])
 
 // Méthodes
 const loadSchedule = async () => {
-  const params: any = {}
+  isLoading.value = true
   
-  if (currentWeek.value) {
-    params.week = currentWeek.value
+  try {
+    const params: any = {}
+    
+    if (currentWeek.value) {
+      params.week = currentWeek.value
+    }
+    
+    if (viewMode.value === 'class' && selectedEntity.value) {
+      params.class_group = selectedEntity.value
+    } else if (viewMode.value === 'room' && selectedEntity.value) {
+      params.room = selectedEntity.value
+    } else if (viewMode.value === 'teacher' && authStore.user?.id) {
+      params.teacher = authStore.user.id
+    }
+    
+    await Promise.all([
+      timetableStore.fetchSchedules(params),
+      timetableStore.fetchTimeSlots()
+    ])
+  } finally {
+    isLoading.value = false
   }
-  
-  if (viewMode.value === 'class' && selectedEntity.value) {
-    params.class_group = selectedEntity.value
-  } else if (viewMode.value === 'room' && selectedEntity.value) {
-    params.room = selectedEntity.value
-  } else if (viewMode.value === 'teacher' && authStore.user?.id) {
-    params.teacher = authStore.user.id
-  }
-  
-  await Promise.all([
-    timetableStore.fetchSchedules(params),
-    timetableStore.fetchTimeSlots()
-  ])
 }
 
 const getCoursesForSlot = (slotId: string, dayOfWeek: number) => {
@@ -379,29 +390,22 @@ const goToNextWeek = () => {
 
 // Utilitaires
 const getWeekString = (date: Date) => {
+  // Simplifié : utilisons juste l'année et la semaine de l'année
   const year = date.getFullYear()
-  const week = getWeekNumber(date)
+  const startOfYear = new Date(year, 0, 1)
+  const days = Math.floor((date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000))
+  const week = Math.ceil((days + startOfYear.getDay() + 1) / 7)
   return `${year}-W${week.toString().padStart(2, '0')}`
 }
 
-const getWeekNumber = (date: Date) => {
-  const firstDayOfYear = new Date(date.getFullYear(), 0, 1)
-  const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000
-  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7)
-}
-
 const getDateForDay = (dayOfWeek: number) => {
-  const [year, week] = currentWeek.value.split('-W')
-  const simple = new Date(parseInt(year), 0, 1 + (parseInt(week) - 1) * 7)
-  const dow = simple.getDay()
-  const ISOweekStart = simple
-  if (dow <= 4) {
-    ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1)
-  } else {
-    ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay())
-  }
-  ISOweekStart.setDate(ISOweekStart.getDate() + dayOfWeek - 1)
-  return ISOweekStart
+  // Simplifié : retournons la date d'aujourd'hui + offset
+  const today = new Date()
+  const currentDayOfWeek = today.getDay() || 7 // Lundi = 1, Dimanche = 7
+  const daysToAdd = dayOfWeek - currentDayOfWeek
+  const resultDate = new Date(today)
+  resultDate.setDate(today.getDate() + daysToAdd)
+  return resultDate
 }
 
 const isToday = (dayOfWeek: number) => {

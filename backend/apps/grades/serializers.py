@@ -48,22 +48,63 @@ class GradeSerializer(serializers.ModelSerializer):
         source='student.get_full_name',
         read_only=True
     )
-    normalized_score = serializers.DecimalField(
+    class_name = serializers.CharField(
+        source='evaluation.class_group.__str__',
+        read_only=True
+    )
+    subject_name = serializers.CharField(
+        source='evaluation.subject.name',
+        read_only=True
+    )
+    subject_id = serializers.IntegerField(
+        source='evaluation.subject.id',
+        read_only=True
+    )
+    evaluation_name = serializers.CharField(
+        source='evaluation.title',
+        read_only=True
+    )
+    # Map score to value for frontend compatibility
+    value = serializers.DecimalField(
+        source='score',
         max_digits=5,
         decimal_places=2,
+        allow_null=True,
+        required=False
+    )
+    max_value = serializers.DecimalField(
+        source='evaluation.max_score',
+        max_digits=5,
+        decimal_places=2,
+        read_only=True
+    )
+    coefficient = serializers.DecimalField(
+        source='evaluation.coefficient',
+        max_digits=3,
+        decimal_places=1,
+        read_only=True
+    )
+    date = serializers.DateField(
+        source='evaluation.date',
+        read_only=True
+    )
+    period = serializers.CharField(
+        source='evaluation.grading_period.name',
         read_only=True
     )
     
     class Meta:
         model = Grade
         fields = [
-            'id', 'evaluation', 'student', 'student_name',
-            'score', 'normalized_score', 'is_absent', 'is_excused',
-            'is_cheating', 'comment', 'graded_by', 'graded_at'
+            'id', 'evaluation', 'student', 'student_name', 'class_name',
+            'subject_name', 'subject_id', 'evaluation_name',
+            'value', 'max_value', 'coefficient', 'date', 'period',
+            'is_absent', 'is_excused', 'is_cheating', 'comment', 
+            'graded_by', 'graded_at'
         ]
         read_only_fields = ['id', 'graded_by', 'graded_at']
     
-    def validate_score(self, value):
+    def validate_value(self, value):
         """Valider que la note ne dépasse pas le maximum"""
         if value and 'evaluation' in self.initial_data:
             evaluation = Evaluation.objects.get(id=self.initial_data['evaluation'])

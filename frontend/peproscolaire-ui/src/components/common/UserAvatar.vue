@@ -87,7 +87,7 @@ const statusClasses = computed(() => [
 
 <style scoped>
 .user-avatar {
-  @apply relative inline-flex items-center justify-center bg-neutral-200 text-neutral-600 font-semibold overflow-hidden;
+  @apply relative inline-flex items-center justify-center bg-gray-200 text-gray-600 font-semibold overflow-hidden;
 }
 
 .avatar-circle {
@@ -144,20 +144,20 @@ const statusClasses = computed(() => [
 }
 
 .status-online {
-  @apply bg-success-500;
+  @apply bg-green-500;
 }
 
 .status-offline {
-  @apply bg-neutral-400;
+  @apply bg-gray-400;
 }
 
 /* Couleurs de rôle */
 .user-avatar[data-role="admin"] {
-  @apply bg-danger-100 text-danger-700;
+  @apply bg-red-100 text-red-700;
 }
 
 .user-avatar[data-role="teacher"] {
-  @apply bg-primary-100 text-primary-700;
+  @apply bg-primary-100 text-blue-700;
 }
 
 .user-avatar[data-role="student"] {

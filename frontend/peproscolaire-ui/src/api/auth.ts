@@ -53,40 +53,54 @@ const MOCK_USERS: Record<string, User> = {
   }
 }
 
+// Mapping des usernames vers les emails Django
+const USERNAME_TO_EMAIL_MAP: Record<string, string> = {
+  'demo': 'demo@teacher.com',
+  'admin': 'demo@admin.com', 
+  'eleve': 'demo@student.com',
+  'parent': 'demo@parent.com'
+}
+
 export const authApi = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     // Vérifier si on utilise l'API mockée ou la vraie API
     const useMockApi = import.meta.env.VITE_USE_MOCK_API === 'true'
     
     if (useMockApi) {
-      // Mode mockée (ancien comportement)
+      // Mode mockée
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const user = MOCK_USERS[credentials.username] || MOCK_USERS['demo']
       
       if (credentials.password !== 'demo123' && credentials.password !== 'password' && credentials.password !== 'demo') {
         throw new Error('Identifiants incorrects')
       }
       
-      // Adapter le type d'utilisateur selon la sélection
-      if (credentials.user_type && credentials.user_type !== user.user_type) {
-        user.user_type = credentials.user_type
-        user.first_name = user.user_type === 'student' ? 'Marie' :
-                          user.user_type === 'parent' ? 'Pierre' :
-                          user.user_type === 'teacher' ? 'Jean' : 'Admin'
-        user.last_name = user.user_type === 'student' ? 'Élève' :
-                         user.user_type === 'parent' ? 'Parent' :
-                         user.user_type === 'teacher' ? 'Professeur' : 'Principal'
+      // Sélectionner l'utilisateur correct selon le username
+      let selectedUser = MOCK_USERS[credentials.username]
+      
+      if (!selectedUser) {
+        // Fallback vers demo si username non trouvé
+        selectedUser = { ...MOCK_USERS['demo'] }
+      } else {
+        // Copier l'utilisateur pour éviter les mutations
+        selectedUser = { ...selectedUser }
       }
+      
+      // Stocker l'utilisateur connecté dans localStorage
+      localStorage.setItem('currentUser', JSON.stringify(selectedUser))
       
       return {
         access: 'mock-jwt-token-access',
         refresh: 'mock-jwt-token-refresh',
-        user
+        user: selectedUser
       }
     } else {
-      // Mode API réelle
-      const response = await apiClient.post<AuthResponse>('/auth/login/', credentials)
+      // Mode API réelle - mapper le username vers l'email Django
+      const email = USERNAME_TO_EMAIL_MAP[credentials.username] || credentials.username
+      
+      const response = await apiClient.post<AuthResponse>('/auth/login/', {
+        username: email,
+        password: credentials.password
+      })
       return response.data
     }
   },
@@ -101,6 +115,18 @@ export const authApi = {
     
     if (useMockApi) {
       await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Récupérer l'utilisateur stocké lors du login
+      const storedUser = localStorage.getItem('currentUser')
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser)
+        } catch (error) {
+          console.error('Error parsing stored user:', error)
+        }
+      }
+      
+      // Fallback vers demo si aucun utilisateur stocké
       return MOCK_USERS['demo']
     } else {
       const response = await apiClient.get<User>('/auth/me/')

@@ -46,7 +46,7 @@ const spinnerClasses = computed(() => {
   }
 
   const colorClasses = {
-    primary: 'text-primary-600',
+    primary: 'text-blue-600',
     white: 'text-white',
     gray: 'text-gray-600'
   }

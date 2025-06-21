@@ -36,19 +36,19 @@ const baseClasses = 'inline-flex items-center font-medium rounded-full'
 const variantClasses = computed(() => {
   switch (props.variant) {
     case 'primary':
-      return 'bg-primary-100 text-primary-800'
+      return 'bg-primary-100 text-blue-800'
     case 'secondary':
       return 'bg-gray-100 text-gray-800'
     case 'success':
-      return 'bg-success-100 text-success-800'
+      return 'bg-green-100 text-green-800'
     case 'warning':
       return 'bg-warning-100 text-warning-800'
     case 'danger':
-      return 'bg-danger-100 text-danger-800'
+      return 'bg-red-100 text-red-800'
     case 'info':
       return 'bg-blue-100 text-blue-800'
     default:
-      return 'bg-primary-100 text-primary-800'
+      return 'bg-primary-100 text-blue-800'
   }
 })
 

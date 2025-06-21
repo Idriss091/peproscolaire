@@ -6,7 +6,15 @@ from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from django.contrib.postgres.fields import ArrayField
+# ArrayField compatibility for SQLite
+try:
+    from django.contrib.postgres.fields import ArrayField
+except ImportError:
+    # Fallback for SQLite
+    class ArrayField(models.JSONField):
+        def __init__(self, base_field, **kwargs):
+            kwargs.setdefault('default', list)
+            super().__init__(**kwargs)
 from apps.core.models import BaseModel
 from apps.authentication.models import User
 from apps.schools.models import Class, School
@@ -205,8 +213,7 @@ class MessageRecipient(BaseModel):
     )
     
     # Labels personnalisés
-    labels = ArrayField(
-        models.CharField(max_length=50),
+    labels = models.JSONField(
         default=list,
         blank=True,
         verbose_name=_("Étiquettes")
@@ -551,16 +558,14 @@ class EmailForwarding(BaseModel):
         verbose_name=_("Transférer tous les messages")
     )
     
-    forward_priority = ArrayField(
-        models.CharField(max_length=10),
+    forward_priority = models.JSONField(
         default=list,
         blank=True,
         verbose_name=_("Priorités à transférer"),
         help_text=_("Liste des priorités de messages à transférer")
     )
     
-    forward_from_types = ArrayField(
-        models.CharField(max_length=20),
+    forward_from_types = models.JSONField(
         default=list,
         blank=True,
         verbose_name=_("Types d'expéditeurs"),

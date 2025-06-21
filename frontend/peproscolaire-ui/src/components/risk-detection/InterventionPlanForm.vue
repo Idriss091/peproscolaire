@@ -20,7 +20,7 @@
           <select
             v-model="form.priority"
             required
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Choisir une priorité...</option>
             <option value="low">Faible</option>
@@ -38,7 +38,7 @@
         <textarea
           v-model="form.description"
           rows="3"
-          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           placeholder="Décrivez les raisons et objectifs de ce plan d'intervention..."
         />
       </div>
@@ -166,7 +166,7 @@
               />
               <select
                 v-model="objective.priority"
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               >
                 <option value="low">Priorité faible</option>
                 <option value="normal">Priorité normale</option>
@@ -230,7 +230,7 @@
             <textarea
               v-model="action.description"
               rows="2"
-              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               placeholder="Description détaillée de l'action..."
             />
             <div class="grid grid-cols-3 gap-2">
@@ -241,7 +241,7 @@
               />
               <select
                 v-model="action.priority"
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               >
                 <option value="low">Priorité faible</option>
                 <option value="normal">Priorité normale</option>
@@ -249,7 +249,7 @@
               </select>
               <select
                 v-model="action.status"
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               >
                 <option value="pending">En attente</option>
                 <option value="in_progress">En cours</option>
@@ -280,7 +280,7 @@
           </label>
           <select
             v-model="form.responsible_person_id"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Sélectionner un responsable...</option>
             <option
@@ -300,7 +300,7 @@
           <select
             multiple
             v-model="form.participant_ids"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option
               v-for="staff in availableStaff"

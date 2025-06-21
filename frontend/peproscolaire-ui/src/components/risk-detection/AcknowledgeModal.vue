@@ -33,7 +33,7 @@
           v-model="form.actions_taken"
           rows="4"
           required
-          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           placeholder="Décrivez les actions prises pour traiter cette alerte..."
         />
         <p class="mt-1 text-xs text-gray-500">
@@ -51,7 +51,7 @@
             v-for="template in actionTemplates"
             :key="template.id"
             type="button"
-            class="text-left p-3 border border-gray-200 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            class="text-left p-3 border border-gray-200 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             @click="selectTemplate(template)"
           >
             <div class="font-medium text-sm text-gray-900">
@@ -71,7 +71,7 @@
             id="create-intervention"
             v-model="form.create_intervention"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="create-intervention" class="ml-2 block text-sm text-gray-900">
             Créer un plan d'intervention automatiquement
@@ -83,7 +83,7 @@
             id="schedule-followup"
             v-model="form.schedule_followup"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="schedule-followup" class="ml-2 block text-sm text-gray-900">
             Programmer un suivi dans 7 jours
@@ -95,7 +95,7 @@
             id="notify-parents"
             v-model="form.notify_parents"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="notify-parents" class="ml-2 block text-sm text-gray-900">
             Notifier les parents de la résolution

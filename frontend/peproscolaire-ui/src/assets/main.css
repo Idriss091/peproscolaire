@@ -1,65 +1,7 @@
 @import './base.css';
-@import "tailwindcss";
-@import './design-system.css';
-
-/* Définition des couleurs personnalisées pour Tailwind CSS 4.x */
-@theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
-  
-  --color-success-50: #f0fdf4;
-  --color-success-100: #dcfce7;
-  --color-success-200: #bbf7d0;
-  --color-success-300: #86efac;
-  --color-success-400: #4ade80;
-  --color-success-500: #22c55e;
-  --color-success-600: #16a34a;
-  --color-success-700: #15803d;
-  --color-success-800: #166534;
-  --color-success-900: #14532d;
-  --color-success-950: #052e16;
-  
-  --color-warning-50: #fffbeb;
-  --color-warning-100: #fef3c7;
-  --color-warning-200: #fde68a;
-  --color-warning-300: #fcd34d;
-  --color-warning-400: #fbbf24;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
-  --color-warning-700: #b45309;
-  --color-warning-800: #92400e;
-  --color-warning-900: #78350f;
-  --color-warning-950: #451a03;
-  
-  --color-danger-50: #fef2f2;
-  --color-danger-100: #fee2e2;
-  --color-danger-200: #fecaca;
-  --color-danger-300: #fca5a5;
-  --color-danger-400: #f87171;
-  --color-danger-500: #ef4444;
-  --color-danger-600: #dc2626;
-  --color-danger-700: #b91c1c;
-  --color-danger-800: #991b1b;
-  --color-danger-900: #7f1d1d;
-  --color-danger-950: #450a0a;
-}
-
-/* Variables CSS personnalisées pour compatibilité */
-:root {
-  --color-primary: 59 130 246; /* blue-500 */
-  --color-success: 34 197 94; /* green-500 */
-  --color-warning: 245 158 11; /* amber-500 */
-  --color-danger: 239 68 68; /* red-500 */
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 /* Reset App styles */
 #app {
@@ -67,24 +9,129 @@
 }
 
 /* Styles personnalisés pour l'application */
+
+/* Custom button styles - Tailwind v4 compatible */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 200ms ease;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  cursor: pointer;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button sizes */
+.btn-xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+.btn-md {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+.btn-lg {
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.btn-xl {
+  padding: 0.75rem 2rem;
+  font-size: 1.125rem;
+  border-radius: 0.5rem;
+}
+
+/* Button variants */
 .btn-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  background-color: rgb(37, 99, 235);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: rgb(29, 78, 216);
 }
 
 .btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  background-color: rgb(229, 231, 235);
+  color: rgb(31, 41, 55);
+}
+.btn-secondary:hover {
+  background-color: rgb(209, 213, 219);
 }
 
 .btn-success {
-  @apply bg-success-600 hover:bg-success-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  background-color: rgb(22, 163, 74);
+  color: white;
+}
+.btn-success:hover {
+  background-color: rgb(21, 128, 61);
 }
 
 .btn-warning {
-  @apply bg-warning-600 hover:bg-warning-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  background-color: rgb(217, 119, 6);
+  color: white;
+}
+.btn-warning:hover {
+  background-color: rgb(180, 83, 9);
 }
 
 .btn-danger {
-  @apply bg-danger-600 hover:bg-danger-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  background-color: rgb(220, 38, 38);
+  color: white;
+}
+.btn-danger:hover {
+  background-color: rgb(185, 28, 28);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: rgb(209, 213, 219);
+  color: rgb(55, 65, 81);
+}
+.btn-outline:hover {
+  background-color: rgb(249, 250, 251);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: rgb(107, 114, 128);
+}
+.btn-ghost:hover {
+  background-color: rgb(243, 244, 246);
+  color: rgb(55, 65, 81);
+}
+
+.btn-link {
+  background-color: transparent;
+  color: rgb(37, 99, 235);
+  text-decoration: underline;
+}
+.btn-link:hover {
+  color: rgb(29, 78, 216);
 }
 
 .card {
@@ -100,7 +147,7 @@
 }
 
 .form-input {
-  @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500;
+  @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500;
 }
 
 .form-label {
@@ -108,19 +155,19 @@
 }
 
 .badge-success {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800;
 }
 
 .badge-warning {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning-100 text-warning-800;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800;
 }
 
 .badge-danger {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger-100 text-danger-800;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
 }
 
 .badge-primary {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800;
 }
 
 /* Animation pour les transitions */

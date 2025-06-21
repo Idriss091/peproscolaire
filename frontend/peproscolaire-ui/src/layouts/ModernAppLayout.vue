@@ -92,7 +92,7 @@
                   <p class="user-name">{{ userStore.currentUser?.full_name }}</p>
                   <p class="user-role">{{ getUserRole() }}</p>
                 </div>
-                <ChevronUpIcon v-if="!isCollapsed" class="h-4 w-4 text-neutral-400" />
+                <ChevronUpIcon v-if="!isCollapsed" class="h-4 w-4 text-gray-400" />
               </div>
             </template>
 
@@ -502,12 +502,12 @@ onUnmounted(() => {
 
 <style scoped>
 .app-layout {
-  @apply flex h-screen bg-neutral-50 overflow-hidden;
+  @apply flex h-screen bg-gray-50 overflow-hidden;
 }
 
 /* Sidebar */
 .app-sidebar {
-  @apply fixed lg:relative z-30 h-full bg-white border-r border-neutral-200 flex flex-col transition-all duration-300;
+  @apply fixed lg:relative z-30 h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-300;
   width: 280px;
 }
 
@@ -520,7 +520,7 @@ onUnmounted(() => {
 }
 
 .sidebar-header {
-  @apply flex items-center justify-between p-4 border-b border-neutral-200;
+  @apply flex items-center justify-between p-4 border-b border-gray-200;
 }
 
 .logo-container {
@@ -532,7 +532,7 @@ onUnmounted(() => {
 }
 
 .app-title {
-  @apply text-xl font-bold text-neutral-900 transition-opacity duration-200;
+  @apply text-xl font-bold text-gray-900 transition-opacity duration-200;
 }
 
 .sidebar-collapsed .app-title {
@@ -540,7 +540,7 @@ onUnmounted(() => {
 }
 
 .collapse-btn {
-  @apply w-8 h-8 rounded-lg bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .sidebar-nav {
@@ -552,7 +552,7 @@ onUnmounted(() => {
 }
 
 .nav-section-title {
-  @apply text-xs font-semibold text-neutral-500 uppercase tracking-wider px-3 py-2;
+  @apply text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 py-2;
 }
 
 .sidebar-collapsed .nav-section-title {
@@ -560,11 +560,11 @@ onUnmounted(() => {
 }
 
 .sidebar-footer {
-  @apply p-4 border-t border-neutral-200;
+  @apply p-4 border-t border-gray-200;
 }
 
 .user-menu-trigger {
-  @apply flex items-center gap-3 w-full p-3 rounded-lg hover:bg-neutral-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply flex items-center gap-3 w-full p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .user-menu-collapsed {
@@ -576,11 +576,11 @@ onUnmounted(() => {
 }
 
 .user-name {
-  @apply font-medium text-neutral-900 truncate;
+  @apply font-medium text-gray-900 truncate;
 }
 
 .user-role {
-  @apply text-sm text-neutral-600;
+  @apply text-sm text-gray-600;
 }
 
 .sidebar-collapsed .user-info {
@@ -607,7 +607,7 @@ onUnmounted(() => {
 
 /* Header */
 .app-header {
-  @apply flex items-center justify-between px-6 py-4 bg-white border-b border-neutral-200;
+  @apply flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200;
 }
 
 .header-left {
@@ -615,7 +615,7 @@ onUnmounted(() => {
 }
 
 .mobile-menu-btn {
-  @apply w-10 h-10 rounded-lg bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 transition-colors lg:hidden focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .breadcrumb-list {
@@ -627,15 +627,15 @@ onUnmounted(() => {
 }
 
 .breadcrumb-link {
-  @apply text-neutral-600 hover:text-neutral-900 transition-colors;
+  @apply text-gray-600 hover:text-gray-900 transition-colors;
 }
 
 .breadcrumb-current {
-  @apply font-medium text-neutral-900;
+  @apply font-medium text-gray-900;
 }
 
 .breadcrumb-separator {
-  @apply h-4 w-4 text-neutral-400 mx-2;
+  @apply h-4 w-4 text-gray-400 mx-2;
 }
 
 .header-right {
@@ -649,7 +649,7 @@ onUnmounted(() => {
 
 /* Footer */
 .app-footer {
-  @apply bg-white border-t border-neutral-200 px-6 py-4;
+  @apply bg-white border-t border-gray-200 px-6 py-4;
 }
 
 .footer-content {
@@ -657,7 +657,7 @@ onUnmounted(() => {
 }
 
 .footer-text {
-  @apply text-sm text-neutral-600;
+  @apply text-sm text-gray-600;
 }
 
 .footer-links {
@@ -665,7 +665,7 @@ onUnmounted(() => {
 }
 
 .footer-link {
-  @apply text-sm text-neutral-600 hover:text-neutral-900 transition-colors;
+  @apply text-sm text-gray-600 hover:text-gray-900 transition-colors;
 }
 
 /* Transitions */
@@ -751,18 +751,18 @@ onUnmounted(() => {
 
 /* Dark mode */
 .layout-dark {
-  @apply bg-neutral-900;
+  @apply bg-gray-900;
 }
 
 .layout-dark .app-sidebar {
-  @apply bg-neutral-800 border-neutral-700;
+  @apply bg-gray-800 border-gray-700;
 }
 
 .layout-dark .app-header {
-  @apply bg-neutral-800 border-neutral-700;
+  @apply bg-gray-800 border-gray-700;
 }
 
 .layout-dark .app-footer {
-  @apply bg-neutral-800 border-neutral-700;
+  @apply bg-gray-800 border-gray-700;
 }
 </style>

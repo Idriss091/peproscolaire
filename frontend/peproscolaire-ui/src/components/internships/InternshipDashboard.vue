@@ -129,7 +129,7 @@
               
               <div class="card-body">
                 <div v-if="recentApplications.length === 0" class="empty-state">
-                  <BriefcaseIcon class="h-12 w-12 text-neutral-400" />
+                  <BriefcaseIcon class="h-12 w-12 text-gray-400" />
                   <p class="empty-text">Aucune candidature récente</p>
                   <button
                     @click="showSearchModal = true"
@@ -164,7 +164,7 @@
               
               <div class="card-body">
                 <div v-if="recommendedOffers.length === 0" class="empty-state">
-                  <MagnifyingGlassIcon class="h-12 w-12 text-neutral-400" />
+                  <MagnifyingGlassIcon class="h-12 w-12 text-gray-400" />
                   <p class="empty-text">Aucune recommandation disponible</p>
                 </div>
                 
@@ -206,8 +206,8 @@
                   />
                   
                   <div v-if="importantAlerts.length === 0" class="empty-state-small">
-                    <CheckCircleIcon class="h-8 w-8 text-success-500" />
-                    <p class="text-sm text-neutral-600">Tout est à jour !</p>
+                    <CheckCircleIcon class="h-8 w-8 text-green-500" />
+                    <p class="text-sm text-gray-600">Tout est à jour !</p>
                   </div>
                 </div>
               </div>
@@ -491,12 +491,12 @@ onMounted(async () => {
 
 <style scoped>
 .internship-dashboard {
-  @apply min-h-screen bg-neutral-50;
+  @apply min-h-screen bg-gray-50;
 }
 
 /* Header */
 .dashboard-header {
-  @apply bg-white border-b border-neutral-200 px-6 py-8;
+  @apply bg-white border-b border-gray-200 px-6 py-8;
 }
 
 .header-content {
@@ -508,11 +508,11 @@ onMounted(async () => {
 }
 
 .dashboard-title {
-  @apply text-3xl font-bold text-neutral-900 mb-2;
+  @apply text-3xl font-bold text-gray-900 mb-2;
 }
 
 .dashboard-subtitle {
-  @apply text-lg text-neutral-600;
+  @apply text-lg text-gray-600;
 }
 
 .header-actions {
@@ -525,7 +525,7 @@ onMounted(async () => {
 
 /* Navigation */
 .dashboard-nav {
-  @apply bg-white border-b border-neutral-200 px-6;
+  @apply bg-white border-b border-gray-200 px-6;
 }
 
 .nav-tabs {
@@ -533,7 +533,7 @@ onMounted(async () => {
 }
 
 .nav-tab {
-  @apply flex items-center gap-2 px-4 py-4 text-sm font-medium text-neutral-600 hover:text-neutral-900 border-b-2 border-transparent hover:border-neutral-300 transition-all duration-200 whitespace-nowrap;
+  @apply flex items-center gap-2 px-4 py-4 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300 transition-all duration-200 whitespace-nowrap;
 }
 
 .nav-tab-active {
@@ -545,7 +545,7 @@ onMounted(async () => {
 }
 
 .nav-badge-primary {
-  @apply bg-primary-100 text-primary-800;
+  @apply bg-primary-100 text-blue-800;
 }
 
 .nav-badge-warning {
@@ -553,7 +553,7 @@ onMounted(async () => {
 }
 
 .nav-badge-success {
-  @apply bg-success-100 text-success-800;
+  @apply bg-green-100 text-green-800;
 }
 
 /* Contenu */
@@ -583,11 +583,11 @@ onMounted(async () => {
 }
 
 .company-name {
-  @apply text-xl font-semibold text-neutral-900;
+  @apply text-xl font-semibold text-gray-900;
 }
 
 .internship-period {
-  @apply text-neutral-600;
+  @apply text-gray-600;
 }
 
 .progress-section {
@@ -599,11 +599,11 @@ onMounted(async () => {
 }
 
 .progress-label {
-  @apply text-sm font-medium text-neutral-700;
+  @apply text-sm font-medium text-gray-700;
 }
 
 .progress-value {
-  @apply text-sm font-semibold text-success-600;
+  @apply text-sm font-semibold text-green-600;
 }
 
 /* Candidatures et offres */
@@ -629,7 +629,7 @@ onMounted(async () => {
 }
 
 .empty-text {
-  @apply text-neutral-600 mb-4;
+  @apply text-gray-600 mb-4;
 }
 
 /* Responsive */

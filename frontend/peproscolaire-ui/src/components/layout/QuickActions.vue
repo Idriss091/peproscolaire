@@ -281,7 +281,7 @@ const handlePhotoUpload = (event: Event) => {
 
 <style scoped>
 .quick-actions-trigger {
-  @apply w-10 h-10 rounded-lg bg-primary-600 hover:bg-primary-700 flex items-center justify-center text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  @apply w-10 h-10 rounded-lg bg-primary-600 hover:bg-primary-700 flex items-center justify-center text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
 }
 
 .quick-actions-panel {
@@ -289,15 +289,15 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .panel-header {
-  @apply p-4 border-b border-neutral-200;
+  @apply p-4 border-b border-gray-200;
 }
 
 .panel-title {
-  @apply font-semibold text-neutral-900;
+  @apply font-semibold text-gray-900;
 }
 
 .panel-subtitle {
-  @apply text-sm text-neutral-600 mt-1;
+  @apply text-sm text-gray-600 mt-1;
 }
 
 .actions-grid {
@@ -305,7 +305,7 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .action-item {
-  @apply flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-left w-full focus:outline-none focus:ring-2 focus:ring-primary-500 group;
+  @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors text-left w-full focus:outline-none focus:ring-2 focus:ring-blue-500 group;
 }
 
 .action-icon {
@@ -313,7 +313,7 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .action-primary .action-icon {
-  @apply bg-primary-100 text-primary-600 group-hover:bg-primary-200;
+  @apply bg-primary-100 text-blue-600 group-hover:bg-primary-200;
 }
 
 .action-education .action-icon {
@@ -329,7 +329,7 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .action-success .action-icon {
-  @apply bg-success-100 text-success-600 group-hover:bg-success-200;
+  @apply bg-green-100 text-green-600 group-hover:bg-green-200;
 }
 
 .action-warning .action-icon {
@@ -337,7 +337,7 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .action-danger .action-icon {
-  @apply bg-danger-100 text-danger-600 group-hover:bg-danger-200;
+  @apply bg-red-100 text-red-600 group-hover:bg-red-200;
 }
 
 .action-purple .action-icon {
@@ -349,27 +349,27 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .action-title {
-  @apply block font-medium text-neutral-900 text-sm;
+  @apply block font-medium text-gray-900 text-sm;
 }
 
 .action-description {
-  @apply block text-neutral-600 text-xs mt-0.5;
+  @apply block text-gray-600 text-xs mt-0.5;
 }
 
 .action-badge {
-  @apply px-2 py-1 bg-danger-100 text-danger-800 text-xs font-semibold rounded-full;
+  @apply px-2 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full;
 }
 
 .divider {
-  @apply border-t border-neutral-200 my-2;
+  @apply border-t border-gray-200 my-2;
 }
 
 .shortcuts-section {
-  @apply p-4 bg-neutral-50;
+  @apply p-4 bg-gray-50;
 }
 
 .shortcuts-title {
-  @apply font-medium text-neutral-900 text-sm mb-3;
+  @apply font-medium text-gray-900 text-sm mb-3;
 }
 
 .shortcuts-list {
@@ -381,7 +381,7 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .shortcut-action {
-  @apply text-sm text-neutral-700;
+  @apply text-sm text-gray-700;
 }
 
 .shortcut-keys {
@@ -389,6 +389,6 @@ const handlePhotoUpload = (event: Event) => {
 }
 
 .shortcut-key {
-  @apply px-1.5 py-0.5 text-xs font-mono bg-white border border-neutral-300 rounded text-neutral-600;
+  @apply px-1.5 py-0.5 text-xs font-mono bg-white border border-gray-300 rounded text-gray-600;
 }
 </style>

@@ -71,7 +71,7 @@
       <div class="flex items-center space-x-4">
         <div class="flex-shrink-0">
           <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-            <UserIcon class="h-6 w-6 text-primary-600" />
+            <UserIcon class="h-6 w-6 text-blue-600" />
           </div>
         </div>
         <div class="flex-1">
@@ -190,7 +190,7 @@
               type="checkbox"
               :checked="objective.status === 'completed'"
               @change="toggleObjective(index)"
-              class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
           </div>
           <div class="flex-1 min-w-0">
@@ -242,7 +242,7 @@
                 type="checkbox"
                 :checked="action.status === 'completed'"
                 @change="toggleAction(index)"
-                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
             </div>
             <div class="flex-1 min-w-0">

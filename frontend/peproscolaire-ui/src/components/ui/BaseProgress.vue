@@ -134,23 +134,23 @@ const barStyles = computed(() => ({
 }))
 
 const labelClasses = computed(() => [
-  'text-sm font-medium text-neutral-700'
+  'text-sm font-medium text-gray-700'
 ])
 
 const valueClasses = computed(() => [
   'text-sm font-semibold',
   {
-    'text-primary-600': props.variant === 'primary',
-    'text-success-600': props.variant === 'success',
+    'text-blue-600': props.variant === 'primary',
+    'text-green-600': props.variant === 'success',
     'text-warning-600': props.variant === 'warning',
-    'text-danger-600': props.variant === 'danger',
+    'text-red-600': props.variant === 'danger',
     'text-ai-600': props.variant === 'ai',
-    'text-neutral-600': props.variant === 'neutral'
+    'text-gray-600': props.variant === 'neutral'
   }
 ])
 
 const statusClasses = computed(() => [
-  'text-xs text-neutral-500'
+  'text-xs text-gray-500'
 ])
 </script>
 
@@ -188,7 +188,7 @@ const statusClasses = computed(() => [
 }
 
 .progress-track {
-  @apply w-full bg-neutral-200 overflow-hidden;
+  @apply w-full bg-gray-200 overflow-hidden;
 }
 
 .progress-bar {
@@ -200,7 +200,7 @@ const statusClasses = computed(() => [
 }
 
 .progress-bar-success {
-  @apply bg-success-600;
+  @apply bg-green-600;
 }
 
 .progress-bar-warning {
@@ -208,7 +208,7 @@ const statusClasses = computed(() => [
 }
 
 .progress-bar-danger {
-  @apply bg-danger-600;
+  @apply bg-red-600;
 }
 
 .progress-bar-ai {
@@ -216,7 +216,7 @@ const statusClasses = computed(() => [
 }
 
 .progress-bar-neutral {
-  @apply bg-neutral-600;
+  @apply bg-gray-600;
 }
 
 .progress-bar-striped {

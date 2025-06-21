@@ -7,13 +7,13 @@
           <h1 class="text-2xl font-bold text-gray-900">Devoirs</h1>
           <div class="flex space-x-2">
             <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
-              {{ publishedHomework.length }} publiés
+              {{ publishedHomework?.length || 0 }} publiés
             </span>
             <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
-              {{ overdueHomework.length }} en retard
+              {{ overdueHomework?.length || 0 }} en retard
             </span>
             <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
-              {{ gradedSubmissions.length }} notés
+              {{ gradedSubmissions?.length || 0 }} notés
             </span>
           </div>
         </div>
@@ -402,7 +402,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-gray-600">Total Devoirs</p>
-                <p class="text-3xl font-bold text-gray-900">{{ homework.length }}</p>
+                <p class="text-3xl font-bold text-gray-900">{{ homework?.length || 0 }}</p>
               </div>
               <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <BookOpenIcon class="h-6 w-6 text-blue-600" />
@@ -414,7 +414,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-gray-600">En retard</p>
-                <p class="text-3xl font-bold text-red-600">{{ overdueHomework.length }}</p>
+                <p class="text-3xl font-bold text-red-600">{{ overdueHomework?.length || 0 }}</p>
               </div>
               <div class="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
                 <ExclamationTriangleIcon class="h-6 w-6 text-red-600" />
@@ -426,7 +426,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-gray-600">Rendus notés</p>
-                <p class="text-3xl font-bold text-green-600">{{ gradedSubmissions.length }}</p>
+                <p class="text-3xl font-bold text-green-600">{{ gradedSubmissions?.length || 0 }}</p>
               </div>
               <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <CheckCircleIcon class="h-6 w-6 text-green-600" />
@@ -438,7 +438,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-gray-600">Note moyenne</p>
-                <p class="text-3xl font-bold text-purple-600">{{ averageGrade }}/20</p>
+                <p class="text-3xl font-bold text-purple-600">{{ averageGrade || '0' }}/20</p>
               </div>
               <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
                 <TrophyIcon class="h-6 w-6 text-purple-600" />
@@ -496,7 +496,10 @@
         
         <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           <!-- Contenu du devoir détaillé -->
-          <HomeworkDetail :homework="currentHomework" />
+          <div class="p-6">
+            <h3 class="text-lg font-medium">Détails du devoir</h3>
+            <p class="text-gray-600 mt-2">Composant en cours de développement...</p>
+          </div>
         </div>
       </div>
     </div>
@@ -513,7 +516,7 @@
         </div>
         
         <div class="p-6">
-          <AIHomeworkGenerator @generated="handleAIGenerated" />
+          <p class="text-gray-600">Assistant IA en cours de développement...</p>
         </div>
       </div>
     </div>
@@ -522,6 +525,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useHomeworkStore } from '@/stores/homework'
 import {
   MagnifyingGlassIcon,
@@ -541,25 +545,29 @@ import {
 // Store
 const homeworkStore = useHomeworkStore()
 
-// État réactif
+// État réactif - utilisons storeToRefs pour la réactivité
+
 const {
-  homework,
-  currentHomework,
+  homeworks,
   submissions,
-  homeworkTypes,
   loading,
   error,
   publishedHomework,
   draftHomework,
   archivedHomework,
   upcomingHomework,
-  overdueHomework,
-  homeworkByStatus,
-  submissionsByStatus,
-  lateSubmissions,
-  gradedSubmissions,
-  averageGrade
-} = homeworkStore
+  overdueHomework
+} = storeToRefs(homeworkStore)
+
+// Alias pour compatibilité
+const homework = computed(() => homeworks.value || [])
+const gradedSubmissions = computed(() => (submissions.value || []).filter(s => s.grade !== null))
+const averageGrade = computed(() => {
+  const graded = gradedSubmissions.value
+  if (graded.length === 0) return 0
+  const sum = graded.reduce((acc, s) => acc + (s.grade || 0), 0)
+  return (sum / graded.length).toFixed(1)
+})
 
 // État local
 const activeTab = ref('homework')
@@ -582,12 +590,12 @@ const tabs = computed(() => [
   {
     key: 'homework',
     label: 'Devoirs',
-    count: homework.length
+    count: homework?.length || 0
   },
   {
     key: 'submissions',
     label: 'Rendus',
-    count: submissions.length
+    count: submissions?.length || 0
   },
   {
     key: 'calendar',
@@ -603,7 +611,7 @@ const tabs = computed(() => [
 
 // Filtrage des devoirs
 const filteredHomework = computed(() => {
-  let filtered = homework
+  let filtered = homework.value || []
 
   if (statusFilter.value) {
     filtered = filtered.filter(hw => hw.status === statusFilter.value)
@@ -631,7 +639,7 @@ const filteredHomework = computed(() => {
 
 // Filtrage des rendus
 const filteredSubmissions = computed(() => {
-  let filtered = submissions
+  let filtered = submissions.value || []
 
   if (submissionStatusFilter.value) {
     filtered = filtered.filter(sub => sub.status === submissionStatusFilter.value)
@@ -726,32 +734,63 @@ const getStudentInitials = (student: any) => {
 }
 
 const getHomeworkStatusColor = (status: string) => {
-  return homeworkStore.getHomeworkStatusColor(status)
+  const colors = {
+    'draft': 'bg-gray-100 text-gray-800',
+    'published': 'bg-green-100 text-green-800',
+    'archived': 'bg-blue-100 text-blue-800'
+  }
+  return colors[status] || 'bg-gray-100 text-gray-800'
 }
 
 const getHomeworkStatusLabel = (status: string) => {
-  return homeworkStore.getHomeworkStatusLabel(status)
+  const labels = {
+    'draft': 'Brouillon',
+    'published': 'Publié',
+    'archived': 'Archivé'
+  }
+  return labels[status] || status
 }
 
 const getSubmissionStatusColor = (status: string) => {
-  return homeworkStore.getSubmissionStatusColor(status)
+  const colors = {
+    'draft': 'bg-gray-100 text-gray-800',
+    'submitted': 'bg-blue-100 text-blue-800',
+    'graded': 'bg-green-100 text-green-800',
+    'revision_requested': 'bg-yellow-100 text-yellow-800'
+  }
+  return colors[status] || 'bg-gray-100 text-gray-800'
 }
 
 const getSubmissionStatusLabel = (status: string) => {
-  return homeworkStore.getSubmissionStatusLabel(status)
+  const labels = {
+    'draft': 'Brouillon',
+    'submitted': 'Soumis',
+    'graded': 'Noté',
+    'revision_requested': 'Révision demandée'
+  }
+  return labels[status] || status
 }
 
 const isHomeworkOverdue = (homeworkItem: any) => {
-  return homeworkStore.isHomeworkOverdue(homeworkItem)
-}
-
-const getDaysUntilDue = (homeworkItem: any) => {
-  return homeworkStore.getDaysUntilDue(homeworkItem)
+  return new Date(homeworkItem.due_date) < new Date()
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('fr-FR')
+  return new Date(dateString).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  })
 }
+
+const getDaysUntilDue = (homeworkItem: any) => {
+  const today = new Date()
+  const dueDate = new Date(homeworkItem.due_date)
+  const diffTime = dueDate.getTime() - today.getTime()
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays
+}
+
 
 const formatDateTime = (dateString: string) => {
   return new Date(dateString).toLocaleString('fr-FR')
@@ -760,8 +799,6 @@ const formatDateTime = (dateString: string) => {
 // Cycle de vie
 onMounted(async () => {
   await homeworkStore.fetchHomework()
-  await homeworkStore.fetchHomeworkTypes()
-  await homeworkStore.fetchSubmissions('') // Tous les rendus
 })
 </script>
 

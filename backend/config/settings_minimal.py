@@ -32,9 +32,14 @@ INSTALLED_APPS = [
     'django_filters',
     
     # Local apps (minimal)
-    # 'apps.authentication',  # Temporairement désactivé
+    'apps.authentication',  # Activé pour l'API
     'apps.core',
-    # 'apps.schools',  # Temporairement désactivé
+    'apps.schools',  # Activé pour l'API
+    'apps.homework',  # Ajouté pour l'API
+    'apps.timetable',  # Ajouté pour l'API
+    'apps.grades',  # Ajouté pour l'API
+    'apps.attendance',  # Ajouté pour l'API
+    'apps.messaging',  # Ajouté pour l'API
     'ai_core',  # Module IA
 ]
 
@@ -129,5 +134,5 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Custom User Model (désactivé temporairement)
-# AUTH_USER_MODEL = 'authentication.User'
+# Custom User Model
+AUTH_USER_MODEL = 'authentication.User'

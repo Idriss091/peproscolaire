@@ -45,7 +45,7 @@
                 <button
                   v-if="showCloseButton"
                   type="button"
-                  class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md p-1"
+                  class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
                   @click="close"
                 >
                   <XMarkIcon class="h-6 w-6" />

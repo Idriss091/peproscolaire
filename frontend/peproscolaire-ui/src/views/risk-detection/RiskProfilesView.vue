@@ -41,7 +41,7 @@
           <select
             v-model="filters.risk_level"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Tous les niveaux</option>
             <option value="critical">Critique</option>
@@ -55,7 +55,7 @@
           <select
             v-model="filters.is_monitored"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Tous les statuts</option>
             <option value="true">Sous surveillance</option>
@@ -66,7 +66,7 @@
           <select
             v-model="filters.academic_year"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Toutes les années</option>
             <!-- Academic years will be loaded dynamically -->
@@ -208,7 +208,7 @@
             <div class="flex items-center space-x-3">
               <router-link
                 :to="`/risk-detection/profiles/${item.id}`"
-                class="text-primary-600 hover:text-primary-900 text-sm font-medium"
+                class="text-blue-600 hover:text-blue-900 text-sm font-medium"
               >
                 Voir
               </router-link>

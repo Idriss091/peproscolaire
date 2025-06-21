@@ -120,7 +120,7 @@
 
     <!-- Modal d'ajout de note -->
     <BaseModal
-      :is-open="showAddGradeModal"
+      v-model="showAddGradeModal"
       title="Ajouter une note"
       @close="showAddGradeModal = false"
       size="lg"
@@ -171,7 +171,12 @@ const tabs = [
 ]
 
 // Computed
-const overallStats = computed(() => gradesStore.overallStats)
+const overallStats = computed(() => gradesStore.overallStats || {
+  average: '0.0',
+  total: 0,
+  excellent: 0,
+  struggling: 0
+})
 
 // Méthodes
 const exportGrades = async () => {

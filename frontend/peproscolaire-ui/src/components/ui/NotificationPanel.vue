@@ -28,7 +28,7 @@
               </h2>
               <button
                 type="button"
-                class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md p-1"
+                class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
                 @click="$emit('close')"
               >
                 <XMarkIcon class="h-6 w-6" />
@@ -84,7 +84,7 @@
               <button
                 v-if="hasUnreadNotifications"
                 type="button"
-                class="w-full text-center text-sm text-primary-600 hover:text-primary-500"
+                class="w-full text-center text-sm text-blue-600 hover:text-blue-500"
                 @click="markAllAsRead"
               >
                 Marquer tout comme lu

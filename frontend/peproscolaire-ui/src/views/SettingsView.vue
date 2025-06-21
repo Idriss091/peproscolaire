@@ -28,7 +28,7 @@
               <button
                 @click="toggleNotifications"
                 :class="[
-                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
                   notificationsEnabled ? 'bg-primary-600' : 'bg-gray-200'
                 ]"
               >
@@ -53,7 +53,7 @@
               <button
                 @click="toggleEmailNotifications"
                 :class="[
-                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
                   emailNotificationsEnabled ? 'bg-primary-600' : 'bg-gray-200'
                 ]"
               >
@@ -112,7 +112,7 @@
               </label>
               <select
                 v-model="userPreferences.language"
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               >
                 <option value="fr">Français</option>
                 <option value="en">English</option>
@@ -125,7 +125,7 @@
               </label>
               <select
                 v-model="userPreferences.theme"
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
               >
                 <option value="light">Clair</option>
                 <option value="dark">Sombre</option>
@@ -155,7 +155,7 @@
       <BaseCard title="Statistiques d'utilisation">
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div class="text-center">
-            <div class="text-2xl font-bold text-primary-600">
+            <div class="text-2xl font-bold text-blue-600">
               {{ notificationStore.notifications.length }}
             </div>
             <div class="text-sm text-gray-500">

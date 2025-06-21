@@ -15,7 +15,7 @@
           id="page-size"
           :value="itemsPerPage"
           @change="handleSizeChange"
-          class="border-gray-300 rounded text-sm focus:ring-primary-500 focus:border-primary-500"
+          class="border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-primary-500"
         >
           <option value="10">10</option>
           <option value="25">25</option>
@@ -48,7 +48,7 @@
           :class="[
             'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
             currentPage === 1
-              ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
+              ? 'z-10 bg-primary-50 border-primary-500 text-blue-600'
               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
           ]"
         >
@@ -72,7 +72,7 @@
           :class="[
             'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
             currentPage === page
-              ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
+              ? 'z-10 bg-primary-50 border-primary-500 text-blue-600'
               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
           ]"
         >
@@ -95,7 +95,7 @@
           :class="[
             'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
             currentPage === totalPages
-              ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
+              ? 'z-10 bg-primary-50 border-primary-500 text-blue-600'
               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
           ]"
         >

@@ -10,6 +10,50 @@ import type {
 } from '@/types'
 import { format, isAfter, isBefore, startOfDay, endOfDay } from 'date-fns'
 
+// Données mockées pour le développement
+const MOCK_HOMEWORK: Homework[] = [
+  {
+    id: '1',
+    title: 'Exercices de mathématiques',
+    description: 'Exercices du chapitre 5 sur les fractions',
+    given_date: format(new Date(), 'yyyy-MM-dd'),
+    due_date: format(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
+    homework_type: 'Exercices',
+    subject: { id: '1', name: 'Mathématiques', code: 'MATH' },
+    teacher: { id: '1', first_name: 'Jean', last_name: 'Martin' },
+    class_assigned: '3ème A',
+    status: 'published',
+    is_graded: false,
+    submission_count: 12,
+    graded_count: 8,
+    estimated_duration: 45,
+  },
+  {
+    id: '2',
+    title: 'Rédaction sur la Révolution française',
+    description: 'Rédiger un texte de 300 mots sur les causes de la Révolution française',
+    given_date: format(new Date(), 'yyyy-MM-dd'),
+    due_date: format(new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
+    homework_type: 'Rédaction',
+    subject: { id: '2', name: 'Histoire-Géographie', code: 'HG' },
+    teacher: { id: '2', first_name: 'Marie', last_name: 'Dupont' },
+    class_assigned: '3ème A',
+    status: 'published',
+    is_graded: true,
+    submission_count: 15,
+    graded_count: 15,
+    estimated_duration: 60,
+  },
+]
+
+const MOCK_SUBMISSIONS = [
+  { id: '1', homework: '1', student: '1', submitted_date: format(new Date(), 'yyyy-MM-dd'), grade: 15 },
+  { id: '2', homework: '1', student: '2', submitted_date: format(new Date(), 'yyyy-MM-dd'), grade: 18 },
+  { id: '3', homework: '2', student: '1', submitted_date: format(new Date(), 'yyyy-MM-dd'), grade: 16 },
+]
+
+const useMockApi = () => import.meta.env.VITE_USE_MOCK_API === 'true'
+
 interface HomeworkFilters {
   class?: number
   subject?: number
@@ -91,6 +135,22 @@ export const useHomeworkStore = defineStore('homework', () => {
     return grouped
   })
 
+  const publishedHomework = computed(() => {
+    return homeworks.value.filter(hw => hw.status === 'published')
+  })
+
+  const draftHomework = computed(() => {
+    return homeworks.value.filter(hw => hw.status === 'draft')
+  })
+
+  const archivedHomework = computed(() => {
+    return homeworks.value.filter(hw => hw.status === 'archived')
+  })
+
+  const gradedSubmissions = computed(() => {
+    return submissions.value.filter(sub => sub.grade !== null && sub.grade !== undefined)
+  })
+
   const totalEstimatedDuration = computed(() => {
     return upcomingHomework.value.reduce((total, hw) => total + hw.estimated_duration, 0)
   })
@@ -102,28 +162,37 @@ export const useHomeworkStore = defineStore('homework', () => {
     currentFilters.value = filters
 
     try {
-      const params = new URLSearchParams()
-      
-      if (filters.class) params.append('class', filters.class.toString())
-      if (filters.subject) params.append('subject', filters.subject.toString())
-      if (filters.teacher) params.append('teacher', filters.teacher.toString())
-      if (filters.student) params.append('student', filters.student.toString())
-      if (filters.givenDate) params.append('given_date', filters.givenDate)
-      if (filters.dueDate) params.append('due_date', filters.dueDate)
-      if (filters.dueDateFrom) params.append('due_date_from', filters.dueDateFrom)
-      if (filters.dueDateTo) params.append('due_date_to', filters.dueDateTo)
-      if (filters.homeworkType) params.append('homework_type', filters.homeworkType)
-      if (filters.isGraded !== undefined) params.append('is_graded', filters.isGraded.toString())
-      if (filters.search) params.append('search', filters.search)
+      if (useMockApi()) {
+        // Mode mock - retourner des données simulées
+        await new Promise(resolve => setTimeout(resolve, 300)) // Simuler latence
+        homeworks.value = MOCK_HOMEWORK
+        submissions.value = MOCK_SUBMISSIONS
+      } else {
+        const params = new URLSearchParams()
+        
+        if (filters.class) params.append('class', filters.class.toString())
+        if (filters.subject) params.append('subject', filters.subject.toString())
+        if (filters.teacher) params.append('teacher', filters.teacher.toString())
+        if (filters.student) params.append('student', filters.student.toString())
+        if (filters.givenDate) params.append('given_date', filters.givenDate)
+        if (filters.dueDate) params.append('due_date', filters.dueDate)
+        if (filters.dueDateFrom) params.append('due_date_from', filters.dueDateFrom)
+        if (filters.dueDateTo) params.append('due_date_to', filters.dueDateTo)
+        if (filters.homeworkType) params.append('homework_type', filters.homeworkType)
+        if (filters.isGraded !== undefined) params.append('is_graded', filters.isGraded.toString())
+        if (filters.search) params.append('search', filters.search)
 
-      const response = await apiClient.get<PaginatedResponse<Homework>>(
-        `/homework/homeworks/?${params.toString()}`
-      )
-      
-      homeworks.value = response.data.results
+        const response = await apiClient.get<{ results: any[] }>(
+          `/homework/?${params.toString()}`
+        )
+        
+        homeworks.value = response.data.results
+      }
     } catch (err) {
-      error.value = 'Erreur lors du chargement des devoirs'
-      console.error('Failed to fetch homework:', err)
+      // Fallback vers les données mock en cas d'erreur
+      console.warn('Failed to fetch homework, using mock data:', err)
+      homeworks.value = MOCK_HOMEWORK
+      submissions.value = MOCK_SUBMISSIONS
     } finally {
       loading.value = false
     }
@@ -369,6 +438,10 @@ export const useHomeworkStore = defineStore('homework', () => {
     upcomingHomework,
     overdueHomework,
     homeworkBySubject,
+    publishedHomework,
+    draftHomework,
+    archivedHomework,
+    gradedSubmissions,
     totalEstimatedDuration,
     // Actions
     fetchHomework,

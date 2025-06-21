@@ -164,13 +164,13 @@ const iconComponent = computed(() => {
 
 const iconClasses = computed(() => {
   const classes = {
-    success: 'text-success-600',
+    success: 'text-green-600',
     warning: 'text-warning-600',
-    danger: 'text-danger-600',
+    danger: 'text-red-600',
     info: 'text-info-600',
     ai: 'text-ai-600'
   }
-  return classes[props.variant] || 'text-neutral-600'
+  return classes[props.variant] || 'text-gray-600'
 })
 
 // Methods
@@ -224,12 +224,12 @@ const handleAction = (action: ToastAction) => {
 }
 
 .toast {
-  @apply relative bg-white rounded-lg border border-neutral-200 p-4 max-w-sm pointer-events-auto transition-all duration-200;
+  @apply relative bg-white rounded-lg border border-gray-200 p-4 max-w-sm pointer-events-auto transition-all duration-200;
   box-shadow: var(--shadow-lg);
 }
 
 .toast-success {
-  @apply border-success-200 bg-success-50;
+  @apply border-success-200 bg-green-50;
 }
 
 .toast-warning {
@@ -237,7 +237,7 @@ const handleAction = (action: ToastAction) => {
 }
 
 .toast-danger {
-  @apply border-danger-200 bg-danger-50;
+  @apply border-danger-200 bg-red-50;
 }
 
 .toast-info {
@@ -249,15 +249,15 @@ const handleAction = (action: ToastAction) => {
 }
 
 .toast-title {
-  @apply font-semibold text-sm text-neutral-900 mb-1;
+  @apply font-semibold text-sm text-gray-900 mb-1;
 }
 
 .toast-message {
-  @apply text-sm text-neutral-700 leading-relaxed;
+  @apply text-sm text-gray-700 leading-relaxed;
 }
 
 .close-button {
-  @apply flex-shrink-0 text-neutral-400 hover:text-neutral-600 focus:outline-none focus:text-neutral-600 transition-colors rounded p-1;
+  @apply flex-shrink-0 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition-colors rounded p-1;
 }
 
 .progress-bar {

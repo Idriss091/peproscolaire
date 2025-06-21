@@ -334,7 +334,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, nextTick, watch, storeToRefs } from 'vue'
 import { useMessagingStore } from '@/stores/messaging'
 import { useAuthStore } from '@/stores/auth'
 import {
@@ -364,9 +364,9 @@ const {
   sortedConversations,
   currentMessages,
   totalUnreadConversations
-} = messagingStore
+} = storeToRefs(messagingStore)
 
-const { currentUser } = authStore
+const { currentUser } = storeToRefs(authStore)
 
 // État local
 const searchQuery = ref('')

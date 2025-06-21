@@ -69,7 +69,7 @@
         </div>
         
         <div v-else-if="filteredNotifications.length === 0" class="empty-state">
-          <BellSlashIcon class="h-12 w-12 text-neutral-400" />
+          <BellSlashIcon class="h-12 w-12 text-gray-400" />
           <p class="empty-text">Aucune notification</p>
           <p class="empty-subtitle">
             {{ activeFilter === 'unread' ? 'Toutes vos notifications sont lues' : 'Vous êtes à jour !' }}
@@ -237,15 +237,15 @@ onMounted(async () => {
 
 <style scoped>
 .notification-trigger {
-  @apply relative w-10 h-10 rounded-lg bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply relative w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .trigger-has-notifications {
-  @apply text-primary-600 hover:text-primary-700;
+  @apply text-blue-600 hover:text-blue-700;
 }
 
 .notification-badge {
-  @apply absolute -top-1 -right-1 bg-danger-500 text-white text-xs font-bold rounded-full min-w-[1.25rem] h-5 flex items-center justify-center px-1;
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full min-w-[1.25rem] h-5 flex items-center justify-center px-1;
 }
 
 .notification-panel {
@@ -253,11 +253,11 @@ onMounted(async () => {
 }
 
 .panel-header {
-  @apply flex items-center justify-between p-4 border-b border-neutral-200;
+  @apply flex items-center justify-between p-4 border-b border-gray-200;
 }
 
 .panel-title {
-  @apply font-semibold text-neutral-900;
+  @apply font-semibold text-gray-900;
 }
 
 .header-actions {
@@ -265,27 +265,27 @@ onMounted(async () => {
 }
 
 .action-btn {
-  @apply w-8 h-8 rounded-lg bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-500 hover:text-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .notification-filters {
-  @apply flex p-3 border-b border-neutral-200 bg-neutral-50;
+  @apply flex p-3 border-b border-gray-200 bg-gray-50;
 }
 
 .filter-btn {
-  @apply flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-white transition-colors;
+  @apply flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-white transition-colors;
 }
 
 .filter-active {
-  @apply bg-white text-primary-700 shadow-sm;
+  @apply bg-white text-blue-700 shadow-sm;
 }
 
 .filter-count {
-  @apply px-1.5 py-0.5 text-xs font-semibold bg-neutral-200 text-neutral-600 rounded-full;
+  @apply px-1.5 py-0.5 text-xs font-semibold bg-gray-200 text-gray-600 rounded-full;
 }
 
 .filter-active .filter-count {
-  @apply bg-primary-100 text-primary-700;
+  @apply bg-primary-100 text-blue-700;
 }
 
 .notifications-list {
@@ -293,11 +293,11 @@ onMounted(async () => {
 }
 
 .loading-state {
-  @apply flex items-center gap-3 p-4 text-neutral-600;
+  @apply flex items-center gap-3 p-4 text-gray-600;
 }
 
 .loading-spinner {
-  @apply w-5 h-5 border-2 border-neutral-300 border-t-primary-600 rounded-full animate-spin;
+  @apply w-5 h-5 border-2 border-gray-300 border-t-primary-600 rounded-full animate-spin;
 }
 
 .empty-state {
@@ -305,11 +305,11 @@ onMounted(async () => {
 }
 
 .empty-text {
-  @apply text-neutral-900 font-medium mt-3;
+  @apply text-gray-900 font-medium mt-3;
 }
 
 .empty-subtitle {
-  @apply text-neutral-600 text-sm mt-1;
+  @apply text-gray-600 text-sm mt-1;
 }
 
 .notifications-container {
@@ -317,11 +317,11 @@ onMounted(async () => {
 }
 
 .panel-footer {
-  @apply p-3 border-t border-neutral-200 bg-neutral-50;
+  @apply p-3 border-t border-gray-200 bg-gray-50;
 }
 
 .view-all-link {
-  @apply inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors;
+  @apply inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors;
 }
 
 /* Transitions */

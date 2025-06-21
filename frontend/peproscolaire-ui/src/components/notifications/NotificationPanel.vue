@@ -3,8 +3,8 @@
     <!-- Notification Bell Button -->
     <button
       @click="togglePanel"
-      class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 rounded-md"
-      :class="{ 'text-primary-600': showPanel }"
+      class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md"
+      :class="{ 'text-blue-600': showPanel }"
     >
       <BellIcon class="h-6 w-6" />
       
@@ -48,7 +48,7 @@
               <button
                 v-if="unreadCount > 0"
                 @click="markAllAsRead"
-                class="text-sm text-primary-600 hover:text-primary-800"
+                class="text-sm text-blue-600 hover:text-blue-800"
               >
                 Tout marquer comme lu
               </button>
@@ -109,7 +109,7 @@
           <div class="flex items-center justify-between">
             <router-link
               to="/notifications"
-              class="text-sm text-primary-600 hover:text-primary-800"
+              class="text-sm text-blue-600 hover:text-blue-800"
               @click="showPanel = false"
             >
               Voir toutes les notifications

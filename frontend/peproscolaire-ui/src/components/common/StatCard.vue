@@ -27,7 +27,7 @@
           
           <div v-if="change && !loading" :class="changeClasses" class="stat-change">
             <component :is="trendIcon" class="h-3 w-3" />
-            {{ change }}
+            {{ formattedChange }}
           </div>
         </div>
         
@@ -86,7 +86,7 @@ import type { Component } from 'vue'
 interface Props {
   title: string
   value: string | number
-  change?: string
+  change?: string | number
   trend?: 'up' | 'down' | 'neutral'
   icon?: Component
   color?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'education' | 'ai'
@@ -148,6 +148,12 @@ const iconClasses = computed(() => [
   `stat-icon-${props.color}`
 ])
 
+const formattedChange = computed(() => {
+  if (props.change === undefined || props.change === null) return ''
+  if (typeof props.change === 'string') return props.change
+  return props.change.toString()
+})
+
 const changeClasses = computed(() => [
   'stat-change',
   {
@@ -190,7 +196,7 @@ const chartPoints = computed(() => {
 
 <style scoped>
 .stat-card {
-  @apply bg-white rounded-xl border border-neutral-200 overflow-hidden transition-all duration-200 hover:shadow-md;
+  @apply bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md;
 }
 
 .stat-card-sm {
@@ -218,31 +224,31 @@ const chartPoints = computed(() => {
 }
 
 .stat-card-primary .stat-icon-container {
-  @apply bg-primary-100;
+  @apply bg-blue-100;
 }
 
 .stat-card-success .stat-icon-container {
-  @apply bg-success-100;
+  @apply bg-green-100;
 }
 
 .stat-card-warning .stat-icon-container {
-  @apply bg-warning-100;
+  @apply bg-yellow-100;
 }
 
 .stat-card-danger .stat-icon-container {
-  @apply bg-danger-100;
+  @apply bg-red-100;
 }
 
 .stat-card-info .stat-icon-container {
-  @apply bg-info-100;
+  @apply bg-cyan-100;
 }
 
 .stat-card-education .stat-icon-container {
-  @apply bg-education-100;
+  @apply bg-indigo-100;
 }
 
 .stat-card-ai .stat-icon-container {
-  @apply bg-ai-100;
+  @apply bg-purple-100;
 }
 
 .stat-icon {
@@ -250,35 +256,35 @@ const chartPoints = computed(() => {
 }
 
 .stat-icon-primary {
-  @apply text-primary-600;
+  @apply text-blue-600;
 }
 
 .stat-icon-success {
-  @apply text-success-600;
+  @apply text-green-600;
 }
 
 .stat-icon-warning {
-  @apply text-warning-600;
+  @apply text-yellow-600;
 }
 
 .stat-icon-danger {
-  @apply text-danger-600;
+  @apply text-red-600;
 }
 
 .stat-icon-info {
-  @apply text-info-600;
+  @apply text-cyan-600;
 }
 
 .stat-icon-education {
-  @apply text-education-600;
+  @apply text-indigo-600;
 }
 
 .stat-icon-ai {
-  @apply text-ai-600;
+  @apply text-purple-600;
 }
 
 .stat-action-btn {
-  @apply w-8 h-8 rounded-lg bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-500 hover:text-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500;
+  @apply w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .stat-body {
@@ -290,7 +296,7 @@ const chartPoints = computed(() => {
 }
 
 .stat-value {
-  @apply text-2xl font-bold text-neutral-900;
+  @apply text-2xl font-bold text-gray-900;
 }
 
 .stat-card-sm .stat-value {
@@ -306,27 +312,27 @@ const chartPoints = computed(() => {
 }
 
 .stat-change-up {
-  @apply bg-success-100 text-success-800;
+  @apply bg-green-100 text-green-800;
 }
 
 .stat-change-down {
-  @apply bg-danger-100 text-danger-800;
+  @apply bg-red-100 text-red-800;
 }
 
 .stat-change-neutral {
-  @apply bg-neutral-100 text-neutral-600;
+  @apply bg-gray-100 text-gray-600;
 }
 
 .stat-title {
-  @apply text-sm font-medium text-neutral-600;
+  @apply text-sm font-medium text-gray-600;
 }
 
 .stat-description {
-  @apply text-xs text-neutral-500;
+  @apply text-xs text-gray-500;
 }
 
 .stat-chart {
-  @apply mt-4 pt-4 border-t border-neutral-100;
+  @apply mt-4 pt-4 border-t border-gray-100;
 }
 
 .chart-line {
@@ -334,39 +340,39 @@ const chartPoints = computed(() => {
 }
 
 .chart-line-primary {
-  @apply stroke-primary-500;
+  @apply stroke-blue-500;
 }
 
 .chart-line-success {
-  @apply stroke-success-500;
+  @apply stroke-green-500;
 }
 
 .chart-line-warning {
-  @apply stroke-warning-500;
+  @apply stroke-yellow-500;
 }
 
 .chart-line-danger {
-  @apply stroke-danger-500;
+  @apply stroke-red-500;
 }
 
 .chart-line-info {
-  @apply stroke-info-500;
+  @apply stroke-cyan-500;
 }
 
 .chart-line-education {
-  @apply stroke-education-500;
+  @apply stroke-indigo-500;
 }
 
 .chart-line-ai {
-  @apply stroke-ai-500;
+  @apply stroke-purple-500;
 }
 
 .stat-footer {
-  @apply mt-4 pt-4 border-t border-neutral-100;
+  @apply mt-4 pt-4 border-t border-gray-100;
 }
 
 .stat-link {
-  @apply inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors;
+  @apply inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors;
 }
 
 /* Loading states */
@@ -375,7 +381,7 @@ const chartPoints = computed(() => {
 }
 
 .skeleton-line {
-  @apply bg-neutral-200 rounded;
+  @apply bg-gray-200 rounded;
 }
 
 .skeleton-value {

@@ -1,7 +1,7 @@
 /**
  * API apiClient pour le module grades (notes et évaluations)
  */
-import { apiClient } from './apiClient'
+import { apiClient } from './client'
 import type { 
   EvaluationType,
   Evaluation,
@@ -16,65 +16,205 @@ import type {
 
 export const gradesApi = {
   // Types d'évaluation
-  getEvaluationTypes: (params?: Record<string, any>): Promise<EvaluationType[]> =>
-    apiClient.get('/evaluation-types/', { params }),
+  getEvaluationTypes: async (params?: Record<string, any>): Promise<EvaluationType[]> => {
+    try {
+      const response = await apiClient.get('/grades/evaluation-types/', { params })
+      return response.data.results || response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        // Fallback to mock data
+        return []
+      }
+      throw error
+    }
+  },
   
-  getEvaluationType: (id: string): Promise<EvaluationType> =>
-    apiClient.get(`/evaluation-types/${id}/`),
+  getEvaluationType: async (id: string): Promise<EvaluationType> => {
+    try {
+      const response = await apiClient.get(`/grades/evaluation-types/${id}/`)
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Type d\'évaluation non trouvé')
+      }
+      throw error
+    }
+  },
   
-  createEvaluationType: (data: Partial<EvaluationType>): Promise<EvaluationType> =>
-    apiClient.post('/evaluation-types/', data),
+  createEvaluationType: async (data: Partial<EvaluationType>): Promise<EvaluationType> => {
+    try {
+      const response = await apiClient.post('/grades/evaluation-types/', data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  updateEvaluationType: (id: string, data: Partial<EvaluationType>): Promise<EvaluationType> =>
-    apiClient.put(`/evaluation-types/${id}/`, data),
+  updateEvaluationType: async (id: string, data: Partial<EvaluationType>): Promise<EvaluationType> => {
+    try {
+      const response = await apiClient.put(`/grades/evaluation-types/${id}/`, data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  deleteEvaluationType: (id: string): Promise<void> =>
-    apiClient.delete(`/evaluation-types/${id}/`),
+  deleteEvaluationType: async (id: string): Promise<void> => {
+    try {
+      await apiClient.delete(`/grades/evaluation-types/${id}/`)
+    } catch (error) {
+      throw error
+    }
+  },
 
   // Évaluations
-  getEvaluations: (params?: Record<string, any>): Promise<PaginatedResponse<Evaluation>> =>
-    apiClient.get('/evaluations/', { params }),
+  getEvaluations: async (params?: Record<string, any>): Promise<PaginatedResponse<Evaluation>> => {
+    try {
+      const response = await apiClient.get('/grades/evaluations/', { params })
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        // Fallback to mock data
+        return { results: [], count: 0, next: null, previous: null }
+      }
+      throw error
+    }
+  },
   
-  getEvaluation: (id: string): Promise<Evaluation> =>
-    apiClient.get(`/evaluations/${id}/`),
+  getEvaluation: async (id: string): Promise<Evaluation> => {
+    try {
+      const response = await apiClient.get(`/grades/evaluations/${id}/`)
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Évaluation non trouvée')
+      }
+      throw error
+    }
+  },
   
-  createEvaluation: (data: Partial<Evaluation>): Promise<Evaluation> =>
-    apiClient.post('/evaluations/', data),
+  createEvaluation: async (data: Partial<Evaluation>): Promise<Evaluation> => {
+    try {
+      const response = await apiClient.post('/grades/evaluations/', data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  updateEvaluation: (id: string, data: Partial<Evaluation>): Promise<Evaluation> =>
-    apiClient.put(`/evaluations/${id}/`, data),
+  updateEvaluation: async (id: string, data: Partial<Evaluation>): Promise<Evaluation> => {
+    try {
+      const response = await apiClient.put(`/grades/evaluations/${id}/`, data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  deleteEvaluation: (id: string): Promise<void> =>
-    apiClient.delete(`/evaluations/${id}/`),
+  deleteEvaluation: async (id: string): Promise<void> => {
+    try {
+      await apiClient.delete(`/grades/evaluations/${id}/`)
+    } catch (error) {
+      throw error
+    }
+  },
   
-  getEvaluationGrades: (id: string): Promise<Grade[]> =>
-    apiClient.get(`/evaluations/${id}/grades/`),
+  getEvaluationGrades: async (id: string): Promise<Grade[]> => {
+    try {
+      const response = await apiClient.get(`/grades/evaluations/${id}/grades/`)
+      return response.data.results || response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return []
+      }
+      throw error
+    }
+  },
   
-  bulkUpdateGrades: (evaluationId: string, grades: Partial<Grade>[]): Promise<Grade[]> =>
-    apiClient.post(`/evaluations/${evaluationId}/bulk_update_grades/`, { grades }),
+  bulkUpdateEvaluationGrades: async (evaluationId: string, grades: Partial<Grade>[]): Promise<Grade[]> => {
+    try {
+      const response = await apiClient.post(`/grades/evaluations/${evaluationId}/bulk_update_grades/`, { grades })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
 
   // Notes individuelles
-  getGrades: (params?: Record<string, any>): Promise<PaginatedResponse<Grade>> =>
-    apiClient.get('/grades/', { params }),
+  getGrades: async (params?: Record<string, any>): Promise<PaginatedResponse<Grade>> => {
+    try {
+      const response = await apiClient.get('/grades/grades/', { params })
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return { results: [], count: 0, next: null, previous: null }
+      }
+      throw error
+    }
+  },
   
-  getGrade: (id: string): Promise<Grade> =>
-    apiClient.get(`/grades/${id}/`),
+  getGrade: async (id: string): Promise<Grade> => {
+    try {
+      const response = await apiClient.get(`/grades/grades/${id}/`)
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Note non trouvée')
+      }
+      throw error
+    }
+  },
   
-  createGrade: (data: Partial<Grade>): Promise<Grade> =>
-    apiClient.post('/grades/', data),
+  createGrade: async (data: Partial<Grade>): Promise<Grade> => {
+    try {
+      const response = await apiClient.post('/grades/grades/', data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  updateGrade: (id: string, data: Partial<Grade>): Promise<Grade> =>
-    apiClient.put(`/grades/${id}/`, data),
+  updateGrade: async (id: string, data: Partial<Grade>): Promise<Grade> => {
+    try {
+      const response = await apiClient.put(`/grades/grades/${id}/`, data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
   
-  deleteGrade: (id: string): Promise<void> =>
-    apiClient.delete(`/grades/${id}/`),
+  deleteGrade: async (id: string): Promise<void> => {
+    try {
+      await apiClient.delete(`/grades/grades/${id}/`)
+    } catch (error) {
+      throw error
+    }
+  },
 
   // Moyennes par matière
-  getSubjectAverages: (params?: Record<string, any>): Promise<PaginatedResponse<SubjectAverage>> =>
-    apiClient.get('/subject-averages/', { params }),
+  getSubjectAverages: async (params?: Record<string, any>): Promise<PaginatedResponse<SubjectAverage>> => {
+    try {
+      const response = await apiClient.get('/grades/subject-averages/', { params })
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return { results: [], count: 0, next: null, previous: null }
+      }
+      throw error
+    }
+  },
   
-  getSubjectAverage: (id: string): Promise<SubjectAverage> =>
-    apiClient.get(`/subject-averages/${id}/`),
+  getSubjectAverage: async (id: string): Promise<SubjectAverage> => {
+    try {
+      const response = await apiClient.get(`/grades/subject-averages/${id}/`)
+      return response.data
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Moyenne non trouvée')
+      }
+      throw error
+    }
+  },
   
   getStudentAverages: (studentId: string, period?: string): Promise<SubjectAverage[]> =>
     apiClient.get('/subject-averages/by_student/', { 

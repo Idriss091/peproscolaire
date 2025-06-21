@@ -16,7 +16,7 @@
                 v-model="form.type"
                 value="student"
                 type="radio"
-                class="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300"
+                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
               />
               <label for="student-analysis" class="ml-3 block text-sm font-medium text-gray-700">
                 Élève spécifique
@@ -28,7 +28,7 @@
                 v-model="form.type"
                 value="class"
                 type="radio"
-                class="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300"
+                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
               />
               <label for="class-analysis" class="ml-3 block text-sm font-medium text-gray-700">
                 Classe complète
@@ -40,7 +40,7 @@
                 v-model="form.type"
                 value="bulk"
                 type="radio"
-                class="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300"
+                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
               />
               <label for="bulk-analysis" class="ml-3 block text-sm font-medium text-gray-700">
                 Analyse globale
@@ -107,7 +107,7 @@
         </label>
         <select
           v-model="form.class_id"
-          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
         >
           <option value="">Choisir une classe...</option>
           <option
@@ -128,7 +128,7 @@
           </label>
           <select
             v-model="form.bulk_type"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="daily">Analyse quotidienne</option>
             <option value="patterns">Détection de patterns</option>
@@ -156,7 +156,7 @@
           id="force-update"
           v-model="form.force_update"
           type="checkbox"
-          class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
         />
         <label for="force-update" class="ml-2 block text-sm text-gray-900">
           Forcer la mise à jour (ignorer les analyses récentes)

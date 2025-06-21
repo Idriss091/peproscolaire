@@ -17,7 +17,7 @@
         <textarea
           v-model="form.description"
           rows="3"
-          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           placeholder="Décrivez quand cette alerte doit être déclenchée..."
         />
       </div>
@@ -35,7 +35,7 @@
           <select
             v-model="form.alert_type"
             required
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Choisir un type...</option>
             <option value="threshold_reached">Seuil atteint</option>
@@ -52,7 +52,7 @@
           <select
             v-model="form.priority"
             required
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Choisir une priorité...</option>
             <option value="low">Faible</option>
@@ -75,7 +75,7 @@
           </label>
           <select
             v-model="form.risk_level_threshold"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Aucun seuil</option>
             <option value="very_low">Très faible</option>
@@ -113,7 +113,7 @@
             id="is-active"
             v-model="form.is_active"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="is-active" class="ml-2 block text-sm text-gray-900">
             Configuration active
@@ -131,7 +131,7 @@
         v-model="form.message_template"
         rows="4"
         required
-        class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+        class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
         placeholder="Ex: Alerte {priority}: {student_name} nécessite une attention (score: {risk_score})"
       />
       <p class="mt-1 text-sm text-gray-500">
@@ -149,7 +149,7 @@
             id="notify-student"
             v-model="form.notify_student"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="notify-student" class="ml-2 block text-sm text-gray-900">
             Notifier l'élève
@@ -161,7 +161,7 @@
             id="notify-parents"
             v-model="form.notify_parents"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="notify-parents" class="ml-2 block text-sm text-gray-900">
             Notifier les parents
@@ -173,7 +173,7 @@
             id="notify-main-teacher"
             v-model="form.notify_main_teacher"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="notify-main-teacher" class="ml-2 block text-sm text-gray-900">
             Notifier le professeur principal
@@ -185,7 +185,7 @@
             id="auto-create-intervention"
             v-model="form.auto_create_intervention"
             type="checkbox"
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label for="auto-create-intervention" class="ml-2 block text-sm text-gray-900">
             Créer automatiquement un plan d'intervention

@@ -212,6 +212,293 @@ const router = createRouter({
       ]
     },
     {
+      path: '/student',
+      redirect: '/student/dashboard',
+      meta: {
+        requiresAuth: true,
+        permissions: ['student_access'],
+        layout: 'AppLayout'
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'student-dashboard',
+          component: DashboardView,
+          meta: {
+            title: 'Tableau de bord - Élève',
+            permissions: ['student_access']
+          }
+        },
+        {
+          path: 'timetable',
+          name: 'student-timetable',
+          component: TimetableView,
+          meta: {
+            title: 'Emploi du temps',
+            permissions: ['student_access']
+          }
+        },
+        {
+          path: 'homework',
+          name: 'student-homework',
+          component: HomeworkView,
+          meta: {
+            title: 'Devoirs',
+            permissions: ['student_access']
+          }
+        },
+        {
+          path: 'grades',
+          name: 'student-grades',
+          component: GradesView,
+          meta: {
+            title: 'Notes',
+            permissions: ['student_access']
+          }
+        },
+        {
+          path: 'messages',
+          name: 'student-messages',
+          component: MessagingView,
+          meta: {
+            title: 'Messagerie',
+            permissions: ['student_access']
+          }
+        }
+      ]
+    },
+    {
+      path: '/parent',
+      redirect: '/parent/dashboard',
+      meta: {
+        requiresAuth: true,
+        permissions: ['parent_access'],
+        layout: 'AppLayout'
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'parent-dashboard',
+          component: DashboardView,
+          meta: {
+            title: 'Tableau de bord - Parent',
+            permissions: ['parent_access']
+          }
+        },
+        {
+          path: 'children',
+          name: 'parent-children',
+          component: StudentRecordsView,
+          meta: {
+            title: 'Suivi enfants',
+            permissions: ['parent_access']
+          }
+        },
+        {
+          path: 'timetable',
+          name: 'parent-timetable',
+          component: TimetableView,
+          meta: {
+            title: 'Emploi du temps',
+            permissions: ['parent_access']
+          }
+        },
+        {
+          path: 'grades',
+          name: 'parent-grades',
+          component: GradesView,
+          meta: {
+            title: 'Notes',
+            permissions: ['parent_access']
+          }
+        },
+        {
+          path: 'attendance',
+          name: 'parent-attendance',
+          component: AttendanceView,
+          meta: {
+            title: 'Vie scolaire',
+            permissions: ['parent_access']
+          }
+        },
+        {
+          path: 'messages',
+          name: 'parent-messages',
+          component: MessagingView,
+          meta: {
+            title: 'Messagerie',
+            permissions: ['parent_access']
+          }
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      redirect: '/admin/dashboard',
+      meta: {
+        requiresAuth: true,
+        permissions: ['admin_access'],
+        layout: 'AppLayout'
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'admin-dashboard',
+          component: DashboardView,
+          meta: {
+            title: 'Tableau de bord - Administration',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'school',
+          name: 'admin-school',
+          component: SettingsView,
+          meta: {
+            title: 'Gestion école',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'users',
+          name: 'admin-users',
+          component: StudentRecordsView,
+          meta: {
+            title: 'Utilisateurs',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'timetable',
+          name: 'admin-timetable',
+          component: TimetableView,
+          meta: {
+            title: 'Emplois du temps',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'statistics',
+          name: 'admin-statistics',
+          component: DashboardView,
+          meta: {
+            title: 'Statistiques',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'risk-detection',
+          name: 'admin-risk-detection',
+          redirect: '/risk-detection/profiles',
+          meta: {
+            title: 'Détection risques',
+            permissions: ['admin_access']
+          }
+        },
+        {
+          path: 'settings',
+          name: 'admin-settings',
+          component: SettingsView,
+          meta: {
+            title: 'Paramètres',
+            permissions: ['admin_access']
+          }
+        }
+      ]
+    },
+    {
+      path: '/teacher',
+      redirect: '/teacher/dashboard',
+      meta: {
+        requiresAuth: true,
+        permissions: ['teacher_access'],
+        layout: 'AppLayout'
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'teacher-dashboard',
+          component: DashboardView,
+          meta: {
+            title: 'Tableau de bord - Enseignant',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'homework',
+          name: 'teacher-homework',
+          component: HomeworkView,
+          meta: {
+            title: 'Cahier de textes',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'timetable',
+          name: 'teacher-timetable',
+          component: TimetableView,
+          meta: {
+            title: 'Emploi du temps',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'grades',
+          name: 'teacher-grades',
+          component: GradesView,
+          meta: {
+            title: 'Notes et évaluations',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'attendance',
+          name: 'teacher-attendance',
+          component: AttendanceView,
+          meta: {
+            title: 'Présences et absences',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'messaging',
+          name: 'teacher-messaging',
+          component: MessagingView,
+          meta: {
+            title: 'Messagerie',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'student-records',
+          name: 'teacher-student-records',
+          component: StudentRecordsView,
+          meta: {
+            title: 'Dossiers élèves',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'risk-detection',
+          name: 'teacher-risk-detection',
+          redirect: '/risk-detection/profiles',
+          meta: {
+            title: 'Détection des risques',
+            permissions: ['teacher_access']
+          }
+        },
+        {
+          path: 'messages',
+          name: 'teacher-messages',
+          component: MessagingView,
+          meta: {
+            title: 'Messages',
+            permissions: ['teacher_access']
+          }
+        }
+      ]
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: SettingsView,

@@ -49,7 +49,7 @@
           <select
             v-model="filters.status"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Tous les statuts</option>
             <option value="draft">Brouillon</option>
@@ -62,7 +62,7 @@
           <select
             v-model="filters.priority"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Toutes les priorités</option>
             <option value="urgent">Urgente</option>
@@ -75,7 +75,7 @@
           <select
             v-model="filters.date_range"
             @change="handleFilterChange"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="">Toutes les dates</option>
             <option value="week">Cette semaine</option>

@@ -60,7 +60,7 @@
         <div class="flex space-x-2">
           <select
             v-model="customMessage.type"
-            class="block w-32 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-32 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="info">Info</option>
             <option value="success">Succès</option>
@@ -70,7 +70,7 @@
           <input
             v-model="customMessage.title"
             placeholder="Titre..."
-            class="block flex-1 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-primary-500 sm:text-sm"
           />
           <BaseButton
             @click="sendCustomMessage"

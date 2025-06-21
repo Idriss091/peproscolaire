@@ -2,7 +2,7 @@
   <div class="global-search" ref="searchRef">
     <div class="search-input-container">
       <div class="search-icon">
-        <MagnifyingGlassIcon class="h-5 w-5 text-neutral-400" />
+        <MagnifyingGlassIcon class="h-5 w-5 text-gray-400" />
       </div>
       
       <input
@@ -71,7 +71,7 @@
             </div>
             
             <div v-else-if="searchResults.length === 0" class="empty-state">
-              <MagnifyingGlassIcon class="h-8 w-8 text-neutral-400" />
+              <MagnifyingGlassIcon class="h-8 w-8 text-gray-400" />
               <span>Aucun résultat pour "{{ searchQuery }}"</span>
             </div>
             
@@ -425,7 +425,7 @@ onUnmounted(() => {
 }
 
 .search-input {
-  @apply w-80 pl-10 pr-20 py-2 bg-white border border-neutral-300 rounded-lg text-sm placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  @apply w-80 pl-10 pr-20 py-2 bg-white border border-gray-300 rounded-lg text-sm placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
 }
 
 @media (max-width: 768px) {
@@ -439,7 +439,7 @@ onUnmounted(() => {
 }
 
 .clear-btn {
-  @apply w-6 h-6 rounded-full bg-neutral-200 hover:bg-neutral-300 flex items-center justify-center text-neutral-500 hover:text-neutral-700 transition-colors;
+  @apply w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors;
 }
 
 .search-shortcut {
@@ -447,11 +447,11 @@ onUnmounted(() => {
 }
 
 .kbd {
-  @apply px-1.5 py-0.5 text-xs font-mono bg-neutral-100 border border-neutral-300 rounded text-neutral-600;
+  @apply px-1.5 py-0.5 text-xs font-mono bg-gray-100 border border-gray-300 rounded text-gray-600;
 }
 
 .search-results {
-  @apply absolute top-full left-0 right-0 mt-2 bg-white rounded-lg border border-neutral-200 shadow-xl z-50 max-h-96 overflow-hidden;
+  @apply absolute top-full left-0 right-0 mt-2 bg-white rounded-lg border border-gray-200 shadow-xl z-50 max-h-96 overflow-hidden;
 }
 
 .results-container {
@@ -459,11 +459,11 @@ onUnmounted(() => {
 }
 
 .results-section {
-  @apply border-b border-neutral-100 last:border-b-0;
+  @apply border-b border-gray-100 last:border-b-0;
 }
 
 .section-title {
-  @apply px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider bg-neutral-50 border-b border-neutral-100;
+  @apply px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-100;
 }
 
 .results-list {
@@ -471,11 +471,11 @@ onUnmounted(() => {
 }
 
 .search-result {
-  @apply flex items-center gap-3 px-4 py-3 hover:bg-neutral-50 transition-colors text-left w-full;
+  @apply flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left w-full;
 }
 
 .result-highlighted {
-  @apply bg-primary-50 text-primary-900;
+  @apply bg-primary-50 text-blue-900;
 }
 
 .recent-result {
@@ -483,7 +483,7 @@ onUnmounted(() => {
 }
 
 .result-icon {
-  @apply h-5 w-5 text-neutral-400 flex-shrink-0;
+  @apply h-5 w-5 text-gray-400 flex-shrink-0;
 }
 
 .result-content {
@@ -491,19 +491,19 @@ onUnmounted(() => {
 }
 
 .result-title {
-  @apply block font-medium text-neutral-900 truncate;
+  @apply block font-medium text-gray-900 truncate;
 }
 
 .result-subtitle {
-  @apply block text-sm text-neutral-600 truncate;
+  @apply block text-sm text-gray-600 truncate;
 }
 
 .result-text {
-  @apply flex-1 text-neutral-700;
+  @apply flex-1 text-gray-700;
 }
 
 .result-action {
-  @apply w-5 h-5 rounded hover:bg-neutral-200 flex items-center justify-center text-neutral-400 hover:text-neutral-600;
+  @apply w-5 h-5 rounded hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600;
 }
 
 .result-meta {
@@ -511,19 +511,19 @@ onUnmounted(() => {
 }
 
 .result-type {
-  @apply text-xs text-neutral-500 bg-neutral-100 px-2 py-1 rounded-full;
+  @apply text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full;
 }
 
 .loading-state {
-  @apply flex items-center gap-3 px-4 py-8 text-neutral-600;
+  @apply flex items-center gap-3 px-4 py-8 text-gray-600;
 }
 
 .loading-spinner {
-  @apply w-5 h-5 border-2 border-neutral-300 border-t-primary-600 rounded-full animate-spin;
+  @apply w-5 h-5 border-2 border-gray-300 border-t-primary-600 rounded-full animate-spin;
 }
 
 .empty-state {
-  @apply flex flex-col items-center gap-3 px-4 py-8 text-neutral-600;
+  @apply flex flex-col items-center gap-3 px-4 py-8 text-gray-600;
 }
 
 .suggestions-grid {
@@ -531,7 +531,7 @@ onUnmounted(() => {
 }
 
 .suggestion-chip {
-  @apply inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-full text-sm font-medium transition-colors;
+  @apply inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm font-medium transition-colors;
 }
 
 :deep(.search-highlight) {
