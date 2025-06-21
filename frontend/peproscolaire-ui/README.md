@@ -74,21 +74,34 @@ L'application sera accessible sur **http://localhost:5173/**
 - Sanctions disciplinaires
 - Statistiques par élève/classe
 
-### 🤖 Modules IA (100% Frontend implémenté)
+### 🤖 Modules IA (Interfaces Frontend et Intégration Backend)
 
-#### 1. 🧠 Détection du décrochage scolaire
-- **Dashboard IA** avec métriques de performance (87.5% précision)
-- **Analyse des élèves** à risque avec scoring temps réel
-- **Prédictions intelligentes** avec niveaux de confiance
-- **Plans d'intervention** automatisés
-- **Rapports d'analyse** exportables
+Le frontend fournit les interfaces utilisateur pour plusieurs modules d'IA. La logique IA principale et le traitement des données s'effectuent côté backend, souvent en interaction avec des services externes comme OpenAI.
 
-#### 2. ✨ Générateur d'appréciations IA
-- **Interface de génération** avec configuration avancée
-- **Types d'appréciations** multiples (bulletin, matière, progrès)
-- **Sélection flexible** par classe ou individuelle
-- **Workflow de validation** complet
-- **Historique** avec gestion des versions
+#### 1. ✨ Générateur d'appréciations IA
+- **Interface utilisateur complète** pour la configuration, la génération et la validation des appréciations.
+- **Backend:** Logique avancée utilisant les données des élèves et OpenAI pour générer des appréciations contextuelles.
+- **Statut actuel:** Fonctionnel, dépendant de la configuration de l'API OpenAI.
+
+#### 2. 💬 Chatbot Pédagogique
+- **Interface utilisateur** pour interagir avec le chatbot.
+- **Backend:** Moteur de chatbot hybride utilisant une base de connaissances locale, la détection d'intention et OpenAI pour des réponses dynamiques.
+- **Statut actuel:** Fonctionnel, dépendant de la configuration de la base de connaissances et de l'API OpenAI.
+
+#### 3. 💡 Suggérateur de Devoirs IA
+- **Interface utilisateur** pour demander et afficher des suggestions de devoirs.
+- **Backend:** Logique utilisant OpenAI pour générer des suggestions de devoirs basées sur les entrées fournies.
+- **Statut actuel:** Fonctionnel, dépendant de la configuration de l'API OpenAI.
+
+#### 4. 🧠 Détection du Décrochage Scolaire (Interface Prête, Backend en Développement)
+- **Interface utilisateur (Dashboard IA):** Prête pour afficher les métriques de performance, l'analyse des élèves à risque, les prédictions et les plans d'intervention.
+- **Backend:** Les modèles de données (`RiskAssessment`, `StudentProfile`) sont en place. Cependant, le moteur de Machine Learning pour calculer les risques et les prédictions est encore en développement ou nécessite une configuration/intégration spécifique.
+- **Statut actuel:** Interface prête; le moteur IA backend est en cours de finalisation.
+
+#### 5. 🎓 Gestion Intelligente des Stages (Fonctionnalités IA en Conception)
+- **Interface utilisateur:** Peut inclure des éléments pour afficher des recommandations de stage.
+- **Backend:** Le module de gestion des stages est fonctionnel pour les opérations standard. Les fonctionnalités d'IA spécifiques (ex: matching intelligent profil élève/offre, score de compatibilité) sont en phase de conception ou de développement initial.
+- **Statut actuel:** Gestion de stage standard fonctionnelle; les aspects IA avancés sont futurs.
 
 ## 🎨 Système de design
 

@@ -2,7 +2,7 @@
 
 API Django REST Framework pour PeproScolaire - Système de gestion scolaire avec modules IA.
 
-[![Django](https://img.shields.io/badge/Django-4.2-green)](https://djangoproject.com/)
+[![Django](https://img.shields.io/badge/Django-5.0-green)](https://djangoproject.com/)
 [![DRF](https://img.shields.io/badge/DRF-3.14-orange)](https://www.django-rest-framework.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-blue)](https://postgresql.org/)
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://python.org)
@@ -15,7 +15,7 @@ git clone <repository-url>
 cd peproscolaire/backend
 
 # Créer un environnement virtuel
-python -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # Linux/Mac
 # ou venv\Scripts\activate  # Windows
 
@@ -39,7 +39,7 @@ python manage.py runserver
 ## 🏗️ Architecture
 
 ### Stack technique
-- **Framework** : Django 4.2 avec Django REST Framework
+- **Framework** : Django 5.0 avec Django REST Framework
 - **Base de données** : PostgreSQL avec support multi-tenant
 - **Cache** : Redis (optionnel)
 - **Task Queue** : Celery + RabbitMQ (pour les modules IA)

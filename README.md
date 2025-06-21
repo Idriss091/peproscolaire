@@ -104,7 +104,7 @@ git clone <repository-url>
 cd peproscolaire/backend
 
 # Créer un environnement virtuel
-python -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # Linux/Mac
 # ou venv\Scripts\activate  # Windows
 

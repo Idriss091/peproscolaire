@@ -747,16 +747,24 @@ rm -rf node_modules/.vitest
 
 ## 🎯 Prochaines Étapes
 
-### Priorité Haute
-1. **Compléter tests E2E** : Scénarios utilisateur complets
-2. **Tests performance** : Benchmarks et optimisations
-3. **Tests sécurité** : Validation permissions et injection
-4. **Tests accessibilité** : Conformité WCAG
+### Tests End-to-End (E2E) avec Playwright
+-   **Statut Actuel:** Haute Priorité - Infrastructure CI en place.
+-   **Objectif:** Implémenter des scénarios de test E2E pour les parcours utilisateurs critiques (ex: connexion, création de devoir, consultation de notes) en utilisant Playwright.
+-   **Exécution (une fois les tests ajoutés):**
+    -   Localement: `npx playwright test` (nécessitera une configuration `playwright.config.ts` et des fichiers de test, typiquement dans un dossier `e2e/` ou `tests-e2e/`).
+    -   CI: La [configuration GitHub Actions](#intégration-continue-cicd) inclut déjà un job `e2e-tests` qui tentera d'exécuter `npx playwright test`.
+-   **Contribution:** L'ajout de tests Playwright est une contribution précieuse.
 
-### Priorité Moyenne  
-1. **Tests de charge** : Comportement sous stress
-2. **Tests cross-browser** : Compatibilité navigateurs
-3. **Tests mobile** : Interface responsive
-4. **Monitoring tests** : Métriques qualité continue
+### Autres Priorités
+#### Haute
+1. **Tests performance** : Benchmarks et optimisations.
+2. **Tests sécurité** : Validation permissions et injection.
+3. **Tests accessibilité** : Conformité WCAG.
+
+#### Moyenne
+1. **Tests de charge** : Comportement sous stress.
+2. **Tests cross-browser** : Compatibilité navigateurs (Playwright peut aider ici).
+3. **Tests mobile** : Interface responsive (Playwright peut aussi simuler des appareils mobiles).
+4. **Monitoring tests** : Métriques qualité continue.
 
 > **Note** : Ce guide évolue avec le projet. Consultez régulièrement pour les mises à jour et nouveaux patterns de tests.

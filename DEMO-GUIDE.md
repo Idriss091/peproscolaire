@@ -17,14 +17,14 @@ Ce guide vous explique comment préparer et réaliser une démonstration complè
 ## 🔧 Prérequis
 
 ### Système requis
-- **Python 3.12+**
+- **Python 3.11+**
 - **Node.js 18+** 
 - **Git**
 - **Navigateur web moderne** (Chrome, Firefox, Safari, Edge)
 
 ### Vérification des prérequis
 ```bash
-python --version    # Python 3.12+
+python --version    # Python 3.11+
 node --version      # v18+
 npm --version       # 8+
 git --version       # 2.30+
@@ -45,7 +45,7 @@ cd peproscolaire
 cd backend
 
 # Création de l'environnement virtuel
-python3 -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # Linux/Mac
 # ou
 venv\Scripts\activate     # Windows
@@ -199,7 +199,7 @@ npm run dev
 #### C. Analyses et rapports
 - Statistiques globales
 - Taux de réussite par classe
-- Analyses prédictives IA
+- Tableaux de bord pour le suivi des risques élèves (basés sur les données actuelles, avec moteur de prédiction IA en cours de finalisation)
 
 #### D. Administration système
 - Sauvegarde des données
@@ -224,14 +224,16 @@ npm run dev
 ### Avantages compétitifs
 1. **🚀 Modernité :** Interface responsive, moderne et intuitive
 2. **🔒 Sécurité :** Chiffrement bout-en-bout, conformité RGPD
-3. **🤖 IA intégrée :** Suggestions pédagogiques, détection de décrochage
+3. **🤖 IA intégrée :** Génération d'appréciations, suggestions de devoirs, chatbot pédagogique. D'autres modules IA (comme la détection de décrochage et le matching intelligent de stages) disposent d'interfaces prêtes avec un développement backend en cours ou planifié.
 4. **📱 Multi-plateforme :** Web, mobile (iOS/Android)
 5. **🔧 Flexibilité :** SaaS ou On-Premise selon les besoins
 6. **🇫🇷 Français :** Conçu pour le système éducatif français
 
 ### Fonctionnalités uniques
-- **Analyse prédictive** du décrochage scolaire
-- **Suggestions automatiques** de devoirs par IA
+- **Interface pour l'analyse** du décrochage scolaire (moteur de prédiction IA en développement, permettant déjà de visualiser les facteurs de risque basés sur les données existantes)
+- **Suggestions automatiques** de devoirs par IA (fonctionnel via OpenAI)
+- **Génération d'appréciations** par IA (fonctionnel via OpenAI)
+- **Chatbot pédagogique** intégré (fonctionnel via OpenAI et base de connaissances locale)
 - **Communication unifiée** école-famille
 - **Tableau de bord personnalisé** par profil utilisateur
 - **Gestion avancée** des compétences
