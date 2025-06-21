@@ -16,7 +16,66 @@ Ce guide vous accompagne pas à pas pour installer et configurer **PeproScolaire
 - **macOS** : macOS 11+ (Big Sur)
 - **Windows** : Windows 10+ avec WSL2 recommandé
 
-## 💻 Installation Pas à Pas
+## 🐳 Installation avec Docker (Recommandé pour le Développement)
+
+Pour un environnement de développement cohérent et qui se rapproche de la configuration de production, l'utilisation de Docker est fortement recommandée. Le projet fournit un fichier `docker-compose.yml` à la racine pour orchestrer les services backend et frontend.
+
+### Prérequis pour Docker
+- Docker Engine (version 20.10+ recommandée)
+- Docker Compose (version V2+ recommandée)
+  (Consultez la [documentation officielle de Docker](https://docs.docker.com/get-docker/) pour l'installation)
+
+### Étapes d'installation avec Docker
+
+1.  **Cloner le repository :**
+    ```bash
+    git clone <repository-url> # Remplacez <repository-url> par l'URL du projet
+    cd peproscolaire
+    ```
+
+2.  **Configuration des variables d'environnement (Optionnel pour un premier test) :**
+    *   **Backend :** Pour des configurations spécifiques (ex: base de données PostgreSQL externe), copiez `backend/.env.example` vers `backend/.env` et modifiez-le. Pour un démarrage rapide avec SQLite (géré dans un volume Docker), ce fichier n'est pas immédiatement requis.
+    *   **Frontend :** Copiez `frontend/peproscolaire-ui/.env.example` vers `frontend/peproscolaire-ui/.env.local`. Assurez-vous que `VITE_API_URL` est configuré correctement (par exemple, `http://localhost:8000/api/v1`, car le backend sera exposé sur le port 8000 de l'hôte).
+
+3.  **Lancer les services avec Docker Compose :**
+    Depuis la racine du projet (`peproscolaire/`):
+    ```bash
+    docker compose up --build
+    ```
+    Cette commande va :
+    *   Construire les images Docker pour les services `backend` et `frontend` (si elles n'existent pas ou si les Dockerfiles ont été modifiés).
+    *   Démarrer les conteneurs.
+
+    Une fois terminé :
+    *   Le backend Django sera accessible sur `http://localhost:8000`.
+    *   Le frontend Vue.js sera accessible sur `http://localhost:5173`.
+
+4.  **Arrêter les services :**
+    Dans le terminal où `docker compose up` s'exécute, appuyez sur `Ctrl+C`. Puis, pour s'assurer que les conteneurs sont bien arrêtés et supprimés (les volumes de données persistent) :
+    ```bash
+    docker compose down
+    ```
+
+5.  **Gestion des migrations et superutilisateur (Backend) :**
+    Pour exécuter des commandes `manage.py` (comme les migrations initiales ou la création d'un superutilisateur), ouvrez un nouveau terminal et utilisez `docker compose exec` :
+    ```bash
+    # Appliquer les migrations
+    docker compose exec backend python3.11 manage.py migrate
+
+    # Créer un superutilisateur
+    docker compose exec backend python3.11 manage.py createsuperuser
+    ```
+    *(Note: Si `python3.11` n'est pas trouvé, essayez `python`)*
+
+### Avantages de l'approche Docker
+- **Isolation :** Les dépendances sont gérées dans les conteneurs, évitant les conflits avec votre système local.
+- **Cohérence :** Assure que tous les développeurs travaillent avec le même environnement.
+- **Simplicité :** Moins d'étapes manuelles pour la configuration des dépendances Python et Node.js.
+- **Proximité avec la Production :** L'environnement de production utilise également Docker (voir `README-DEPLOYMENT.md`).
+
+Passez à la section [Premiers Pas avec l'Application](#-premiers-pas-avec-lapplication) après avoir démarré les services.
+
+## 💻 Installation Pas à Pas (Manuelle)
 
 ### Étape 1 : Cloner le Projet
 
@@ -56,6 +115,47 @@ DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py runserver
 
 ✅ Le backend sera accessible sur **http://127.0.0.1:8000/**
 
+---
+
+### (Optionnel) Utiliser PostgreSQL pour le Développement Backend
+
+Par défaut, l'installation de développement utilise SQLite. Si vous préférez utiliser PostgreSQL pour le développement :
+
+1.  **Installez PostgreSQL** sur votre machine. Consultez la [documentation officielle de PostgreSQL](https://www.postgresql.org/download/) pour les instructions spécifiques à votre système d'exploitation.
+
+2.  **Créez un utilisateur et une base de données** pour PeproScolaire. Par exemple, via `psql`:
+    ```sql
+    CREATE DATABASE peproscolaire_dev;
+    CREATE USER pepro_user WITH PASSWORD 'votre_mot_de_passe_securise';
+    ALTER ROLE pepro_user SET client_encoding TO 'utf8';
+    ALTER ROLE pepro_user SET default_transaction_isolation TO 'read committed';
+    ALTER ROLE pepro_user SET timezone TO 'UTC';
+    GRANT ALL PRIVILEGES ON DATABASE peproscolaire_dev TO pepro_user;
+    ```
+
+3.  **Configurez les variables d'environnement** pour Django. Le moyen le plus simple est de créer un fichier `.env` à la racine du dossier `backend/` (s'il n'existe pas déjà) et d'y ajouter :
+    ```env
+    DATABASE_URL=postgres://pepro_user:votre_mot_de_passe_securise@localhost:5432/peproscolaire_dev
+    # Assurez-vous que DJANGO_SETTINGS_MODULE est toujours bien défini pour utiliser settings_minimal
+    # DJANGO_SETTINGS_MODULE=config.settings_minimal
+    ```
+    Le fichier `backend/config/settings_minimal.py` est déjà configuré pour utiliser `DATABASE_URL` si elle est définie, grâce à `django-environ`.
+
+4.  **Assurez-vous que `psycopg2-binary` est installé** (il est déjà dans `requirements.txt`, donc `pip install -r requirements.txt` devrait l'avoir installé).
+
+5.  **Supprimez le fichier `demo.db`** (la base SQLite) s'il a été créé, pour éviter toute confusion.
+
+6.  **Appliquez les migrations** à votre nouvelle base de données PostgreSQL :
+    ```bash
+    DJANGO_SETTINGS_MODULE=config.settings_minimal python manage.py migrate
+    ```
+
+7.  **Créez des données de test ou un superutilisateur** comme décrit précédemment, si nécessaire.
+
+Après ces étapes, Django utilisera votre base de données PostgreSQL locale. N'oubliez pas de démarrer votre service PostgreSQL avant de lancer le serveur Django.
+
+---
+
 ### Étape 3 : Configuration Frontend Vue.js
 
 ```bash
@@ -65,11 +165,10 @@ cd frontend/peproscolaire-ui
 # Installer les dépendances Node.js
 npm install
 
-# Créer le fichier de configuration
-cat > .env.local << EOF
-VITE_API_URL=http://127.0.0.1:8000/api/v1
-VITE_USE_MOCK_API=false
-EOF
+# Configurer l'environnement en copiant le fichier d'exemple
+cp .env.example .env.local
+# Assurez-vous que les valeurs dans .env.local sont correctes pour votre environnement,
+# notamment VITE_API_URL si votre backend tourne sur un port différent.
 
 # Lancer le serveur de développement
 npm run dev

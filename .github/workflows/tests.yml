@@ -78,16 +78,19 @@ jobs:
         cd backend
         python manage.py check --settings=config.settings_test
     
-    - name: Run basic tests
+    - name: Run tests with coverage
       run: |
         cd backend
-        python manage.py test test_simple --settings=config.settings_test --verbosity=2
-    
-    - name: Generate coverage report
-      run: |
-        cd backend
-        coverage report --show-missing
-        coverage xml
+        # Using pytest as it's installed and often preferred for richer output and plugin ecosystem
+        # Ensure pytest is configured to use Django settings (pytest.ini or similar)
+        # coverage run -m pytest -o "junit_suite.xml" --junitxml="junit.xml"
+        # coverage xml -o coverage.xml
+        # coverage report --fail-under=80  # Optional: fail if coverage is below a threshold
+        pytest --cov=. --cov-report=xml --cov-report=term --settings=config.settings_test
+        # The command below is kept if direct manage.py test with coverage is preferred.
+        # coverage run manage.py test --settings=config.settings_test --verbosity=2
+        # coverage xml
+        # coverage report --show-missing
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -100,9 +103,12 @@ jobs:
       run: |
         cd backend
         pip install flake8 black isort
-        flake8 apps/ai_analytics --max-line-length=120
-        black --check apps/ai_analytics
-        isort --check-only apps/ai_analytics
+        echo "Running flake8..."
+        flake8 . --max-line-length=120 --count --statistics --show-source
+        echo "Running black check..."
+        black --check .
+        echo "Running isort check..."
+        isort --check-only .
 
   frontend-tests:
     runs-on: ubuntu-latest
@@ -125,12 +131,12 @@ jobs:
     - name: Run linting
       run: |
         cd frontend/peproscolaire-ui
-        npm run lint || echo "Linting failed but continuing..."
+        npm run lint
     
     - name: Run TypeScript check
       run: |
         cd frontend/peproscolaire-ui
-        npm run type-check || echo "TypeScript check failed but continuing..."
+        npm run type-check
     
     - name: Run unit tests
       run: |
@@ -250,7 +256,7 @@ jobs:
     - name: Run Bandit security linter (Python)
       run: |
         pip install bandit
-        bandit -r backend/apps/ai_analytics -f json -o bandit-report.json || true
+        bandit -r backend -f json -o bandit-report.json || true
     
     - name: Run npm audit (Node.js)
       run: |
